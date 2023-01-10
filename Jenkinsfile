@@ -60,7 +60,7 @@ pipeline {
             steps {
                 // bat 'docker pull iambaangkok/challenge-organizer-backend'
                 bat 'docker rm -f challenge-organizer-backend'
-                bat 'docker run -dp 3030:3030 --name challenge-organizer-backend iambaangkok/challenge-organizer-backend'
+                bat 'docker run -dp 3030:3000 --name challenge-organizer-backend iambaangkok/challenge-organizer-backend'
                 // bat 'docker compose up'
             }
         }
