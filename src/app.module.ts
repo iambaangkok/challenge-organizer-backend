@@ -7,7 +7,7 @@ import { challengeSchema } from './modules/Challenge';
 import { UserSchema } from './modules/User';
 
 @Module({
-  imports: [MongooseModule.forRoot("mongodb+srv://*****:*******@challengeorganizer.kndy1kv.mongodb.net/?retryWrites=true&w=majority"),
+  imports: [MongooseModule.forRoot("mongodb://localhost:2717/"),
   MongooseModule.forFeature([{ name: 'User', schema: UserSchema },
   { name: 'Challenge', schema: challengeSchema }])],
   controllers: [AppController],
