@@ -1,24 +1,23 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { challengeSchema } from './modules/Challenge';
-import { UserSchema } from './modules/User';
+import { ChallengesModule } from './challenges/challenges.module';
+import { UsersModule } from './users/users.module';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
-  imports: [ 
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
-    MongooseModule.forRoot("mongodb://localhost:2717/"),
-    MongooseModule.forFeature([
-        { name: 'User', schema: UserSchema },
-        { name: 'Challenge', schema: challengeSchema }
-      ])
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [TypeOrmModule.forRoot({
+    "type": "mongodb",
+    "url": "mongodb+srv://Geba001:********@challengeorganizer.kndy1kv.mongodb.net/test",//กลับมาถามหรัสด้วย
+    "useNewUrlParser": true,
+    "synchronize": true,
+    "logging": true,
+    "port" : 3000,
+    "host" : "localhost",
+    // "entities": ["src/entity/*.*"]
+    "entities" :[] 
+  }), ChallengesModule,UsersModule, PostsModule],
+  controllers: [],
+  providers: [],
 })
 export class AppModule { }
