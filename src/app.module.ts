@@ -1,24 +1,29 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { challengeSchema } from './modules/Challenge';
-import { UserSchema } from './modules/User';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ChallengesModule } from './challenges/challenges.module';
+import { UsersModule } from './users/users.module';
+import { User } from './typeorm/entities/User';
+import { Challenge } from './typeorm/entities/Challenge';
+import { PostsModule } from './posts/posts.module';
+import { ShopsModule } from './shops/shops.module';
 
 @Module({
-  imports: [ 
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
-    MongooseModule.forRoot("mongodb://localhost:2717/"),
-    MongooseModule.forFeature([
-        { name: 'User', schema: UserSchema },
-        { name: 'Challenge', schema: challengeSchema }
-      ])
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [TypeOrmModule.forRoot({
+    "useUnifiedTopology": true,
+    "type": "mongodb",
+    "url": "mongodb+srv://Geba001:******@challengeorganizer.kndy1kv.mongodb.net/test",//กลับมาถามหรัสด้วย
+    "useNewUrlParser": true,
+    "synchronize": true,
+    "logging": true,
+    "port" : 3000,
+    "host" : "localhost",
+    // "entities": ["src/entity/*.*"]
+    "entities" :[User,Challenge] ,
+    "migrationsTableName": "",
+  }), ChallengesModule,UsersModule, PostsModule, ShopsModule],//PostsModule
+  // mongoose.connect(mongoConnectionString, {useNewUrlParser: true, useUnifiedTopology: true});
+  
+  controllers: [],
+  providers: [],
 })
 export class AppModule { }

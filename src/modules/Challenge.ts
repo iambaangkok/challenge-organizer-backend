@@ -48,14 +48,4 @@ export const challengeSchema = new mongoose.Schema({
     },
     schema_version : String
 
-
-
-
-
-
-
-
-
-
-
 })
