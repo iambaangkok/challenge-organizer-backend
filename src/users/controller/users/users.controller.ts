@@ -13,17 +13,22 @@ export class UsersController {
 
     @Get()
     async getUsers() {
-        // console.log("All my users")
-        return this.userService.findUsers();
+   
+        const users = await this.userService.findUsers();
+        return users
+
+       // หรือ ใช้ return this.userService.findUsers(); ได้เลยเดียว Nest.js มันจัดการเอง
     }
 
-    @Post("create")
-    @UsePipes(new ValidationPipe()) //ใส่ส่วนนี้เพื่อเรียกใช้งานการตรวจสอบความถูกต้อง
-    createUser(@Body() userData: CreateUserDto) {
-        console.log(userData);
+    @Post() //'create'
+    // @UsePipes(new ValidationPipe()) //ใส่ส่วนนี้เพื่อเรียกใช้งานการตรวจสอบความถูกต้อง
+    createUser(@Body() createUserDto: CreateUserDto) {
 
-        this.userService.createUser(userData);
-        return {userData};
+
+       const {...userDetails} = createUserDto;
+
+       return this.userService.createUser(userDetails);
+
     }
 
 

@@ -1,21 +1,25 @@
-import { IsNotEmpty  , IsEmail} from "class-validator";
+import { IsNotEmpty, IsEmail } from "class-validator";
 
 
 
-export class CreateUserDto{
+export class CreateUserDto {
 
-    @IsNotEmpty()
+    
+
+    username: string;
     
     firtname: string;
 
-    @IsNotEmpty()
+
     lastname: string;
 
-    @IsEmail()
+   
     cmuAccount: string;
 
-    @IsNotEmpty()
+
     studentId: string;
+
+
 
 
 
@@ -27,7 +31,7 @@ export class CreateUserDto{
     // displayname:string;
     // username: string;
     // name:{
-    
+
     //     fname: string;
     //     lname: string;
     // };
@@ -51,5 +55,5 @@ export class CreateUserDto{
     // task: String;
     // isAdmin: Boolean;
     // timeStamp : Date
-    
+
 }
