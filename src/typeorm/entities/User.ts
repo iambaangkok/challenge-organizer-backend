@@ -1,83 +1,46 @@
-import { Column ,Entity,ObjectIdColumn ,ObjectID} from "typeorm";
+import { Column ,Entity,ObjectIdColumn ,ObjectID, OneToOne, JoinColumn, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import { Post } from "./Post";
 
 
 @Entity({name:'users'})
 export class User {
 
-    // @PrimaryGeneratedColumn({ type: 'bigint' })
-    @ObjectIdColumn()
-    user_id: ObjectID;
-
-
-    // @Unique()
-    // @PrimaryGeneratedColumn({type :'int'})
-    // displayname: number;
-
-    // @Column()
-    // username: string;
-
-    // @Column()
-    // name: {
-    //     lname: string;
-    //     fname: string;
-    // }
-
-
+    @PrimaryGeneratedColumn({type : 'integer'})
+    user_id : ObjectID;
     @Column()
-    firtname: string;
-    
+    displayname: string;
     @Column()
-    lastname : string;
-
+    username: string;
     @Column()
     cmuAccount: string;
-
     @Column()
-    studentId: string;
-
-    @Column({default:0})
-    rating: Number;
-
-
+    student_id: string;
     @Column()
-    timeStamp: Date;
+    rating: string;
+    @Column()
+    timestamp: Date;
+    @Column()
+    inventory: [] ;  // TODO ควรเป็นอีก ตารางไหมที่มีความสัมพันธ์ OneToMany
+    @Column()
+    coin: string;
+    @Column()
+    profileImg : string;
+    @Column()
+    equipmentFrame: string;
+    @Column({default: false})
+    banstatus: boolean;
+    @Column()
+    tasks: string;
+    @Column()
+    isAdmin : boolean;
+    
 
-    // @Column()
-    // challenge: {
-    //     joinedChallenge: {
-    //         challenge: Object;
-    //         task: [Object];
-    //     };
-    //     banChallenge: [Object];
-    //     createdChallenge: [Object];
-    // };
 
-    // @Column({default:NaN})
-    // inventory: [];
 
-    // @Column({default:0})
-    // coin: Number;
 
-    // @Column({default:""})//อาจจะต้องชี้ไปรูปที่เราตั้งในเป็ฯพื้นฐานของเว็บไซย์เราก็ได่
-    // profileImg: String;
 
-    // @Column({default:""})
-    // equipFrame: String;
-
-    // @Column({default: false}) 
-    // status: Boolean;
-
-    // @Column({default:NaN}) 
-    // task: String;
-
-    // @Column({default:Boolean}) 
-    // isAdmin: Boolean;
-
-    // @Column() 
-    // timeStamp: Date;
-
-    // @Column()
-    // authStrategy:String;
+    @OneToMany(()=> Post,(post)=> post.user_id)
+    post: Post[]
 
 
 

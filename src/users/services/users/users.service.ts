@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ObjectID, Repository } from 'typeorm';
 import { User } from 'src/typeorm/entities/User';
-import { CreateUserParams } from 'src/users/utils/type';
+import { CreatePostParams, CreateUserParams } from 'src/users/utils/type';
 import { Http2ServerRequest } from 'http2';
+import { Post } from 'src/typeorm/entities/Post';
+import { HttpException } from '@nestjs/common/exceptions';
+import { HttpStatus } from '@nestjs/common/enums';
 
 @Injectable()
 export class UsersService {
 
-    constructor(@InjectRepository(User) private userRepository: Repository<User>) { }
+    constructor(
+        @InjectRepository(User) private userRepository: Repository<User>,
+        @InjectRepository(Post) private postRepository: Repository<Post>
+
+    ) { }
 
 
-    findUsers() { 
-        return this.userRepository.find(); //selet all
+    findUsers() {
+        return this.userRepository.find({ relations: ['post'] }); //selet all
     }
 
 
 
-    findUser(studentId : string){
+    findUserByStdId(student_id: string) {
 
-        return this.userRepository.findOneBy({studentId});
+        return this.userRepository.findOneBy({ student_id });
     }
+
+
+
 
     createUser(userDetails: CreateUserParams) {
 
@@ -31,21 +41,39 @@ export class UsersService {
         // }
         const newUser = this.userRepository.create({
             ...userDetails,
-            timeStamp: new Date()
+            timestamp: new Date()
         })
-    
-       return this.userRepository.save(newUser);
+
+        return this.userRepository.save(newUser);
     }
 
 
 
-    // editUser(userAddOn : ){
+    async createPost(user_id: ObjectID, postDetails: CreatePostParams) {
 
+        const user = await this.userRepository.findOneBy({ user_id })
 
+        if (!user)
+            throw new HttpException(
+                'User not found. cannot create Post',
+                HttpStatus.BAD_REQUEST,
+            )
 
-    // }
+        const newPost = this.postRepository.create({
+            ...postDetails,
+            timeStamp: new Date(),
+            user
+        })
 
+        const savePost = await this.postRepository.save(newPost)
 
+        return savePost;
+
+    }
+
+    async Updateuser(){
+        
+    }
 
 
 }
