@@ -12,7 +12,7 @@ export class ChallengesService {
 
 
 
-    findeChallenges() {
+    findeAllChallenges() {
         return this.challengeRepository.find();
     }
 

@@ -9,11 +9,8 @@ export class ChallengesController {
 
 constructor(private challengeService: ChallengesService){}
 
-
     @Get()
-    getChallenges(){
-
-        return this.challengeService.findeChallenges();
+    getAllChallenges(){
+        return this.challengeService.findeAllChallenges();
     }
-    
 }
