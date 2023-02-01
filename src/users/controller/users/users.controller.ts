@@ -48,13 +48,13 @@ export class UsersController {
     }
 
 
-    @Post(':id/posts')
-    createPost(
-        @Param('user_id') user_id: ObjectID,
-        @Body() createPost: CreatePostDto
-    ) {
-        return this.userService.createPost(user_id,createPost)
-    }
+    // @Post(':id/posts')
+    // createPost(
+    //     @Param('user_id') user_id: ObjectID,
+    //     @Body() createPost: CreatePostDto
+    // ) {
+    //     return this.userService.createPost(user_id,createPost)
+    // }
 
 
 }

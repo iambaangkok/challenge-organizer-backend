@@ -22,4 +22,9 @@ export type CreatePostParams = {
 
 export type Updateuser ={
 
+
+
+
+
+    
 }

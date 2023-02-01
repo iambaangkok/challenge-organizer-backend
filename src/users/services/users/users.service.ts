@@ -4,7 +4,6 @@ import { ObjectID, Repository } from 'typeorm';
 import { User } from 'src/typeorm/entities/User';
 import { CreatePostParams, CreateUserParams } from 'src/users/utils/type';
 import { Http2ServerRequest } from 'http2';
-import { Post } from 'src/typeorm/entities/Post';
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
 
@@ -13,7 +12,7 @@ export class UsersService {
 
     constructor(
         @InjectRepository(User) private userRepository: Repository<User>,
-        @InjectRepository(Post) private postRepository: Repository<Post>
+        // @InjectRepository(Post) private postRepository: Repository<Post>
 
     ) { }
 
@@ -49,30 +48,30 @@ export class UsersService {
 
 
 
-    async createPost(user_id: ObjectID, postDetails: CreatePostParams) {
+    // async createPost(user_id: ObjectID, postDetails: CreatePostParams) {
 
-        const user = await this.userRepository.findOneBy({ user_id })
+    //     const user = await this.userRepository.findOneBy({ user_id })
 
-        if (!user)
-            throw new HttpException(
-                'User not found. cannot create Post',
-                HttpStatus.BAD_REQUEST,
-            )
+    //     if (!user)
+    //         throw new HttpException(
+    //             'User not found. cannot create Post',
+    //             HttpStatus.BAD_REQUEST,
+    //         )
 
-        const newPost = this.postRepository.create({
-            ...postDetails,
-            timeStamp: new Date(),
-            user
-        })
+    //     const newPost = this.postRepository.create({
+    //         ...postDetails,
+    //         timeStamp: new Date(),
+    //         user
+    //     })
 
-        const savePost = await this.postRepository.save(newPost)
+    //     const savePost = await this.postRepository.save(newPost)
 
-        return savePost;
+    //     return savePost;
 
-    }
+    // }
 
     async Updateuser(){
-        
+
     }
 
 

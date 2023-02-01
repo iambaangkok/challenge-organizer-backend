@@ -1,6 +1,4 @@
 import { Column ,Entity,ObjectIdColumn ,ObjectID, OneToOne, JoinColumn, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import { Post } from "./Post";
-
 
 @Entity({name:'users'})
 export class User {
@@ -37,10 +35,6 @@ export class User {
 
 
 
-
-
-    @OneToMany(()=> Post,(post)=> post.user_id)
-    post: Post[]
 
 
 
