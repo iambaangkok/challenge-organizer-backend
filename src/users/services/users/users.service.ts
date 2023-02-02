@@ -43,12 +43,18 @@ export class UsersService {
         //     throw new HttpException("มี user นี้อยู่แล้ว", HttpStatus.BAD_REQUEST)
         // }
 
-        const newUser = this.userRepository.create({
-            ...userDetails,
-            timestamp: new Date()
-        })
-        return this.userRepository.save(newUser)
-
+        const studentId = userDetails.studentId
+        const user = this.userRepository.findOneBy({ studentId })
+        if (!user) {
+            const newUser = this.userRepository.create({
+                ...userDetails,
+                timestamp: new Date()
+            })
+            return this.userRepository.save(newUser)
+        }
+        else{
+            throw new HttpException("มี user นี้อยู่แล้ว", HttpStatus.BAD_REQUEST)
+        }
     }
 
 
