@@ -31,46 +31,47 @@ export class Challenge {
     startDate: Date;
     @Column()
     endDate: Date;
-    @Column()
-    file: {
-        user: Object,
-        path: string;
-    };
-    @Column()
-    reward: [{
-        rankMin: number,
-        rankMax: number,
-        rewardAbsolute: number,
-    }];
-    @Column()
-    teams: {
-        team_id: number,
-        menubar: [Object];
-    };
-    @Column()
-    maxTeams: number;
+    ///ที่ comment ไป เพราะต้องเอาไปสร้างความสัมพันธ์ใหม่
+    // @Column()
+    // file: { 
+    //     user: Object,
+    //     path: string;
+    // };
+    // @Column()
+    // reward: [{
+    //     rankMin: number,
+    //     rankMax: number,
+    //     rewardAbsolute: number,
+    // }];
+    // @Column()
+    // teams: {
+    //     team_id: number,
+    //     menubar: [Object];
+    // };
+    // @Column()
+    // maxTeams: number;
 
-    @Column()
-    feedback: {
-        date: Date;
-        text: string;
-        name: string;
-    };
+    // @Column()
+    // feedback: {
+    //     date: Date;
+    //     text: string;
+    //     name: string;
+    // };
 
-    @Column()
-    rating: {
-        rating: number;
-        total: number;
-        coint_ClinkRating: number;
-    };
+    // @Column()
+    // rating: {
+    //     rating: number;
+    //     total: number;
+    //     coint_ClinkRating: number;
+    // };
 
-    @Column()
-    participantsGiveScore: {
-        username: string;
-        score: number;
-    };
+    // @Column()
+    // participantsGiveScore: {
+    //     username: string;
+    //     score: number;
+    // };
 
-    @Column()
+    // @Column()
     schema_v: string;
 
 }

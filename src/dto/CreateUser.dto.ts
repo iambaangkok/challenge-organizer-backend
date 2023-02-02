@@ -1,14 +1,14 @@
-import { IsNotEmpty, IsEmail, IsNumber, IsString } from "class-validator";
+// import { IsNotEmpty, IsEmail, IsNumber, IsString } from "class-validator";
 
 
 
 export class CreateUserDto {
 
-    @IsNotEmpty()
+    // @IsNotEmpty()
     username: string;
-    @IsEmail()
+    // @IsEmail()
     cmuAccount: string;
-    @IsString()
+    // @IsString()
     studentId: string;
 
 

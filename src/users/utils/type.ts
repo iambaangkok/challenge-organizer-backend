@@ -20,11 +20,12 @@ export type CreatePostParams = {
 }
 
 
-export type Updateuser ={
+export type UpdateUserParams = {
 
+    username: string;
+    cmuAccount: string;
+    studentId: string;
+    displayName: string;
 
-
-
-
-    
 }
+

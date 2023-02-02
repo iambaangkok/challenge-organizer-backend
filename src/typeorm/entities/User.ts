@@ -12,7 +12,7 @@ export class User {
     @Column()
     cmuAccount: string;
     @Column()
-    student_id: string;
+    studentId: string;
     @Column()
     rating: string;
     @Column()

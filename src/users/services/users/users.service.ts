@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ObjectID, Repository } from 'typeorm';
 import { User } from 'src/typeorm/entities/User';
-import { CreatePostParams, CreateUserParams } from 'src/users/utils/type';
+import { CreatePostParams, CreateUserParams, UpdateUserParams } from 'src/users/utils/type';
 import { Http2ServerRequest } from 'http2';
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
@@ -18,61 +18,62 @@ export class UsersService {
 
 
     findUsers() {
-        return this.userRepository.find({ relations: ['post'] }); //selet all
+        return this.userRepository.find(); //selet all
     }
 
 
 
-    findUserByStdId(student_id: string) {
-
-        return this.userRepository.findOneBy({ student_id });
-    }
+    // findUserByStdId(user_id: ObjectID) {
+    //     return this.userRepository.findOneById({ user_id });
+    // }
 
 
 
 
     createUser(userDetails: CreateUserParams) {
-
-        // const user = this.findUser(studentId)
-
-        // if(!user){
-        //     throw new Error(Http2ServerRequest("I have User")())
+        // const user = this.findUserByStdId(userDetails.studentId)
+        // if (!user) {
+        //     const newUser = this.userRepository.create({
+        //         ...userDetails,
+        //         timestamp: new Date()
+        //     })
+        //     return this.userRepository.save(newUser);
         // }
+        // else {
+        //     throw new HttpException("มี user นี้อยู่แล้ว", HttpStatus.BAD_REQUEST)
+        // }
+
         const newUser = this.userRepository.create({
             ...userDetails,
             timestamp: new Date()
         })
-
-        return this.userRepository.save(newUser);
-    }
-
-
-
-    // async createPost(user_id: ObjectID, postDetails: CreatePostParams) {
-
-    //     const user = await this.userRepository.findOneBy({ user_id })
-
-    //     if (!user)
-    //         throw new HttpException(
-    //             'User not found. cannot create Post',
-    //             HttpStatus.BAD_REQUEST,
-    //         )
-
-    //     const newPost = this.postRepository.create({
-    //         ...postDetails,
-    //         timeStamp: new Date(),
-    //         user
-    //     })
-
-    //     const savePost = await this.postRepository.save(newPost)
-
-    //     return savePost;
-
-    // }
-
-    async Updateuser(){
+        return this.userRepository.save(newUser)
 
     }
 
+
+
+    updateUser(studentId: string, updateUserDetails: UpdateUserParams) {
+
+        // const user = this.userRepository.findOne({ studentId })
+
+        return this.userRepository.update({ studentId }, {
+            ...updateUserDetails,
+            timestamp: new Date()
+        })
+    }
+
+
+    deleteUser(studentId: string) {
+        const user = this.userRepository.findOneBy({ studentId })
+        if (!user) {
+            throw new HttpException("ไม่มี user นี้ให้ลบ", HttpStatus.BAD_REQUEST)
+        }
+        else {
+            const deleteuser = this.userRepository.delete({ studentId })
+            return deleteuser;
+        }
+
+    }
 
 }
