@@ -7,6 +7,10 @@ export type CreateUserParams = {
 
 }
 
+export type FindUserParams = {
+    username: string;
+    studentId: string;
+}
 
 
 export type CreatePostParams = {
@@ -19,7 +23,6 @@ export type CreatePostParams = {
     // allowComment: Boolean;
 }
 
-
 export type UpdateUserParams = {
 
     username: string;
@@ -27,5 +30,10 @@ export type UpdateUserParams = {
     studentId: string;
     displayName: string;
 
+}
+
+export type DeleteUserParams = {
+    user_id: ObjectID;
+    studentId: string;
 }
 

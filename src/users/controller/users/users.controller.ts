@@ -1,10 +1,10 @@
-import { Controller, Post, Body, Get, Put, Param, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Put, Param, Request } from '@nestjs/common';
 import { Delete, UsePipes } from '@nestjs/common/decorators';
 import { ParseIntPipe, ValidationPipe, ParseBoolPipe } from '@nestjs/common/pipes';
-import { Request } from 'express';
 import { CreatePostDto } from 'src/dto/CreatePost.dto';
 import { CreateUserDto } from 'src/dto/CreateUser.dto';
-import { Deleteuser } from 'src/dto/Deleteuser';
+import { DeleteUserDto } from 'src/dto/Deleteuser';
+import { FindUserDto } from 'src/dto/FindUser';
 import { UpdateUserDto } from 'src/dto/Updateuser';
 import { UsersService } from 'src/users/services/users/users.service';
 import { ObjectID } from 'typeorm';
@@ -23,13 +23,31 @@ export class UsersController {
         // หรือ ใช้ return this.userService.findUsers(); ได้เลยเดียว Nest.js มันจัดการเอง
     }
 
-    @Post() //'create'
-    // @UsePipes(new ValidationPipe()) //ใส่ส่วนนี้เพื่อเรียกใช้งานการตรวจสอบความถูกต้อง
+    @Get("/getByUserId")
+    async viewUserByUserId(@Body() user_id: ObjectID) {
+        return await this.userService.findByUserId(user_id)
+    }
+
+
+
+    @Get('/getByUsername')
+    viewUserByUsername(@Body() finduserDetails: FindUserDto) {
+        return this.userService.findByUsername(finduserDetails);
+    }
+
+    // TODO
+    @Get('getByStudentId')
+    async viewUserByStudentId(@Body() studentId: string) {
+        return await this.userService.findUserByStudentId(studentId)
+    }
+
+    @Post()
     createUser(@Body() createUserDto: CreateUserDto) {
+        // const create = this.userService.createUser(createUserDto)
 
-        // const { ...userDetails } = createUserDto;
-        return this.userService.createUser(createUserDto);
-
+        // console.log(createUserDto)
+        // response.send('Created')
+        return this.userService.createUser(createUserDto)
     }
 
 
@@ -42,13 +60,14 @@ export class UsersController {
 
     @Put()
     updateUser(@Body() updateUserDto: UpdateUserDto) {
-        const studentId = updateUserDto.id
-        return this.userService.updateUser(studentId,updateUserDto)
+        const update_id = updateUserDto.update_id
+        console.log(update_id)
+        return this.userService.updateUser(update_id, updateUserDto)
     }
 
     @Delete()
-    async deleteUser(@Param('studentId',) studentId :string) {
-        await this.userService.deleteUser(studentId)
+   async deleteUser(@Body() deleteUserDto: DeleteUserDto) {
+        return await this.userService.deleteUser(deleteUserDto)
 
     }
 

@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ObjectID, Repository } from 'typeorm';
+import { Equal, ObjectID, Repository } from 'typeorm';
 import { User } from 'src/typeorm/entities/User';
-import { CreatePostParams, CreateUserParams, UpdateUserParams } from 'src/users/utils/type';
+import { CreatePostParams, CreateUserParams, DeleteUserParams, FindUserParams, UpdateUserParams } from 'src/users/utils/type';
 import { Http2ServerRequest } from 'http2';
-import { HttpException } from '@nestjs/common/exceptions';
+import { HttpException, NotFoundException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
+import { Console } from 'console';
+
 
 @Injectable()
 export class UsersService {
@@ -16,70 +18,88 @@ export class UsersService {
 
     ) { }
 
+    async findUsers() {
+        return await this.userRepository.find(); //selet all
+    }
+    //ToDo
+    async findByUserId(user_id: ObjectID) {
+        const user = await this.userRepository.findOneBy({ user_id });
+        console.log(user)
+        return user
 
-    findUsers() {
-        return this.userRepository.find(); //selet all
     }
 
 
+    async findUserByStudentId(student_id: string): Promise<User> | undefined {
+        const studentId = student_id
+        const findUser = await this.userRepository.findOneBy({ studentId: studentId })
+        return findUser
+    }
 
-    // findUserByStdId(user_id: ObjectID) {
-    //     return this.userRepository.findOneById({ user_id });
-    // }
 
-
-
-
-    createUser(userDetails: CreateUserParams) {
-        // const user = this.findUserByStdId(userDetails.studentId)
-        // if (!user) {
-        //     const newUser = this.userRepository.create({
-        //         ...userDetails,
-        //         timestamp: new Date()
-        //     })
-        //     return this.userRepository.save(newUser);
-        // }
-        // else {
-        //     throw new HttpException("มี user นี้อยู่แล้ว", HttpStatus.BAD_REQUEST)
-        // }
-
-        const studentId = userDetails.studentId
-        const user = this.userRepository.findOneBy({ studentId })
+    async findByUsername(userDetails: FindUserParams) {
+        const username = userDetails.username
+        const user = await this.userRepository.findOneBy({ username: username })
+        console.log(user)
         if (!user) {
+            throw new HttpException("หาไม่เจอ is null", HttpStatus.NOT_FOUND)
+        } else {
+            return user
+        }
+    }
+
+
+    async createUser(userDetails: CreateUserParams) {
+        const studentId = userDetails.studentId
+        console.log(studentId)
+        const findUser = await this.userRepository.findOneBy({ studentId: studentId })
+        console.log(findUser)
+        if (!findUser) {
             const newUser = this.userRepository.create({
                 ...userDetails,
-                timestamp: new Date()
+                timestamp: new Date(),
             })
             return this.userRepository.save(newUser)
+        } else {
+            throw new HttpException("user already exist", HttpStatus.OK)
         }
-        else{
-            throw new HttpException("มี user นี้อยู่แล้ว", HttpStatus.BAD_REQUEST)
-        }
+
+
     }
 
 
-
-    updateUser(studentId: string, updateUserDetails: UpdateUserParams) {
-
-        // const user = this.userRepository.findOne({ studentId })
-
-        return this.userRepository.update({ studentId }, {
-            ...updateUserDetails,
-            timestamp: new Date()
-        })
+/**
+ * ! ทำการ Update ได้แล้ว
+ * @param update_id  studentId ที่จะเอาไปอัพเดต
+ * @param updateUserDetails  รายละเอียดที่ต้องใช้ในการ update 1 ครั้ง
+ * @returns 
+ */
+    async updateUser(update_id, updateUserDetails: UpdateUserParams) {
+        const user = await this.userRepository.findOneBy({ studentId:update_id })
+        console.log(user)
+        if (!user) {
+            throw new HttpException("ไม่เจอ user ที่จะอัพเดตวะ", HttpStatus.BAD_REQUEST)
+        } else {
+            console.log("Update done")
+            return this.userRepository.update({ studentId:update_id }, {
+                ...updateUserDetails,
+                timestamp: new Date()
+            })
+        }
     }
-
-
-    deleteUser(studentId: string) {
-        const user = this.userRepository.findOneBy({ studentId })
+//TODO แม่งมันลบหมดเฉย รอการแก้ไข น่าจะเป็นตอนจำลบมันยืนยันตัวไม่ได้มันลบใน colccsions หมดเลย
+    async deleteUser(deleteUserDetails: DeleteUserParams) {
+        const student_id = deleteUserDetails.studentId
+        console.log(student_id)
+        const user = await this.userRepository.findOneBy({ studentId: student_id })
+        console.log(user)
         if (!user) {
             throw new HttpException("ไม่มี user นี้ให้ลบ", HttpStatus.BAD_REQUEST)
         }
         else {
-            const deleteuser = this.userRepository.delete({ studentId })
-            return deleteuser;
+            console.log("delete user complet")
+            return await this.userRepository.delete({ studentId: student_id })
         }
-
     }
 
 }
