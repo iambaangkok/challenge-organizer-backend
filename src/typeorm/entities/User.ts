@@ -1,9 +1,9 @@
-import { Column ,Entity,ObjectIdColumn ,ObjectID, OneToOne, JoinColumn, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import { Column ,Entity,ObjectIdColumn ,ObjectID, OneToOne, JoinColumn, OneToMany, PrimaryGeneratedColumn, PrimaryColumn} from "typeorm";
 
 @Entity({name:'users'})
 export class User {
 
-    @PrimaryGeneratedColumn({type : 'integer'})
+    @ObjectIdColumn({type : 'integer'})
     user_id : ObjectID;
     @Column()
     displayname: string;
