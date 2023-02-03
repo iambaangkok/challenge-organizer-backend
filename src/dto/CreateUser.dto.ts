@@ -10,8 +10,6 @@ export class CreateUserDto {
     cmuAccount: string;
     // @IsString()
     studentId: string;
-
-
-
-
 }
+
+
