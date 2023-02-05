@@ -17,23 +17,26 @@ export class UsersService {
         // @InjectRepository(Post) private postRepository: Repository<Post>
 
     ) { }
+    public async findUserinDataBase(user:Object){
+        if(!user){ throw new HttpException("Not Found user pls new your request ", HttpStatus.NOT_FOUND)}
+        else{return user}
+    }
 
     async findUsers() {
         return await this.userRepository.find(); //selet all
     }
-    //ToDo
-    async findByUserId(user_id: ObjectID) {
-        const user = await this.userRepository.findOneBy({ user_id });
-        console.log(user)
-        return user
 
+
+    async findByUserId(findUserDetails : FindUserParams ) {
+        const User_id = findUserDetails.user_id
+        return await this.userRepository.findOneById( User_id );
     }
 
 
-    async findUserByStudentId(student_id: string): Promise<User> | undefined {
-        const studentId = student_id
-        const findUser = await this.userRepository.findOneBy({ studentId: studentId })
-        return findUser
+    async findUserByStudentId(findUserDetails :FindUserParams){
+        const studentId = findUserDetails.studentId
+        const user = await this.userRepository.findOneBy({ studentId: studentId })
+        return await this.findUserinDataBase(user)
     }
 
 
@@ -41,11 +44,7 @@ export class UsersService {
         const username = userDetails.username
         const user = await this.userRepository.findOneBy({ username: username })
         console.log(user)
-        if (!user) {
-            throw new HttpException("หาไม่เจอ is null", HttpStatus.NOT_FOUND)
-        } else {
-            return user
-        }
+       return await this.findUserinDataBase(user)
     }
 
 
@@ -87,12 +86,12 @@ export class UsersService {
             })
         }
     }
-//TODO แม่งมันลบหมดเฉย รอการแก้ไข น่าจะเป็นตอนจำลบมันยืนยันตัวไม่ได้มันลบใน colccsions หมดเลย
+
+
+
     async deleteUser(deleteUserDetails: DeleteUserParams) {
         const student_id = deleteUserDetails.studentId
-        console.log(student_id)
         const user = await this.userRepository.findOneBy({ studentId: student_id })
-        console.log(user)
         if (!user) {
             throw new HttpException("ไม่มี user นี้ให้ลบ", HttpStatus.BAD_REQUEST)
         }

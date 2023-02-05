@@ -24,8 +24,8 @@ export class UsersController {
     }
 
     @Get("/getByUserId")
-    async viewUserByUserId(@Body() user_id: ObjectID) {
-        return await this.userService.findByUserId(user_id)
+    async viewUserByUserId(@Body() findUserDetails: FindUserDto) {
+        return await this.userService.findByUserId(findUserDetails)
     }
 
 
@@ -35,10 +35,9 @@ export class UsersController {
         return this.userService.findByUsername(finduserDetails);
     }
 
-    // TODO
     @Get('getByStudentId')
-    async viewUserByStudentId(@Body() studentId: string) {
-        return await this.userService.findUserByStudentId(studentId)
+    async viewUserByStudentId(@Body() finduserDetails: FindUserDto) {
+        return await this.userService.findUserByStudentId(finduserDetails)
     }
 
     @Post()

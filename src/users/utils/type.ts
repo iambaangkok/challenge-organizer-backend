@@ -8,9 +8,11 @@ export type CreateUserParams = {
 }
 
 export type FindUserParams = {
+    user_id : ObjectID;
     username: string;
     studentId: string;
 }
+
 
 
 export type CreatePostParams = {
