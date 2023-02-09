@@ -4,8 +4,9 @@
 
 export class CreateUserDto {
 
+    fristName: string; 
+    lastName: string;
     // @IsNotEmpty()
-    username: string;
     // @IsEmail()
     cmuAccount: string;
     // @IsString()

@@ -1,14 +1,25 @@
-import { Column ,Entity,ObjectIdColumn ,ObjectID, OneToOne, JoinColumn, OneToMany, PrimaryGeneratedColumn, PrimaryColumn} from "typeorm";
+import {
+    Column,
+    Entity,
+    OneToOne,
+    JoinColumn,
+} from "typeorm";
+import { ObjectIdColumn } from "typeorm/decorator/columns/ObjectIdColumn";
+import { ObjectID } from "typeorm/driver/mongodb/typings";
+import { JoinAttribute } from "typeorm/query-builder/JoinAttribute";
+import { Profile } from "./Profile";
 
-@Entity({name:'users'})
+
+@Entity({ name: 'users' })
 export class User {
-
-    @ObjectIdColumn({type : 'integer'})
-    user_id : ObjectID;
+    @ObjectIdColumn()
+    userId: ObjectID;
     @Column()
-    displayname: string;
+    displayName: string;
     @Column()
-    username: string;
+    firstName: string;
+    @Column()
+    lastName: string;
     @Column()
     cmuAccount: string;
     @Column()
@@ -16,27 +27,26 @@ export class User {
     @Column()
     rating: string;
     @Column()
-    timestamp: Date;
+    timeStamp: Date;
     @Column()
-    inventory: [] ;  // TODO ควรเป็นอีก ตารางไหมที่มีความสัมพันธ์ OneToMany
+    inventory: [];  // TODO ควรเป็นอีก ตารางไหมที่มีความสัมพันธ์ OneToMany
     @Column()
     coin: string;
     @Column()
-    profileImg : string;
+    profileImg: string;
     @Column()
     equipmentFrame: string;
-    @Column({default: false})
-    banstatus: boolean;
+    @Column({ default: false })
+    banStatus: boolean;
     @Column()
     tasks: string;
     @Column()
-    isAdmin : boolean;
-    
+    isAdmin: boolean;
 
-
-
-
-
+    // @OneToOne(() => Profile,(profile) => profile.user,{cascade:true})
+    // @JoinColumn()
+    @Column()
+    profile : Object;
 
 }
 

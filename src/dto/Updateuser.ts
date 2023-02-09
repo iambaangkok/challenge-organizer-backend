@@ -1,7 +1,7 @@
 
 
 export class UpdateUserDto {
-    username: string;
+    userName: string;
     cmuAccount: string;
     studentId: string;
     displayName: string;

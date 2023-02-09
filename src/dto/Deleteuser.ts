@@ -1,6 +1,6 @@
 import { ObjectID } from "typeorm";
 
 export class DeleteUserDto {
-user_id: ObjectID;
+userId: string;
 studentId: string;
 }
