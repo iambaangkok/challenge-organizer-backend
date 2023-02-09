@@ -1,4 +1,4 @@
-import { Body, Controller ,Get, Param, Post} from '@nestjs/common';
+import { Body, Controller ,Delete,Get, Param, Post, Put} from '@nestjs/common';
 import { ChallengesService } from 'src/challenges/service/challenges.service';
 import { CreateChallenge } from 'src/dto/CreateChalleng.dto';
 import { CreateChallengeParams } from 'src/challenges/utils/type';
@@ -21,5 +21,15 @@ constructor(private challengeService: ChallengesService){}
     @Post()
     creatChallenges(@Body() challengeDetails: CreateChallenge){
         return this.challengeService.createChallenge(challengeDetails);
+    }
+
+    @Put(':title')
+    editChallenges(@Param('title') title: string){
+        return this.challengeService.editChallenge();
+    }
+
+    @Delete(':title')
+    deleteChallenges(@Param('title') title: string){
+        return this.challengeService.deleteChallenge(title);
     }
 }
