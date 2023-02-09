@@ -2,7 +2,7 @@ import { Controller ,Get} from '@nestjs/common';
 
 import { ChallengesService } from 'src/challenges/service/challenges.service';
 
-@Controller('challenges')
+@Controller('api/challenges')
 export class ChallengesController {
 
 
