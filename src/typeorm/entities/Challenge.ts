@@ -1,10 +1,12 @@
 
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ObjectID, ObjectIdColumn, PrimaryGeneratedColumn } from "typeorm";
 
 
 
 @Entity({ name: 'challenges' })
 export class Challenge {
+    @ObjectIdColumn()
+    _id: ObjectID;
     @PrimaryGeneratedColumn({ type: 'bigint' })
     challenge_id: string;
     @Column()
