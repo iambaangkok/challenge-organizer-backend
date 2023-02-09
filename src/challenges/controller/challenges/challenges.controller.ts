@@ -1,7 +1,7 @@
 import { Body, Controller ,Delete,Get, Param, Post, Put} from '@nestjs/common';
 import { ChallengesService } from 'src/challenges/service/challenges.service';
 import { CreateChallenge } from 'src/dto/CreateChalleng.dto';
-import { CreateChallengeParams } from 'src/challenges/utils/type';
+import { CreateChallengeParams, EditChallengeParams } from 'src/challenges/utils/type';
 
 @Controller('api/challenges')
 export class ChallengesController {
@@ -24,8 +24,8 @@ constructor(private challengeService: ChallengesService){}
     }
 
     @Put(':title')
-    editChallenges(@Param('title') title: string){
-        return this.challengeService.editChallenge();
+    editChallenges(@Param('title') title: string, @Body() editChallengeDto: EditChallengeParams){
+        return this.challengeService.editChallenge(title, editChallengeDto);
     }
 
     @Delete(':title')
