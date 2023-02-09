@@ -1,6 +1,6 @@
 import { Body, Controller ,Get, Param, Post} from '@nestjs/common';
 import { ChallengesService } from 'src/challenges/service/challenges.service';
-// import { CreateChallenge } from 'src/dto/CreateChallenge.dto';
+import { CreateChallenge } from 'src/dto/CreateChalleng.dto';
 import { CreateChallengeParams } from 'src/challenges/utils/type';
 
 @Controller('api/challenges')
@@ -19,7 +19,7 @@ constructor(private challengeService: ChallengesService){}
     }
 
     @Post()
-    creatChallenges(@Body() challengeDetails: CreateChallengeParams){
+    creatChallenges(@Body() challengeDetails: CreateChallenge){
         return this.challengeService.createChallenge(challengeDetails);
     }
 }
