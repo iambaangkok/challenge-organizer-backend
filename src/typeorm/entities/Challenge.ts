@@ -1,8 +1,6 @@
 
 import { Column, Entity, ObjectID, ObjectIdColumn, PrimaryGeneratedColumn } from "typeorm";
 
-
-
 @Entity({ name: 'challenges' })
 export class Challenge {
     @ObjectIdColumn()
@@ -14,7 +12,7 @@ export class Challenge {
     @Column()
     description: string;
     @Column()
-    partipation: string;
+    participants: [string];
     @Column()
     numParticipants: number;
     @Column()
