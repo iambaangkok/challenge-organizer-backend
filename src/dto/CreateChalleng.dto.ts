@@ -13,7 +13,7 @@ export class CreateChallenge {
     maxParticipants: number;
     banUser: [ObjectID];
     publishedStatus: boolean;
-    timestamp: Date;
+    timeStamp: Date;
     startDate: Date;
     endDate: Date;
     file: {
