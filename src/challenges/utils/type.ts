@@ -1,17 +1,11 @@
 export type CreateChallengeParams = {
-
     title: string;
     description: string;
     startDate: Date;
     endDate: Date;
-
-
-
 }
 
-
 export type EditChallengeParams = {
-
     title: string;
     description: string;
     startDate: Date;
@@ -20,6 +14,8 @@ export type EditChallengeParams = {
     publishedStatus: boolean;
     maxParticipants: number;
     maxTeams: number;
+}
 
-    
+export type JoinLeaveChallengeParams = {
+    userId: string;
 }
