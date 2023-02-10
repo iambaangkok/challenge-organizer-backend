@@ -1,76 +1,51 @@
-import { Column, PrimaryGeneratedColumn ,Entity} from "typeorm";
+import {
+    Column,
+    Entity,
+    OneToOne,
+    JoinColumn,
+} from "typeorm";
+import { ObjectIdColumn } from "typeorm/decorator/columns/ObjectIdColumn";
+import { ObjectID } from "typeorm/driver/mongodb/typings";
+import { JoinAttribute } from "typeorm/query-builder/JoinAttribute";
 
 
-@Entity({name:'users'})
+@Entity({ name: 'users' })
 export class User {
-
-    @PrimaryGeneratedColumn({ type: 'bigint' })
-    user_id: number;
-
-
-    // @Unique()
-    @PrimaryGeneratedColumn({type :'int'})
-    displayname: number;
-
+    @ObjectIdColumn()
+    userId: ObjectID;
     @Column()
-    username: string;
-
+    displayName: string;
     @Column()
-    name: {
-        lname: string;
-        fname: string;
-    }
-
+    firstName: string;
+    @Column()
+    lastName: string;
     @Column()
     cmuAccount: string;
-
     @Column()
     studentId: string;
-
-    @Column({default:0})
-    rating: Number;
-
     @Column()
-    challenge: {
-        joinedChallenge: {
-            challenge: Object;
-            task: [Object];
-        };
-        banChallenge: [Object];
-        createdChallenge: [Object];
-    };
-
-    @Column({default:NaN})
-    inventory: [];
-
-    @Column({default:0})
-    coin: Number;
-
-    @Column({default:""})//อาจจะต้องชี้ไปรูปที่เราตั้งในเป็ฯพื้นฐานของเว็บไซย์เราก็ได่
-    profileImg: String;
-
-    @Column({default:""})
-    equipFrame: String;
-
-    @Column({default: false}) 
-    status: Boolean;
-
-    @Column({default:NaN}) 
-    task: String;
-
-    @Column({default:Boolean}) 
-    isAdmin: Boolean;
-
-    @Column({default:new Date()}) 
+    rating: string;
+    @Column()
     timeStamp: Date;
-
     @Column()
-    authStrategy:String;
-
-
+    inventory: [];  // TODO ควรเป็นอีก ตารางไหมที่มีความสัมพันธ์ OneToMany
+    @Column()
+    coin: string;
+    @Column()
+    profileImg: string;
+    @Column()
+    equipmentFrame: string;
+    @Column({ default: false })
+    banStatus: boolean;
+    @Column()
+    tasks: string;
+    @Column()
+    isAdmin: boolean;
+    @Column()
+    challenges: [string];
+    // @OneToOne(() => Profile,(profile) => profile.user,{cascade:true})
+    // @JoinColumn()
+    @Column()
+    profile : Object;
 
 }
-
-
-
-
