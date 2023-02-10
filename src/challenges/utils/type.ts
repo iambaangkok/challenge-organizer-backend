@@ -17,9 +17,9 @@ export type EditChallengeParams = {
     startDate: Date;
     endDate: Date;
     bannerImg:string;
-    publishedStatus:Boolean;
-    maxParticipants:Number;
-    maxTeams:Number;
+    publishedStatus: boolean;
+    maxParticipants: number;
+    maxTeams: number;
 
     
 }
