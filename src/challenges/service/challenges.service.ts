@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Challenge } from 'src/typeorm/entities/Challenge';
-import { MongoRepository } from 'typeorm';
+import { getMongoRepository, MongoRepository } from 'typeorm';
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
-import { CreateChallengeParams, EditChallengeParams } from '../utils/type';
+import { CreateChallengeParams, EditChallengeParams, JoinLeaveChallengeParams } from '../utils/type';
 import { timeStamp } from 'console';
+import { User } from 'src/typeorm/entities/User';
 
 @Injectable()
 export class ChallengesService {
@@ -43,6 +44,45 @@ export class ChallengesService {
             return await this.challengeRepository.delete({title: challengeTitle});
         }else{
             throw new HttpException("There is no challenge to delete", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    async joinChallenge(challengeTitle: string, joinChallenge: JoinLeaveChallengeParams){
+        const challenge = await this.findChallenges(challengeTitle);
+        if(challenge){
+            let list = challenge.participants;
+            if(!list){
+                list = [joinChallenge.userId];
+            }else{
+                if(list.find((userId) => { return userId === joinChallenge.userId})){
+                    throw new HttpException("This user is already join this challenge", HttpStatus.BAD_REQUEST);
+                }else{
+                    list.push(joinChallenge.userId);
+                }
+            }
+            return await this.challengeRepository.update({ title: challengeTitle }, { participants: list, timestamp: new Date() });
+        }else{
+            throw new HttpException("There is no challenge to join", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    async leaveChallenge(challengeTitle: string, leaveChallenge: JoinLeaveChallengeParams){
+        const challenge = await this.findChallenges(challengeTitle);
+        if(challenge){
+            let list = challenge.participants;
+            if(!list){
+                throw new HttpException("This user doesn't join this challenge yet", HttpStatus.BAD_REQUEST);
+            }else{
+                if(!list.find((userId) => { return userId === leaveChallenge.userId})){
+                    throw new HttpException("This user doesn't join this challenge yet", HttpStatus.BAD_REQUEST);
+                }else{
+                    const index = list.findIndex((userId) => { return userId === leaveChallenge.userId});
+                    list.splice(index, 1);
+                }
+            }
+            return await this.challengeRepository.update({ title: challengeTitle }, { participants: list, timestamp: new Date() });
+        }else{
+            throw new HttpException("There is no challenge to join", HttpStatus.BAD_REQUEST);
         }
     }
 }

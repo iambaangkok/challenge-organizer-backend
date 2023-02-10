@@ -3,6 +3,7 @@ import { ChallengesService } from 'src/challenges/service/challenges.service';
 import { CreateChallenge } from 'src/dto/CreateChalleng.dto';
 // import { CreateChallengeParams } from 'src/challenges/utils/type';
 import { EditChallengeDto } from 'src/dto/EditChallenge.dto';
+import { JoinLeaveChallengeDto } from 'src/dto/JoinLeaveChallenge.dto';
 
 @Controller('api/challenges')
 export class ChallengesController {
@@ -32,5 +33,15 @@ constructor(private challengeService: ChallengesService){}
     @Delete(':title')
     deleteChallenges(@Param('title') title: string){
         return this.challengeService.deleteChallenge(title);
+    }
+
+    @Put('/join/:title')
+    joinChallenges(@Param('title') title: string, @Body() joinChallengeDto: JoinLeaveChallengeDto){
+        return this.challengeService.joinChallenge(title, joinChallengeDto);
+    }
+    
+    @Put('/leave/:title')
+    leaveChallenges(@Param('title') title: string, @Body() leaveChallengeDto: JoinLeaveChallengeDto){
+        return this.challengeService.leaveChallenge(title, leaveChallengeDto);
     }
 }
