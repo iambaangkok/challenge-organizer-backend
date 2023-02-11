@@ -64,12 +64,17 @@ export class UsersService {
                 ...userDetails,
                 timeStamp: new Date(),
                 displayName: Displayname,
-                challenges:[],
+                challenges: [],
             })
             console.log(newUser)
-            return this.userRepository.save(newUser) , newUser.displayName
+            return this.userRepository.save(newUser), { "displayName": newUser.displayName }
         } else {
-            throw new HttpException("user already exist", HttpStatus.OK)
+            // throw new HttpException("user already exist", HttpStatus.OK) 
+            return {
+                "displayName": user.displayName,
+                "statusCode": 200,
+                "message": "user already exist",
+            }
         }
     }
 
