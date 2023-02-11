@@ -2,8 +2,8 @@ import { ObjectID } from "typeorm";
 
 
 
-export class CreateChallenge {
-    challenge_id:string;
+export class CreateChallengeDto {
+    challengeId:number;
     title: string;
     description: string;
     participants: [ObjectID];
@@ -13,7 +13,7 @@ export class CreateChallenge {
     maxParticipants: number;
     banUser: [ObjectID];
     publishedStatus: boolean;
-    timestamp: Date;
+    timeStamp: Date;
     startDate: Date;
     endDate: Date;
     file: {
@@ -30,7 +30,7 @@ export class CreateChallenge {
         menubar: [ObjectID];
     };
     maxTeams: number;
-    feedback :{
+    feedBack :{
         date: Date;
         text: string;
         name: string;
@@ -44,5 +44,5 @@ export class CreateChallenge {
         user_Id: ObjectID;
         score: number;
     };
-    schema_v:string;
+    schemaVersion:string;
 }

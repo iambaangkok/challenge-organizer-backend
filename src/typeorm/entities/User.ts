@@ -6,8 +6,6 @@ import {
 } from "typeorm";
 import { ObjectIdColumn } from "typeorm/decorator/columns/ObjectIdColumn";
 import { ObjectID } from "typeorm/driver/mongodb/typings";
-import { JoinAttribute } from "typeorm/query-builder/JoinAttribute";
-import { Profile } from "./Profile";
 
 
 @Entity({ name: 'users' })
@@ -24,12 +22,12 @@ export class User {
     cmuAccount: string;
     @Column()
     studentId: string;
-    @Column()
+    @Column({default:0})
     rating: string;
     @Column()
     timeStamp: Date;
     @Column()
-    inventory: [];  // TODO ควรเป็นอีก ตารางไหมที่มีความสัมพันธ์ OneToMany
+    inventory: string[];  
     @Column()
     coin: string;
     @Column()
@@ -42,11 +40,13 @@ export class User {
     tasks: string;
     @Column()
     isAdmin: boolean;
-
-    // @OneToOne(() => Profile,(profile) => profile.user,{cascade:true})
-    // @JoinColumn()
     @Column()
     profile : Object;
+
+    @Column()
+    challenges: string[];
+    
+
 
 }
 

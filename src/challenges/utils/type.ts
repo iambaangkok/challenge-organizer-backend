@@ -1,5 +1,7 @@
-export type CreateChallengeParams = {
+import { ObjectID } from "typeorm";
 
+export type CreateChallengeParams = {
+   challengeId: number; 
     title: string;
     description: string;
     startDate: Date;

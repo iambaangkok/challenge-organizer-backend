@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { User } from 'src/typeorm/entities/User';
 import { CreateUserParams, CreateUserProfileParams, UpdateUserParams } from 'src/users/utils/type';
 import { HttpException } from '@nestjs/common/exceptions';
@@ -12,18 +11,19 @@ import { MongoRepository } from 'typeorm/repository/MongoRepository';
 
 
 
+
+
 @Injectable()
 export class UsersService {
 
     constructor(
         @InjectRepository(User) private userRepository: MongoRepository<User>,
         @InjectRepository(Profile) private profileRepository: MongoRepository<Profile>
-        // @InjectRepository(Post) private postRepository: Repository<Post>
 
     ) { }
 
     public async findUserinDataBase(user: Object) {
-        if (!user) { throw new HttpException("Not Found user pls new your request ", HttpStatus.NOT_FOUND) }
+        if (!user) { throw new HttpException("Not Found user pls new your request", HttpStatus.NOT_FOUND) }
         else { return user }
     }
 
@@ -39,6 +39,7 @@ export class UsersService {
 
     async findUserByStudentId(studentId: string) {
         const user = await this.userRepository.findOneBy({ studentId: studentId })
+        console.log(user)
         return await this.findUserinDataBase(user)
     }
 
@@ -53,9 +54,9 @@ export class UsersService {
 
 
     async createUser(userDetails: CreateUserParams) {
-        const studentId = userDetails.studentId
-        console.log(studentId)
-        const user = await this.userRepository.findOneBy({ studentId: studentId })
+        const cmuaccount = userDetails.cmuAccount
+        console.log(cmuaccount)
+        const user = await this.userRepository.findOneBy({ cmuAccount: cmuaccount })
         console.log(user)
         const Displayname = 'id' + await (new Date()).getTime();
         if (!user) {
@@ -63,8 +64,10 @@ export class UsersService {
                 ...userDetails,
                 timeStamp: new Date(),
                 displayName: Displayname,
+                challenges:[],
             })
-            return this.userRepository.save(newUser)
+            console.log(newUser)
+            return this.userRepository.save(newUser) , newUser.displayName
         } else {
             throw new HttpException("user already exist", HttpStatus.OK)
         }
@@ -83,40 +86,39 @@ export class UsersService {
 
     /**
      * ! ทำการ Update ได้แล้ว
-     * @param update_id  studentId ที่จะเอาไปอัพเดต
+     * @param displayName  displayName ที่จะเอาไปอัพเดต
      * @param updateUserDetails  รายละเอียดที่ต้องใช้ในการ update 1 ครั้ง
      * @returns 
      */
-    async updateUser(studentId, updateUserDetails: UpdateUserParams) {
-        const user = await this.userRepository.findOneBy({ studentId: studentId })
+    async updateUser(displayName, updateUserDetails: UpdateUserParams) {
+        const user = await this.userRepository.findOneBy({ displayName: displayName })
         console.log(user)
         if (!user) {
-            throw new HttpException("ไม่เจอ user ที่จะอัพเดตวะ", HttpStatus.BAD_REQUEST)
+            throw new HttpException("ไม่เจอ user ที่จะอัพเดต", HttpStatus.BAD_REQUEST)
         } else {
             console.log("Update done")
-            return this.userRepository.update({ studentId: studentId }, {
+            return this.userRepository.update({ displayName: displayName }, {
                 ...updateUserDetails,
-                timeStamp: new Date()
+                timeStamp: new Date().getTime()
             })
         }
     }
 
 
 
-    async deleteUser(studentId: string) {
-        const user = await this.userRepository.findOneBy({ studentId: studentId })
+    async deleteUser(displayName: string) {
+        const user = await this.userRepository.findOneBy({ displayName: displayName })
         if (!user) {
             throw new HttpException("ไม่มี user นี้ให้ลบ", HttpStatus.BAD_REQUEST)
         }
         else {
             console.log("delete user complet")
-            return await this.userRepository.delete({ studentId: studentId })
+            const profile = user.profile
+            const deleteProfile = await this.profileRepository.delete(profile)
+            return await this.userRepository.delete({ displayName: displayName })
         }
     }
 
 
-    // async deleteAllUsers() {
-    //     return this.userRepository.delete(User)
-    // }
 
 }

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Put ,Delete, Query, Param} from '@nestjs/common';
+import { Controller, Post, Body, Get, Put, Delete, Query, Param } from '@nestjs/common';
 import { CreateUserDto } from 'src/dto/CreateUser.dto';
 import { CreateUserProfileDto } from 'src/dto/CreateUserprofile';
 import { DeleteUserDto } from 'src/dto/Deleteuser';
@@ -32,13 +32,14 @@ export class UsersController {
     }
 
 
-    @Get(':studentId')
+    @Get('/studentId/:studentId')
     async viewUserByStudentId(@Param('studentId') studentId: string) {
         return await this.userService.findUserByStudentId(studentId)
     }
 
     @Post()
     createUser(@Body() createUserDto: CreateUserDto) {
+        console.log(createUserDto)
         return this.userService.createUser(createUserDto)
     }
 
@@ -48,18 +49,18 @@ export class UsersController {
 
     }
 
-    @Put(':studentId')
-    updateUser(@Param('studentId') studentId : string,@Body() updateUserDto: UpdateUserDto) {
-        console.log(studentId)
-        return this.userService.updateUser(studentId, updateUserDto)
+    @Put(':displayName')
+    updateUser(@Param('displayName') displayName: string, @Body() updateUserDto: UpdateUserDto) {
+        console.log(displayName)
+        return this.userService.updateUser(displayName, updateUserDto)
     }
 
-    @Delete(':studentId')
-   async deleteUser(@Param('studentId')studentId : string) {
-        return await this.userService.deleteUser(studentId)
+    @Delete(':displayName')
+    async deleteUser(@Param('displayName') displayName: string) {
+        return await this.userService.deleteUser(displayName)
     }
 
-   
+
 
 
 }

@@ -1,12 +1,12 @@
 
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ObjectID, ObjectIdColumn, PrimaryGeneratedColumn } from "typeorm";
 
 
 
 @Entity({ name: 'challenges' })
 export class Challenge {
-    @PrimaryGeneratedColumn({ type: 'bigint' })
-    challenge_id: string;
+    @PrimaryGeneratedColumn()
+    challengeId : number;
     @Column()
     title: string;
     @Column()
@@ -26,7 +26,7 @@ export class Challenge {
     @Column()
     publishedStatus: boolean;
     @Column()
-    timestamp: Date;
+    timeStamp: Date;
     @Column()
     startDate: Date;
     @Column()
@@ -73,5 +73,10 @@ export class Challenge {
 
     // @Column()
     schema_v: string;
+
+
+    // @ManyToMany(()=>)
+    // @JoinColumn()
+    // challenge : Challenge;
 
 }
