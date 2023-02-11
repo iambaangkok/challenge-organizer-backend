@@ -86,18 +86,15 @@ export class ChallengesService {
             let list = challenge.participants;
             let userList = user.challenges;
             // user part
-            if(!userList){
-                userList = [challengeTitle];
-            }else{
+            if(userList){
                 if(!userList.find((userId) => { return userId === leaveChallenge.userId })){
                     throw new HttpException("This user doesn't join this challenge yet", HttpStatus.BAD_REQUEST);
                 }else{
                     const index = userList.findIndex((userId) => { return userId === leaveChallenge.userId});
                     userList.splice(index, 1);
+                    await this.userRepository.update({ userId: user.userId }, {challenges: userList});
                 }
-                await this.userRepository.update({ userId: user.userId }, {challenges: userList});
             }
-            await this.userRepository.update({ userId: user.userId }, {challenges: userList});
 
             // challenge part
             if(!list){
