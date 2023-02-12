@@ -15,21 +15,30 @@ async function seedDB() {
         await client.connect();
         console.log("Connected correctly to server");
 
-        const collection = client.db("test").collection("users");
+        const collection = client.db("test").collection("challenges");
 
-        // collection.drop();
-
+        collection.drop();
         // make a bunch of time series data
         let timeSeriesData = [];
-
-        for (let i = 0; i < 2000; i++) {
-            let users = {
-                 "firstName" : faker.name.firstName(),
-                 "lastName" : faker.name.lastName(),
-                 "cmuAccount" : faker.internet.email(),
-                 "studentId" : faker.datatype.number()
+        let type = ["Single" , "Duo" , "Team"]
+        let format = ["Point_based" , "Elimination" , "Double_Elimination"]
+        for (let i = 0; i < 10; i++) {
+            let challenges = {
+                "challengeTitle": faker.name.jobTitle(),
+                "type": type[i%3] ,
+                "format":format[i%3] ,
+                "description":faker.lorem.paragraphs(5) ,
+                "startDate":faker.date.between('2023-01-01T00:00:00.000Z','2023-01-02T00:00:00.000Z') ,
+                "endDate":faker.date.between('2023-01-07T00:00:00.000Z','2023-01-09T00:00:00.000Z') ,
+                "numParticipants":faker.datatype.number(10) ,
+                "maxParticipants": faker.datatype.number(100),
+                "rating": faker.datatype.number(5),
+                "closed": faker.datatype.boolean(),
+                "bannerImg": faker.system.filePath(),
+                "participants" :[],
+                "join": false
             }
-            timeSeriesData.push(users);
+            timeSeriesData.push(challenges);
         }
         collection.insertMany(timeSeriesData);
 
