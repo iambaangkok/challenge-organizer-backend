@@ -6,6 +6,8 @@ export class CreateChallenge {
     challenge_id:string;
     title: string;
     description: string;
+    type: string;
+    format: string;
     participants: [ObjectID];
     numParticipants: number;
     host: ObjectID;
@@ -26,7 +28,7 @@ export class CreateChallenge {
         rewardAbsolute: number,
     }];
     teams: {
-        id: Number;
+        id: number;
         menubar: [ObjectID];
     };
     maxTeams: number;

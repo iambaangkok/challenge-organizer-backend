@@ -1,6 +1,8 @@
 export class EditChallengeDto{
     title: string;
     description: string;
+    type: string;
+    format: string;
     startDate: Date;
     endDate: Date;
     bannerImg: string;

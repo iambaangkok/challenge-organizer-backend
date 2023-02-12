@@ -83,8 +83,8 @@ export class ChallengesService {
         const challenge = await this.findChallenges(challengeTitle);
         const user = await this.userRepository.findOneBy({where: { userId: leaveChallenge.userId}});
         if(challenge){
-            let list = challenge.participants;
-            let userList = user.challenges;
+            const list = challenge.participants;
+            const userList = user.challenges;
             // user part
             if(userList){
                 if(!userList.find((userId) => { return userId === leaveChallenge.userId })){

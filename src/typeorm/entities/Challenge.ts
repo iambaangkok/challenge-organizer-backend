@@ -12,6 +12,10 @@ export class Challenge {
     @Column()
     description: string;
     @Column()
+    type: string;
+    @Column()
+    format: string;
+    @Column()
     participants: [string];
     @Column()
     numParticipants: number;
