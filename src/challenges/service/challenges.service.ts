@@ -16,7 +16,7 @@ export class ChallengesService {
     ) { }
 
 
-    async findAllChallenges(){
+    async findAllChallenges() {
         return await this.challengeRepository.find();
     }
 
@@ -30,7 +30,7 @@ export class ChallengesService {
         if (user.challenges.length == 0) {
             console.log(":)")
             return allChallenges
-        }else{
+        } else {
 
             for (let i = 0; i < allChallenges.length; i++) {
                 for (let j = 0; j < allChallenges[i].participants.length; j++) {
@@ -38,10 +38,10 @@ export class ChallengesService {
                     if (allChallenges[i].participants[j] == (userId.toString())) {
                         allChallenges[i].join = true;
                         // console.log(allChallenges[i])
-                    }else {allChallenges[i].join = false;}
-                    
+                    } else { allChallenges[i].join = false; }
+
                 }
-               await this.challengeRepository.update({challengeTitle: allChallenges[i].challengeTitle},{join: allChallenges[i].join})
+                await this.challengeRepository.update({ challengeTitle: allChallenges[i].challengeTitle }, { join: allChallenges[i].join })
             }
         }
         return allChallenges;
@@ -70,11 +70,37 @@ export class ChallengesService {
     }
 
     async deleteChallenge(challengeTitle: string) {
-        if (await this.findChallenges(challengeTitle)) {
-            return await this.challengeRepository.delete({ challengeTitle: challengeTitle });
+        const challenge = await this.findChallenges(challengeTitle)
+        if (!challenge) {
+            throw new HttpException("There is no challenge to delete", HttpStatus.BAD_REQUEST)
         } else {
-            throw new HttpException("There is no challenge to delete", HttpStatus.BAD_REQUEST);
+            if (challenge.participants.length < 1) {
+                console.log("Delete done")
+                return await this.challengeRepository.delete({ challengeTitle: challengeTitle });
+            } else {
+                for (let i = 0; i < challenge.participants.length; i++) {
+                    const user_id = challenge.participants[i]
+                    const user = await this.userRepository.findOneById(user_id)
+                    if (!user) { continue }
+                    else {
+                        const filter = await user.challenges.filter(e => e !== challengeTitle);
+                        this.userRepository.update({ userId: user.userId }, { challenges: filter })
+                    }
+                }
+                await this.challengeRepository.delete({challengeTitle: challengeTitle})
+                return {
+                    "status": 200,
+                    "message" : "Delete Success"
+                }
+            }
         }
+
+
+        // if (challenge) {
+        //     return await this.challengeRepository.delete({ challengeTitle: challengeTitle });
+        // } else {
+        //     throw new HttpException("There is no challenge to delete", HttpStatus.BAD_REQUEST);
+        // }
     }
 
     async joinChallenge(challengeTitle: string, joinChallenge: JoinLeaveChallengeParams) {
