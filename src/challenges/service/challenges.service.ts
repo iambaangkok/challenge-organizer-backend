@@ -20,11 +20,11 @@ export class ChallengesService {
     }
 
     async findChallenges(challengeTitle: string) {
-        return await this.challengeRepository.findOne({ where: {title: challengeTitle} });
+        return await this.challengeRepository.findOne({ where: {challengeTitle: challengeTitle} });
     }
 
     async createChallenge(challengeDetails : CreateChallengeParams) {
-        const challenge = await this.findChallenges(challengeDetails.title);
+        const challenge = await this.findChallenges(challengeDetails.challengeTitle);
         if(!challenge){
             const newChallenge = this.challengeRepository.create({ ...challengeDetails, timestamp: new Date() });
             return await this.challengeRepository.save(newChallenge);
@@ -35,7 +35,7 @@ export class ChallengesService {
 
     async editChallenge(challengeTitle: string, editChallenge: EditChallengeParams){
         if(await this.findChallenges(challengeTitle)){
-            return await this.challengeRepository.update({ title: challengeTitle }, { ...editChallenge, timestamp: new Date() });
+            return await this.challengeRepository.update({ challengeTitle: challengeTitle }, { ...editChallenge, timestamp: new Date() });
         }else{
             throw new HttpException("There is no challenge to edit", HttpStatus.BAD_REQUEST);
         }
@@ -43,7 +43,7 @@ export class ChallengesService {
 
     async deleteChallenge(challengeTitle: string){
         if(await this.findChallenges(challengeTitle)){
-            return await this.challengeRepository.delete({title: challengeTitle});
+            return await this.challengeRepository.delete({challengeTitle: challengeTitle});
         }else{
             throw new HttpException("There is no challenge to delete", HttpStatus.BAD_REQUEST);
         }
@@ -73,7 +73,7 @@ export class ChallengesService {
                     list.push(joinChallenge.userId);
                 }
             }
-            return await this.challengeRepository.update({ title: challengeTitle }, { participants: list, timestamp: new Date() });
+            return await this.challengeRepository.update({ challengeTitle: challengeTitle }, { participants: list, timestamp: new Date() });
         }else{
             throw new HttpException("There is no challenge to join", HttpStatus.BAD_REQUEST);
         }
@@ -107,7 +107,7 @@ export class ChallengesService {
                     list.splice(index, 1);
                 }
             }
-            return await this.challengeRepository.update({ title: challengeTitle }, { participants: list, timestamp: new Date() });
+            return await this.challengeRepository.update({ challengeTitle: challengeTitle }, { participants: list, timestamp: new Date() });
         }else{
             throw new HttpException("There is no challenge to join", HttpStatus.BAD_REQUEST);
         }

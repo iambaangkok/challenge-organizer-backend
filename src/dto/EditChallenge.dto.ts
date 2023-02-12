@@ -1,12 +1,16 @@
 export class EditChallengeDto{
-    title: string;
-    description: string;
+    challengeId:string;
+    challengeTitle: string;
     type: string;
     format: string;
+    description: string;
     startDate: Date;
     endDate: Date;
-    bannerImg: string;
-    publishedStatus: boolean;
+    numParticipants: number;
     maxParticipants: number;
-    maxTeams: number;
+    rating: number;
+    closed: boolean
+    bannerImg: string;
+    publishedStatus : boolean
+    maxTeams : number
 }

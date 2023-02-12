@@ -25,9 +25,9 @@ constructor(private challengeService: ChallengesService){}
         return this.challengeService.createChallenge(challengeDetails);
     }
 
-    @Put(':title')
-    editChallenges(@Param('title') title: string, @Body() editChallengeDto: EditChallengeDto){
-        return this.challengeService.editChallenge(title, editChallengeDto);
+    @Put(':challengeTitle')
+    editChallenges(@Param('challengeTitle') challengeTitle: string, @Body() editChallengeDto: EditChallengeDto){
+        return this.challengeService.editChallenge(challengeTitle, editChallengeDto);
     }
 
     @Delete(':title')

@@ -1,5 +1,5 @@
 export type CreateChallengeParams = {
-    title: string;
+    challengeTitle: string;
     description: string;
     type: string;
     format: string;
@@ -8,7 +8,7 @@ export type CreateChallengeParams = {
 }
 
 export type EditChallengeParams = {
-    title: string;
+    challengeTitle: string;
     description: string;
     type: string;
     format: string;

@@ -6,9 +6,9 @@ export class Challenge {
     @ObjectIdColumn()
     _id: ObjectID;
     @PrimaryGeneratedColumn({ type: 'bigint' })
-    challenge_id: string;
+    challengeId: string;
     @Column()
-    title: string;
+    challengeTitle: string;
     @Column()
     description: string;
     @Column()
@@ -36,6 +36,8 @@ export class Challenge {
     @Column()
     endDate: Date;
     @Column()
+    closed: boolean
+    @Column()
     file: {
         user: Object,
         path: string;
@@ -61,12 +63,15 @@ export class Challenge {
         name: string;
     };
 
+    // @Column()
+    // rating: {
+    //     rating: number;
+    //     total: number;
+    //     coint_ClinkRating: number;
+    // };
+
     @Column()
-    rating: {
-        rating: number;
-        total: number;
-        coint_ClinkRating: number;
-    };
+    rating : number
 
     @Column()
     participantsGiveScore: {
