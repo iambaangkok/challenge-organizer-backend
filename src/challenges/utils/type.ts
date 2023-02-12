@@ -1,27 +1,25 @@
-import { ObjectID } from "typeorm";
-
 export type CreateChallengeParams = {
-   challengeId: number; 
-    title: string;
+    challengeTitle: string;
     description: string;
+    type: string;
+    format: string;
     startDate: Date;
     endDate: Date;
-
-
-
 }
 
-
 export type EditChallengeParams = {
-
-    title: string;
+    challengeTitle: string;
     description: string;
+    type: string;
+    format: string;
     startDate: Date;
     endDate: Date;
     bannerImg:string;
-    publishedStatus:Boolean;
-    maxParticipants:Number;
-    maxTeams:Number;
+    publishedStatus: boolean;
+    maxParticipants: number;
+    maxTeams: number;
+}
 
-    
+export type JoinLeaveChallengeParams = {
+    userId: string;
 }

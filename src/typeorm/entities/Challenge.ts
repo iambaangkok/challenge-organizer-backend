@@ -1,18 +1,22 @@
 
-import { Column, Entity, ManyToMany, ObjectID, ObjectIdColumn, PrimaryGeneratedColumn } from "typeorm";
-
-
+import { Column, Entity, ObjectID, ObjectIdColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'challenges' })
 export class Challenge {
-    @PrimaryGeneratedColumn()
-    challengeId : number;
+    @ObjectIdColumn()
+    _id: ObjectID;
+    @PrimaryGeneratedColumn({ type: 'bigint' })
+    challengeId: string;
     @Column()
-    title: string;
+    challengeTitle: string;
     @Column()
     description: string;
     @Column()
-    partipation: string;
+    type: string;
+    @Column()
+    format: string;
+    @Column()
+    participants: [string];
     @Column()
     numParticipants: number;
     @Column()
@@ -31,25 +35,26 @@ export class Challenge {
     startDate: Date;
     @Column()
     endDate: Date;
-    ///ที่ comment ไป เพราะต้องเอาไปสร้างความสัมพันธ์ใหม่
-    // @Column()
-    // file: { 
-    //     user: Object,
-    //     path: string;
-    // };
-    // @Column()
-    // reward: [{
-    //     rankMin: number,
-    //     rankMax: number,
-    //     rewardAbsolute: number,
-    // }];
-    // @Column()
-    // teams: {
-    //     team_id: number,
-    //     menubar: [Object];
-    // };
-    // @Column()
-    // maxTeams: number;
+    @Column()
+    closed: boolean
+    @Column()
+    file: {
+        user: Object,
+        path: string;
+    };
+    @Column()
+    rewards: [{
+        rankMin: number,
+        rankMax: number,
+        rewardAbsolute: number,
+    }];
+    @Column()
+    teams: {
+        team_id: number,
+        menubar: [Object];
+    };
+    @Column()
+    maxTeams: number;
 
     // @Column()
     // feedback: {
@@ -64,6 +69,9 @@ export class Challenge {
     //     total: number;
     //     coint_ClinkRating: number;
     // };
+
+    @Column()
+    rating : number
 
     // @Column()
     // participantsGiveScore: {

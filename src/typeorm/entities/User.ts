@@ -22,7 +22,7 @@ export class User {
     cmuAccount: string;
     @Column()
     studentId: string;
-    @Column({default:0})
+    @Column()
     rating: string;
     @Column()
     timeStamp: Date;
@@ -49,7 +49,3 @@ export class User {
 
 
 }
-
-
-
-

@@ -2,20 +2,25 @@ import { ObjectID } from "typeorm";
 
 
 
-export class CreateChallengeDto {
-    challengeId:number;
-    title: string;
+export class CreateChallenge {
+    challengeId:string;
+    challengeTitle: string;
+    type: string;
+    format: string;
     description: string;
-    participants: [ObjectID];
+    startDate: Date;
+    endDate: Date;
     numParticipants: number;
-    host: ObjectID;
-    bannerImg: string;
     maxParticipants: number;
+    rating: number;
+    closed: boolean
+    bannerImg: string;
+
+    participants: [ObjectID];
+    host: ObjectID;
     banUser: [ObjectID];
     publishedStatus: boolean;
     timeStamp: Date;
-    startDate: Date;
-    endDate: Date;
     file: {
         user: ObjectID;
         path: string;
@@ -26,7 +31,7 @@ export class CreateChallengeDto {
         rewardAbsolute: number,
     }];
     teams: {
-        id: Number;
+        id: number;
         menubar: [ObjectID];
     };
     maxTeams: number;
@@ -35,11 +40,11 @@ export class CreateChallengeDto {
         text: string;
         name: string;
     };
-    rating:{
-        rating: number;
-        total: number;
-        coint_ClinkRating: number;
-    };
+    // rating:{
+    //     rating: number;
+    //     total: number;
+    //     coint_ClinkRating: number;
+    // };
     participantsGiveScore: {
         user_Id: ObjectID;
         score: number;

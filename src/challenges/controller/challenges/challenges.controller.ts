@@ -1,24 +1,47 @@
-import { Controller ,Get ,Post,Delete,Put,Body} from '@nestjs/common';
-
+import { Body, Controller ,Delete,Get, Param, Post, Put} from '@nestjs/common';
 import { ChallengesService } from 'src/challenges/service/challenges.service';
-import { CreateChallengeDto } from 'src/dto/CreateChalleng.dto';
+import { CreateChallenge } from 'src/dto/CreateChalleng.dto';
+// import { CreateChallengeParams } from 'src/challenges/utils/type';
+import { EditChallengeDto } from 'src/dto/EditChallenge.dto';
+import { JoinLeaveChallengeDto } from 'src/dto/JoinLeaveChallenge.dto';
 
-@Controller('challenges')
+@Controller('api/challenges')
 export class ChallengesController {
-
-
 
 constructor(private challengeService: ChallengesService){}
 
-
     @Get()
-    getChallenges(){
-        return this.challengeService.findeChallenges();
+    getAllChallenges(){
+        return this.challengeService.findeAllChallenges();
+    }
+
+    @Get(':title')
+    getChallenges(@Param('title') title: string){
+        return this.challengeService.findChallenges(title);
+    }
+
+    @Post()
+    creatChallenges(@Body() challengeDetails: CreateChallenge){
+        return this.challengeService.createChallenge(challengeDetails);
+    }
+
+    @Put(':challengeTitle')
+    editChallenges(@Param('challengeTitle') challengeTitle: string, @Body() editChallengeDto: EditChallengeDto){
+        return this.challengeService.editChallenge(challengeTitle, editChallengeDto);
+    }
+
+    @Delete(':title')
+    deleteChallenges(@Param('title') title: string){
+        return this.challengeService.deleteChallenge(title);
+    }
+
+    @Put('/join/:title')
+    joinChallenges(@Param('title') title: string, @Body() joinChallengeDto: JoinLeaveChallengeDto){
+        return this.challengeService.joinChallenge(title, joinChallengeDto);
     }
     
-    @Post()
-    async createChallenge(@Body() createChallengeDetails : CreateChallengeDto ){
-        return await this.challengeService.createChallenge(createChallengeDetails)
+    @Put('/leave/:title')
+    leaveChallenges(@Param('title') title: string, @Body() leaveChallengeDto: JoinLeaveChallengeDto){
+        return this.challengeService.leaveChallenge(title, leaveChallengeDto);
     }
-        
 }
