@@ -15,7 +15,13 @@ export class ChallengesService {
         , @InjectRepository(User) private userRepository: MongoRepository<User>
     ) { }
 
-    async findeAllChallenges(displayname: string) {
+
+    async findAllChallenges(){
+        return await this.challengeRepository.find();
+    }
+
+
+    async findeAllChallengesByDisplayName(displayname: string) {
         const user = await this.userRepository.findOneBy({ displayName: displayname })
         const userId = user.userId
         console.log(userId.toString())
