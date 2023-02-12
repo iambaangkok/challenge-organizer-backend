@@ -84,13 +84,14 @@ export class ChallengesService {
                     if (!user) { continue }
                     else {
                         const filter = await user.challenges.filter(e => e !== challengeTitle);
+                        console.log(filter);
                         this.userRepository.update({ userId: user.userId }, { challenges: filter })
                     }
                 }
                 await this.challengeRepository.delete({challengeTitle: challengeTitle})
                 return {
                     "status": 200,
-                    "message" : "Delete Success"
+                    "message" : `Delete ${challengeTitle}Success`
                 }
             }
         }
