@@ -10,9 +10,9 @@ export class ChallengesController {
 
 constructor(private challengeService: ChallengesService){}
 
-    @Get()
-    getAllChallenges(){
-        return this.challengeService.findeAllChallenges();
+    @Get(':displayName')
+    getAllChallenges(@Param('displayName') displayName:string){
+        return this.challengeService.findeAllChallenges(displayName);
     }
 
     @Get(':title')
@@ -44,4 +44,6 @@ constructor(private challengeService: ChallengesService){}
     leaveChallenges(@Param('title') title: string, @Body() leaveChallengeDto: JoinLeaveChallengeDto){
         return this.challengeService.leaveChallenge(title, leaveChallengeDto);
     }
+
+
 }

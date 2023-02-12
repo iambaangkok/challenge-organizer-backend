@@ -81,6 +81,8 @@ export class Challenge {
 
     // @Column()
     schema_v: string;
+    @Column()
+    join : boolean;
 
 
     // @ManyToMany(()=>)

@@ -12,103 +12,128 @@ export class ChallengesService {
 
     constructor(
         @InjectRepository(Challenge) private challengeRepository: MongoRepository<Challenge>
-        ,@InjectRepository(User) private userRepository: MongoRepository<User>
+        , @InjectRepository(User) private userRepository: MongoRepository<User>
     ) { }
 
-    async findeAllChallenges() {
-        return await this.challengeRepository.find();
+    async findeAllChallenges(displayname: string) {
+        const user = await this.userRepository.findOneBy({ displayName: displayname })
+        const userId = user.userId
+        console.log(userId.toString())
+        const allChallenges = await this.challengeRepository.find();
+        console.log(allChallenges[0].participants.length)
+        if (user.challenges.length == 0) {
+            console.log(":)")
+            return allChallenges
+        }else{
+
+            for (let i = 0; i < allChallenges.length; i++) {
+                for (let j = 0; j < allChallenges[i].participants.length; j++) {
+                    console.log(allChallenges[i].participants[j])
+                    if (allChallenges[i].participants[j] == (userId.toString())) {
+                        allChallenges[i].join = true;
+                        // console.log(allChallenges[i])
+                    }else {allChallenges[i].join = false;}
+                    
+                }
+               await this.challengeRepository.update({challengeTitle: allChallenges[i].challengeTitle},{join: allChallenges[i].join})
+            }
+        }
+        return allChallenges;
     }
 
     async findChallenges(challengeTitle: string) {
-        return await this.challengeRepository.findOne({ where: {challengeTitle: challengeTitle} });
+        return await this.challengeRepository.findOne({ where: { challengeTitle: challengeTitle } });
     }
 
-    async createChallenge(challengeDetails : CreateChallengeParams) {
+    async createChallenge(challengeDetails: CreateChallengeParams) {
         const challenge = await this.findChallenges(challengeDetails.challengeTitle);
-        if(!challenge){
-            const newChallenge = this.challengeRepository.create({ ...challengeDetails, timestamp: new Date() });
+        if (!challenge) {
+            const newChallenge = this.challengeRepository.create({ ...challengeDetails, timeStamp: new Date() });
             return await this.challengeRepository.save(newChallenge);
-        }else{
+        } else {
             throw new HttpException("Cannot create, This title has been used", HttpStatus.BAD_REQUEST);
         }
     }
 
-    async editChallenge(challengeTitle: string, editChallenge: EditChallengeParams){
-        if(await this.findChallenges(challengeTitle)){
-            return await this.challengeRepository.update({ challengeTitle: challengeTitle }, { ...editChallenge, timestamp: new Date() });
-        }else{
+    async editChallenge(challengeTitle: string, editChallenge: EditChallengeParams) {
+        if (await this.findChallenges(challengeTitle)) {
+            return await this.challengeRepository.update({ challengeTitle: challengeTitle }, { ...editChallenge, timeStamp: new Date() });
+        } else {
             throw new HttpException("There is no challenge to edit", HttpStatus.BAD_REQUEST);
         }
-    }   
+    }
 
-    async deleteChallenge(challengeTitle: string){
-        if(await this.findChallenges(challengeTitle)){
-            return await this.challengeRepository.delete({challengeTitle: challengeTitle});
-        }else{
+    async deleteChallenge(challengeTitle: string) {
+        if (await this.findChallenges(challengeTitle)) {
+            return await this.challengeRepository.delete({ challengeTitle: challengeTitle });
+        } else {
             throw new HttpException("There is no challenge to delete", HttpStatus.BAD_REQUEST);
         }
     }
 
-    async joinChallenge(challengeTitle: string, joinChallenge: JoinLeaveChallengeParams){
+    async joinChallenge(challengeTitle: string, joinChallenge: JoinLeaveChallengeParams) {
         const challenge = await this.findChallenges(challengeTitle);
-        const user = await this.userRepository.findOneBy({where: { userId: joinChallenge.userId}});
-        if(challenge){
+        console.log(challenge)
+        const user = await this.userRepository.findOneById(joinChallenge.userId);
+        console.log(user)
+        if (challenge) {
             let list = challenge.participants;
             let userList = user.challenges;
             // user part
-            if(!userList){
+            if (!userList) {
                 userList = [challengeTitle];
-            }else{
+            } else {
                 userList.push(challengeTitle);
             }
-            await this.userRepository.update({ userId: user.userId }, {challenges: userList});
+            await this.userRepository.update({ userId: user.userId }, { challenges: userList });
 
             // challenge part
-            if(!list){
+            if (!list) {
                 list = [joinChallenge.userId];
-            }else{
-                if(list.find((userId) => { return userId === joinChallenge.userId})){
+            } else {
+                if (list.find((userId) => { return userId === joinChallenge.userId })) {
                     throw new HttpException("This user is already join this challenge", HttpStatus.BAD_REQUEST);
-                }else{
+                } else {
                     list.push(joinChallenge.userId);
                 }
             }
-            return await this.challengeRepository.update({ challengeTitle: challengeTitle }, { participants: list, timestamp: new Date() });
-        }else{
+            await this.challengeRepository.update({ challengeTitle: challengeTitle }, { participants: list, timeStamp: new Date() })
+            return { "status": "Joined Done ;) " };
+        } else {
             throw new HttpException("There is no challenge to join", HttpStatus.BAD_REQUEST);
         }
     }
 
-    async leaveChallenge(challengeTitle: string, leaveChallenge: JoinLeaveChallengeParams){
+    async leaveChallenge(challengeTitle: string, leaveChallenge: JoinLeaveChallengeParams) {
         const challenge = await this.findChallenges(challengeTitle);
-        const user = await this.userRepository.findOneBy({where: { userId: leaveChallenge.userId}});
-        if(challenge){
+        const user = await this.userRepository.findOneBy({ where: { userId: leaveChallenge.userId } });
+        if (challenge) {
             const list = challenge.participants;
             const userList = user.challenges;
             // user part
-            if(userList){
-                if(!userList.find((userId) => { return userId === leaveChallenge.userId })){
+            if (userList) {
+                if (!userList.find((userId) => { return userId === leaveChallenge.userId })) {
                     throw new HttpException("This user doesn't join this challenge yet", HttpStatus.BAD_REQUEST);
-                }else{
-                    const index = userList.findIndex((userId) => { return userId === leaveChallenge.userId});
+                } else {
+                    const index = userList.findIndex((userId) => { return userId === leaveChallenge.userId });
                     userList.splice(index, 1);
-                    await this.userRepository.update({ userId: user.userId }, {challenges: userList});
+                    await this.userRepository.update({ userId: user.userId }, { challenges: userList });
                 }
             }
 
             // challenge part
-            if(!list){
+            if (!list) {
                 throw new HttpException("This user doesn't join this challenge yet", HttpStatus.BAD_REQUEST);
-            }else{
-                if(!list.find((userId) => { return userId === leaveChallenge.userId})){
+            } else {
+                if (!list.find((userId) => { return userId === leaveChallenge.userId })) {
                     throw new HttpException("This user doesn't join this challenge yet", HttpStatus.BAD_REQUEST);
-                }else{
-                    const index = list.findIndex((userId) => { return userId === leaveChallenge.userId});
+                } else {
+                    const index = list.findIndex((userId) => { return userId === leaveChallenge.userId });
                     list.splice(index, 1);
                 }
             }
-            return await this.challengeRepository.update({ challengeTitle: challengeTitle }, { participants: list, timestamp: new Date() });
-        }else{
+            return await this.challengeRepository.update({ challengeTitle: challengeTitle }, { participants: list, timeStamp: new Date() });
+        } else {
             throw new HttpException("There is no challenge to join", HttpStatus.BAD_REQUEST);
         }
     }
