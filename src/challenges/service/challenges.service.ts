@@ -63,7 +63,8 @@ export class ChallengesService {
         const challenge = await this.findChallenges(challengeDetails.challengeTitle);
         if (!challenge) {
             const newChallenge = this.challengeRepository.create({ ...challengeDetails, timeStamp: new Date() });
-            return await this.challengeRepository.save(newChallenge);
+            await this.challengeRepository.save(newChallenge);
+            return {"challengeId": newChallenge.challengeId};
         } else {
             throw new HttpException("Cannot create, This title has been used", HttpStatus.BAD_REQUEST);
         }

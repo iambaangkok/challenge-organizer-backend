@@ -20,7 +20,7 @@ export class Challenge {
     @Column()
     numParticipants: number;
     @Column()
-    host: Object;
+    host: string;
     @Column()
     banckImg: string;
     @Column()
