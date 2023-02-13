@@ -4,9 +4,9 @@ import { Column, Entity, ObjectID, ObjectIdColumn, PrimaryGeneratedColumn } from
 @Entity({ name: 'challenges' })
 export class Challenge {
     @ObjectIdColumn()
-    _id: ObjectID;
-    @PrimaryGeneratedColumn({ type: 'bigint' })
-    challengeId: string;
+    challengeId: ObjectID;
+    // @PrimaryGeneratedColumn({ type: 'bigint' })
+    // challengeId: string;
     @Column()
     challengeTitle: string;
     @Column()

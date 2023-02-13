@@ -17,7 +17,15 @@ export class ChallengesService {
 
 
     async findAllChallenges() {
-        return await this.challengeRepository.find();
+        const challenges = await this.challengeRepository.find()
+        for( let i = 0; i < challenges.length; i++ ){
+            const joinTrue = challenges[i].join == true
+            if(joinTrue){
+                challenges[i].join = false
+                await this.challengeRepository.update({challengeTitle:challenges[i].challengeTitle},{join :challenges[i].join})
+            }
+        }
+        return challenges;
     }
 
 
@@ -139,10 +147,12 @@ export class ChallengesService {
 
     async leaveChallenge(challengeTitle: string, leaveChallenge: JoinLeaveChallengeParams) {
         const challenge = await this.findChallenges(challengeTitle);
-        const user = await this.userRepository.findOneBy({ where: { userId: leaveChallenge.userId } });
+        const user = await this.userRepository.findOneById( leaveChallenge.userId);
+        console.log(user)
         if (challenge) {
             const list = challenge.participants;
             const userList = user.challenges;
+            console.log(userList);
             // user part
             if (userList) {
                 if (!userList.find((userId) => { return userId === leaveChallenge.userId })) {
