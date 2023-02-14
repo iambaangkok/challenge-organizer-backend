@@ -67,7 +67,7 @@ export class UsersService {
                 challenges: [],
             })
             console.log(newUser)
-            return this.userRepository.save(newUser), { "displayName": newUser.displayName }
+            return this.userRepository.save(newUser) , {displayName:newUser.displayName}
         } else {
             // throw new HttpException("user already exist", HttpStatus.OK) 
             return {

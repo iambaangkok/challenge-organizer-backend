@@ -5,6 +5,8 @@ export type CreateChallengeParams = {
     format: string;
     startDate: Date;
     endDate: Date;
+    maxParticipants : number
+    numParticipants : number
 }
 
 export type EditChallengeParams = {
