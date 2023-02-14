@@ -62,7 +62,12 @@ export class ChallengesService {
     async createChallenge(challengeDetails: CreateChallengeParams) {
         const challenge = await this.findChallenges(challengeDetails.challengeTitle);
         if (!challenge) {
-            const newChallenge = this.challengeRepository.create({ ...challengeDetails, timeStamp: new Date() });
+            const newChallenge = this.challengeRepository.create({ 
+                ...challengeDetails, 
+                timeStamp: new Date(),
+                participants:[],
+                join: false,
+            });
             await this.challengeRepository.save(newChallenge);
             return {"challengeId": newChallenge.challengeId};
         } else {
