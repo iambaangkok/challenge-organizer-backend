@@ -1,7 +1,7 @@
 import { ObjectID } from 'typeorm';
 
 export type CreateUserParams = {
-    fristName: string;
+    firstName: string;
     lastName: string;
 
     cmuAccount: string;
