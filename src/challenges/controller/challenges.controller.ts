@@ -17,57 +17,71 @@ import { JoinLeaveChallengeDto } from '../../dto/JoinLeaveChallenge.dto';
 export class ChallengesController {
     constructor(private challengeService: ChallengesService) {}
 
-    @Get()
+    @Get('/')
     getAllChallenges() {
+        console.log(`GET /`);
         return this.challengeService.findAllChallenges();
     }
 
-    @Get(':displayName')
+    @Get('/:displayName')
     getAllChallengesByDisplayName(@Param('displayName') displayName: string) {
+        console.log(`GET /${displayName}`);
         return this.challengeService.findeAllChallengesByDisplayName(
             displayName,
         );
     }
 
-    @Get(':title')
-    getChallenges(@Param('title') title: string) {
-        return this.challengeService.findChallenges(title);
+    @Get('/:challengeTitle')
+    getChallenges(@Param('challengeTitle') challengeTitle: string) {
+        console.log(`GET /${challengeTitle}`);
+        return this.challengeService.findChallenges(challengeTitle);
     }
 
     @Post()
     creatChallenges(@Body() challengeDetails: CreateChallenge) {
+        console.log(`/`);
         return this.challengeService.createChallenge(challengeDetails);
     }
 
-    @Put(':challengeTitle')
+    @Put('/:challengeTitle')
     editChallenges(
         @Param('challengeTitle') challengeTitle: string,
         @Body() editChallengeDto: EditChallengeDto,
     ) {
+        console.log(`PUT /${challengeTitle}`);
         return this.challengeService.editChallenge(
             challengeTitle,
             editChallengeDto,
         );
     }
 
-    @Delete(':title')
-    deleteChallenges(@Param('title') title: string) {
-        return this.challengeService.deleteChallenge(title);
+    @Delete('/:challengeTitle')
+    deleteChallenges(@Param('challengeTitle') challengeTitle: string) {
+        console.log(`DELETE /${challengeTitle}`);
+        return this.challengeService.deleteChallenge(challengeTitle);
     }
 
-    @Put('/join/:title')
+    @Put('/:challengeTitle/join')
     joinChallenges(
-        @Param('title') title: string,
+        @Param('challengeTitle') challengeTitle: string,
         @Body() joinChallengeDto: JoinLeaveChallengeDto,
     ) {
-        return this.challengeService.joinChallenge(title, joinChallengeDto);
+        console.log(`PUT /${challengeTitle}/join`);
+        return this.challengeService.joinChallenge(
+            challengeTitle,
+            joinChallengeDto,
+        );
     }
 
-    @Put('/leave/:title')
+    @Put('/:challengeTitle/leave')
     leaveChallenges(
-        @Param('title') title: string,
+        @Param('challengeTitle') challengeTitle: string,
         @Body() leaveChallengeDto: JoinLeaveChallengeDto,
     ) {
-        return this.challengeService.leaveChallenge(title, leaveChallengeDto);
+        console.log(`PUT /${challengeTitle}/leave`);
+        return this.challengeService.leaveChallenge(
+            challengeTitle,
+            leaveChallengeDto,
+        );
     }
 }

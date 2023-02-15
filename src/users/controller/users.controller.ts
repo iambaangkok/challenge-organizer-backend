@@ -26,14 +26,15 @@ export class UsersController {
     //     return await this.userService.findByUserId(user_id)
     // }
 
-    @Get(':displayName')
+    @Get('/:displayName')
     viewUserByUsername(@Param('displayName') displayName: string) {
-        console.log(displayName);
+        console.log(`GET /${displayName}`);
         return this.userService.findBydisplayName(displayName);
     }
 
     @Get('/studentId/:studentId')
     async viewUserByStudentId(@Param('studentId') studentId: string) {
+        console.log(`GET /studentId/${studentId}`);
         return await this.userService.findUserByStudentId(studentId);
     }
 
@@ -45,20 +46,22 @@ export class UsersController {
 
     @Post('userProfiles')
     createUserProfile(@Body() createUserProfileDto: CreateUserProfileDto) {
+        console.log('POST userProfiles');
         return this.userService.createUserProfile(createUserProfileDto);
     }
 
-    @Put(':displayName')
+    @Put('/:displayName')
     updateUser(
         @Param('displayName') displayName: string,
         @Body() updateUserDto: UpdateUserDto,
     ) {
-        console.log(displayName);
+        console.log(`POST /${displayName}`);
         return this.userService.updateUser(displayName, updateUserDto);
     }
 
-    @Delete(':displayName')
+    @Delete('/:displayName')
     async deleteUser(@Param('displayName') displayName: string) {
+        console.log(`DELETE /${displayName}`);
         return await this.userService.deleteUser(displayName);
     }
 }
