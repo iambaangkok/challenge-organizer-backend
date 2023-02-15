@@ -51,7 +51,6 @@ export class ChallengesService {
                     console.log(allChallenges[i].participants[j]);
                     if (allChallenges[i].participants[j] == userId.toString()) {
                         allChallenges[i].join = true;
-                        // console.log(allChallenges[i])
                     } else {
                         allChallenges[i].join = false;
                     }
@@ -86,7 +85,7 @@ export class ChallengesService {
             return { challengeId: newChallenge.challengeId };
         } else {
             throw new HttpException(
-                'Cannot create, This title has been used',
+                'Creation failed. Challenge title already existed',
                 HttpStatus.BAD_REQUEST,
             );
         }
@@ -103,7 +102,7 @@ export class ChallengesService {
             );
         } else {
             throw new HttpException(
-                'There is no challenge to edit',
+                'Challenge does not exist',
                 HttpStatus.BAD_REQUEST,
             );
         }
@@ -113,15 +112,16 @@ export class ChallengesService {
         const challenge = await this.findChallenges(challengeTitle);
         if (!challenge) {
             throw new HttpException(
-                'There is no challenge to delete',
+                'Challenge does not exist',
                 HttpStatus.BAD_REQUEST,
             );
         } else {
             if (challenge.participants.length < 1) {
-                console.log('Delete done');
-                return await this.challengeRepository.delete({
+                const deletedChallenge = await this.challengeRepository.delete({
                     challengeTitle: challengeTitle,
                 });
+                console.log(`Deleted challenge: ${challengeTitle}`);
+                return deletedChallenge;
             } else {
                 for (let i = 0; i < challenge.participants.length; i++) {
                     const user_id = challenge.participants[i];
@@ -144,7 +144,7 @@ export class ChallengesService {
                 });
                 return {
                     status: 200,
-                    message: `Delete ${challengeTitle}Success`,
+                    message: `Successfully delete challenge: ${challengeTitle}`,
                 };
             }
         }

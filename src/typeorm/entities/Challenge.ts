@@ -1,9 +1,4 @@
-import {
-    Column,
-    Entity,
-    ObjectID,
-    ObjectIdColumn,
-} from 'typeorm';
+import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 
 @Entity({ name: 'challenges' })
 export class Challenge {

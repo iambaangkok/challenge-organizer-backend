@@ -3,7 +3,7 @@ import { ObjectIdColumn } from 'typeorm/decorator/columns/ObjectIdColumn';
 import { ObjectID } from 'typeorm/driver/mongodb/typings';
 import { Document } from 'mongoose';
 
-export interface UserDocument extends Document{
+export interface UserDocument extends Document {
     userId: ObjectID;
     displayName: string;
     firstName: string;
@@ -24,7 +24,7 @@ export interface UserDocument extends Document{
 }
 
 @Entity({ name: 'users' })
-export class User  {
+export class User {
     @ObjectIdColumn()
     userId: ObjectID;
     @Column()

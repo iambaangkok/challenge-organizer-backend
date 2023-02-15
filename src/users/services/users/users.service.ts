@@ -20,10 +20,10 @@ export class UsersService {
         private profileRepository: MongoRepository<Profile>,
     ) {}
 
-    public async findUserinDataBase(user: Object) {
+    public async findUserinDataBase(user: object) {
         if (!user) {
             throw new HttpException(
-                'Not Found user pls new your request',
+                'User does not exist',
                 HttpStatus.NOT_FOUND,
             );
         } else {
@@ -81,7 +81,7 @@ export class UsersService {
             return {
                 displayName: user.displayName,
                 statusCode: 200,
-                message: 'user already exist',
+                message: 'User already existed',
             };
         }
     }
@@ -111,7 +111,7 @@ export class UsersService {
         console.log(user);
         if (!user) {
             throw new HttpException(
-                'ไม่เจอ user ที่จะอัพเดต',
+                'User does not exist',
                 HttpStatus.BAD_REQUEST,
             );
         } else {
@@ -132,13 +132,13 @@ export class UsersService {
         });
         if (!user) {
             throw new HttpException(
-                'ไม่มี user นี้ให้ลบ',
+                'User does not exist',
                 HttpStatus.BAD_REQUEST,
             );
         } else {
-            console.log('delete user complet');
             const profile = user.profile;
-            const deleteProfile = await this.profileRepository.delete(profile);
+            await this.profileRepository.delete(profile);
+            console.log('Successfully deleted user');
             return await this.userRepository.delete({
                 displayName: displayName,
             });
