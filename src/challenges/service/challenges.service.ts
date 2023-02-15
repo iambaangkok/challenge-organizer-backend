@@ -38,9 +38,12 @@ export class ChallengesService {
         const user = await this.userRepository.findOneBy({
             displayName: displayname,
         });
+        const allChallenges = await this.challengeRepository.find();
+        if (user == null) {
+            return allChallenges;
+        }
         const userId = user.userId;
         console.log(userId.toString());
-        const allChallenges = await this.challengeRepository.find();
         console.log(allChallenges[0].participants.length);
         if (user.challenges.length == 0) {
             console.log(':)');
@@ -86,7 +89,7 @@ export class ChallengesService {
         } else {
             throw new HttpException(
                 'Creation failed. Challenge title already existed',
-                HttpStatus.BAD_REQUEST,
+                HttpStatus.NOT_FOUND,
             );
         }
     }
@@ -103,7 +106,7 @@ export class ChallengesService {
         } else {
             throw new HttpException(
                 'Challenge does not exist',
-                HttpStatus.BAD_REQUEST,
+                HttpStatus.NOT_FOUND,
             );
         }
     }
@@ -113,7 +116,7 @@ export class ChallengesService {
         if (!challenge) {
             throw new HttpException(
                 'Challenge does not exist',
-                HttpStatus.BAD_REQUEST,
+                HttpStatus.NOT_FOUND,
             );
         } else {
             if (challenge.participants.length < 1) {
@@ -161,51 +164,61 @@ export class ChallengesService {
         joinChallenge: JoinLeaveChallengeParams,
     ) {
         const challenge = await this.findChallenges(challengeTitle);
+
         console.log(challenge);
-        const user = await this.userRepository.findOneById(
-            joinChallenge.userId,
-        );
+        const user = await this.userRepository.findOneBy({
+            displayName: joinChallenge.displayName,
+        });
+        if (user == null) {
+            throw new HttpException(
+                'User does not exist',
+                HttpStatus.NOT_FOUND,
+            );
+        }
         console.log(user);
         if (challenge) {
-            let list = challenge.participants;
-            let userList = user.challenges;
+            let userList = challenge.participants;
+            let challengeList = user.challenges;
             // user part
-            if (!userList) {
-                userList = [challengeTitle];
+            if (!challengeList) {
+                challengeList = [challengeTitle];
             } else {
-                userList.push(challengeTitle);
+                challengeList.push(challengeTitle);
             }
             await this.userRepository.update(
-                { userId: user.userId },
-                { challenges: userList },
+                { displayName: user.displayName },
+                { challenges: challengeList },
             );
 
             // challenge part
-            if (!list) {
-                list = [joinChallenge.userId];
+            if (!userList) {
+                userList = [joinChallenge.displayName];
             } else {
                 if (
-                    list.find((userId) => {
-                        return userId === joinChallenge.userId;
+                    userList.find((displayName_i) => {
+                        return displayName_i === joinChallenge.displayName;
                     })
                 ) {
                     throw new HttpException(
-                        'This user is already join this challenge',
-                        HttpStatus.BAD_REQUEST,
+                        'User is not a participant in this challenge',
+                        HttpStatus.NOT_MODIFIED,
                     );
                 } else {
-                    list.push(joinChallenge.userId);
+                    userList.push(joinChallenge.displayName);
                 }
             }
             await this.challengeRepository.update(
                 { challengeTitle: challengeTitle },
-                { participants: list, timeStamp: new Date() },
+                { participants: userList, timeStamp: new Date() },
             );
-            return { status: 'Joined Done ;) ' };
+            return {
+                status: 200,
+                message: `Successfully joined challenge: ${challengeTitle}`,
+            };
         } else {
             throw new HttpException(
-                'There is no challenge to join',
-                HttpStatus.BAD_REQUEST,
+                'Challenge does not exist',
+                HttpStatus.NOT_FOUND,
             );
         }
     }
@@ -215,68 +228,84 @@ export class ChallengesService {
         leaveChallenge: JoinLeaveChallengeParams,
     ) {
         const challenge = await this.findChallenges(challengeTitle);
-        const user = await this.userRepository.findOneById(
-            leaveChallenge.userId,
-        );
+
+        const user = await this.userRepository.findOneBy({
+            displayName: leaveChallenge.displayName,
+        });
+        if (user == null) {
+            throw new HttpException(
+                'User does not exist',
+                HttpStatus.NOT_FOUND,
+            );
+        }
         console.log(user);
         if (challenge) {
-            const list = challenge.participants;
-            const userList = user.challenges;
-            console.log(userList);
+            const userList = challenge.participants;
+            const challengeList = user.challenges;
+            console.log(challengeList);
             // user part
-            if (userList) {
+            if (challengeList) {
                 if (
-                    !userList.find((userId) => {
-                        return userId === leaveChallenge.userId;
+                    !challengeList.find((challenge_i) => {
+                        return challenge_i === challenge.challengeTitle;
                     })
                 ) {
                     throw new HttpException(
-                        "This user doesn't join this challenge yet",
-                        HttpStatus.BAD_REQUEST,
+                        'User is not a participant in this challenge',
+                        HttpStatus.NOT_MODIFIED,
                     );
                 } else {
-                    const index = userList.findIndex((userId) => {
-                        return userId === leaveChallenge.userId;
+                    const index = challengeList.findIndex((challenge_i) => {
+                        return challenge_i === challenge.challengeTitle;
                     });
-                    userList.splice(index, 1);
+                    challengeList.splice(index, 1);
                     await this.userRepository.update(
-                        { userId: user.userId },
-                        { challenges: userList },
+                        { displayName: user.displayName },
+                        { challenges: challengeList },
                     );
                 }
+            } else {
+                throw new HttpException(
+                    'User is not a participant in this challenge',
+                    HttpStatus.NOT_MODIFIED,
+                );
             }
 
             // challenge part
-            if (!list) {
+            if (!userList) {
                 throw new HttpException(
-                    "This user doesn't join this challenge yet",
-                    HttpStatus.BAD_REQUEST,
+                    'User is not a participant in this challenge',
+                    HttpStatus.NOT_MODIFIED,
                 );
             } else {
                 if (
-                    !list.find((userId) => {
-                        return userId === leaveChallenge.userId;
+                    !userList.find((displayName_i) => {
+                        return displayName_i === leaveChallenge.displayName;
                     })
                 ) {
                     throw new HttpException(
-                        "This user doesn't join this challenge yet",
-                        HttpStatus.BAD_REQUEST,
+                        'User is not a participant in this challenge',
+                        HttpStatus.NOT_MODIFIED,
                     );
                 } else {
-                    const index = list.findIndex((userId) => {
-                        return userId === leaveChallenge.userId;
+                    const index = userList.findIndex((displayName_i) => {
+                        return displayName_i === leaveChallenge.displayName;
                     });
-                    list.splice(index, 1);
+                    userList.splice(index, 1);
                 }
             }
-            return await this.challengeRepository.update(
+            await this.challengeRepository.update(
                 { challengeTitle: challengeTitle },
-                { participants: list, timeStamp: new Date() },
+                { participants: userList, timeStamp: new Date() },
             );
+            return {
+                status: 200,
+                message: `Successfully left challenge: ${challengeTitle}`,
+            };
         } else {
             throw new HttpException(
-                'There is no challenge to join',
-                HttpStatus.BAD_REQUEST,
+                'Challenge does not exist',
+                HttpStatus.NOT_FOUND,
             );
         }
     }

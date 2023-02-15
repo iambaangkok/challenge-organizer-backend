@@ -1,3 +1,3 @@
 export class JoinLeaveChallengeDto {
-    userId: string;
+    displayName: string;
 }

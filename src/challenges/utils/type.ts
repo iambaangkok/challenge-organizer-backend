@@ -23,5 +23,5 @@ export type EditChallengeParams = {
 };
 
 export type JoinLeaveChallengeParams = {
-    userId: string;
+    displayName: string;
 };
