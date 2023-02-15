@@ -10,7 +10,7 @@ import {
 import { CreateUserDto } from 'src/dto/CreateUser.dto';
 import { CreateUserProfileDto } from 'src/dto/CreateUserprofile';
 import { UpdateUserDto } from 'src/dto/Updateuser';
-import { UsersService } from 'src/users/services/users/users.service';
+import { UsersService } from 'src/users/services/users.service';
 
 @Controller('api/users')
 export class UsersController {
