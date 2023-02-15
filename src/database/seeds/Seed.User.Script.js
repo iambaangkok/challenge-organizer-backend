@@ -1,8 +1,6 @@
-/* mySeedScript.js */
-
 // require the necessary libraries
-const faker = require('faker');
-const MongoClient = require('mongodb').MongoClient;
+import faker from 'faker';
+import { MongoClient } from 'mongodb';
 
 async function seedDB() {
     const uri =

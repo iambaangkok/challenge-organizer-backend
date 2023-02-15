@@ -1,5 +1,3 @@
-/* mySeedScript.js */
-
 // require the necessary libraries
 import faker from 'faker';
 import { MongoClient } from 'mongodb';
