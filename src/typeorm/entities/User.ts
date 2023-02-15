@@ -1,27 +1,6 @@
 import { Column, Entity } from 'typeorm';
 import { ObjectIdColumn } from 'typeorm/decorator/columns/ObjectIdColumn';
 import { ObjectID } from 'typeorm/driver/mongodb/typings';
-import { Document } from 'mongoose';
-
-export interface UserDocument extends Document {
-    userId: ObjectID;
-    displayName: string;
-    firstName: string;
-    lastName: string;
-    cmuAccount: string;
-    studentId: string;
-    rating: string;
-    timeStamp: Date;
-    inventory: string[];
-    coin: string;
-    profileImg: string;
-    equipmentFrame: string;
-    banStatus: boolean;
-    tasks: string;
-    isAdmin: boolean;
-    profile: object;
-    challenges: string[];
-}
 
 @Entity({ name: 'users' })
 export class User {

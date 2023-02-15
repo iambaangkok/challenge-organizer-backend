@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Challenge } from 'src/typeorm/entities/Challenge';
+import { Challenge } from '../../typeorm/entities/Challenge';
 import { MongoRepository } from 'typeorm';
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
@@ -9,7 +9,7 @@ import {
     EditChallengeParams,
     JoinLeaveChallengeParams,
 } from '../utils/type';
-import { User } from 'src/typeorm/entities/User';
+import { User } from '../../typeorm/entities/User';
 
 @Injectable()
 export class ChallengesService {

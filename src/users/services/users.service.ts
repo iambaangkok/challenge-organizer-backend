@@ -1,21 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/typeorm/entities/User';
+import { User } from '../../typeorm/entities/User';
 import {
     CreateUserParams,
     CreateUserProfileParams,
     UpdateUserParams,
-} from 'src/users/utils/type';
+} from '../utils/type';
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
 import { ObjectID } from 'typeorm/driver/mongodb/typings';
-import { Profile } from 'src/typeorm/entities/Profile';
+import { Profile } from '../../typeorm/entities/Profile';
 import { MongoRepository } from 'typeorm/repository/MongoRepository';
 
 @Injectable()
 export class UsersService {
     constructor(
-        @InjectRepository(User) private userRepository: MongoRepository<User>,
+        @InjectRepository(User)
+        private userRepository: MongoRepository<User>,
         @InjectRepository(Profile)
         private profileRepository: MongoRepository<Profile>,
     ) {}

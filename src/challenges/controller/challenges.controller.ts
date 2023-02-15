@@ -7,11 +7,11 @@ import {
     Post,
     Put,
 } from '@nestjs/common';
-import { ChallengesService } from 'src/challenges/service/challenges.service';
-import { CreateChallenge } from 'src/dto/CreateChallenge.dto';
+import { ChallengesService } from '../service/challenges.service';
+import { CreateChallenge } from '../../dto/CreateChallenge.dto';
 // import { CreateChallengeParams } from 'src/challenges/utils/type';
-import { EditChallengeDto } from 'src/dto/EditChallenge.dto';
-import { JoinLeaveChallengeDto } from 'src/dto/JoinLeaveChallenge.dto';
+import { EditChallengeDto } from '../../dto/EditChallenge.dto';
+import { JoinLeaveChallengeDto } from '../../dto/JoinLeaveChallenge.dto';
 
 @Controller('api/challenges')
 export class ChallengesController {
