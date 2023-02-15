@@ -5,16 +5,12 @@ import {
     Get,
     Put,
     Delete,
-    Query,
     Param,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/dto/CreateUser.dto';
 import { CreateUserProfileDto } from 'src/dto/CreateUserprofile';
-import { DeleteUserDto } from 'src/dto/Deleteuser';
-import { FindUserDto } from 'src/dto/FindUser';
 import { UpdateUserDto } from 'src/dto/Updateuser';
 import { UsersService } from 'src/users/services/users/users.service';
-import { ObjectID } from 'typeorm';
 
 @Controller('api/users')
 export class UsersController {
