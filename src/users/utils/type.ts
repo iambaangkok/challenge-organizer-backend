@@ -1,5 +1,3 @@
-import { ObjectID } from 'typeorm';
-
 export type CreateUserParams = {
     firstName: string;
     lastName: string;
