@@ -23,7 +23,7 @@ export class ChallengesController {
         return this.challengeService.findAllChallenges();
     }
 
-    @Get('/:displayName')
+    @Get('/byUserDisplayname/:displayName')
     getAllChallengesByDisplayName(@Param('displayName') displayName: string) {
         console.log(`GET /${displayName}`);
         return this.challengeService.findeAllChallengesByDisplayName(
