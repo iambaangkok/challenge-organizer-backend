@@ -1,27 +1,29 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // require the necessary libraries
-import faker from 'faker';
-import { MongoClient } from 'mongodb';
+const faker = require('faker');
+const MongoClient = require('mongodb').MongoClient;
 
 async function seedDB() {
     const uri =
-        'mongodb+srv://Geba001:areyougeba@challengeorganizer.kndy1kv.mongodb.net/test';
+        'mongodb+srv://Geba001:areyougeba@challengeorganizer.kndy1kv.mongodb.net/dev';
     const client = new MongoClient(uri, {
         useNewUrlParser: true,
         // useUnifiedTopology: true,
     });
     try {
         await client.connect();
-        console.log('Connected correctly to server');
+        console.log('Connected to server');
 
-        const collection = client.db('test').collection('challenges');
+        const collection = client.db('dev').collection('challenges');
 
         collection.drop();
+        
         // make a bunch of time series data
-        let timeSeriesData = [];
-        let type = ['Single', 'Duo', 'Team'];
-        let format = ['Point_based', 'Elimination', 'Double_Elimination'];
+        const timeSeriesData = [];
+        const type = ['Single', 'Duo', 'Team'];
+        const format = ['Point_based', 'Elimination', 'Double_Elimination'];
         for (let i = 0; i < 10; i++) {
-            let challenges = {
+            const challenges = {
                 challengeTitle: faker.name.jobTitle(),
                 type: type[i % 3],
                 format: format[i % 3],
