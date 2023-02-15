@@ -7,17 +7,21 @@ import { Challenge } from './typeorm/entities/Challenge';
 // import { PostsModule } from './posts/posts.module';
 import { ShopsModule } from './shops/shops.module';
 import { Profile } from './typeorm/entities/Profile';
-
+import { ConfigModule } from '@nestjs/config';
+console.log(process.env.DB_URL + '/' + process.env.ENVIRONMENT);
 @Module({
     imports: [
+        ConfigModule.forRoot({
+            isGlobal: true,
+        }),
         TypeOrmModule.forRoot({
             useUnifiedTopology: true,
             type: 'mongodb',
-            url: 'mongodb+srv://Geba001:areyougeba@challengeorganizer.kndy1kv.mongodb.net/dev', //กลับมาถามหรัสด้วย
+            url: process.env.DB_HOST + '/' + process.env.ENVIRONMENT, //กลับมาถามหรัสด้วย
             useNewUrlParser: true,
             synchronize: false,
             logging: true,
-            port: 3030,
+            port: parseInt(process.env.PORT, 10) || 3000,
             host: 'localhost',
             database: 'test',
             // "entities": ["src/entity/*.*"]

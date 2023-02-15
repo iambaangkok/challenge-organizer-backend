@@ -4,8 +4,7 @@ const faker = require('faker');
 const MongoClient = require('mongodb').MongoClient;
 
 async function seedDB() {
-    const uri =
-        'mongodb+srv://Geba001:areyougeba@challengeorganizer.kndy1kv.mongodb.net/dev';
+    const uri = process.env.DB_HOST + '/' + process.env.ENVIRONMENT;
     const client = new MongoClient(uri, {
         useNewUrlParser: true,
         // useUnifiedTopology: true,
@@ -14,10 +13,12 @@ async function seedDB() {
         await client.connect();
         console.log('Connected to server');
 
-        const collection = client.db('dev').collection('challenges');
+        const collection = client
+            .db(process.env.ENVIRONMENT)
+            .collection('challenges');
 
         collection.drop();
-        
+
         // make a bunch of time series data
         const timeSeriesData = [];
         const type = ['Single', 'Duo', 'Team'];
