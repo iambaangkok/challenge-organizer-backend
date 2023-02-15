@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+} from '@nestjs/common';
 import { ChallengesService } from 'src/challenges/service/challenges.service';
 import { CreateChallenge } from 'src/dto/CreateChalleng.dto';
 // import { CreateChallengeParams } from 'src/challenges/utils/type';
@@ -7,19 +15,19 @@ import { JoinLeaveChallengeDto } from 'src/dto/JoinLeaveChallenge.dto';
 
 @Controller('api/challenges')
 export class ChallengesController {
-
-    constructor(private challengeService: ChallengesService) { }
+    constructor(private challengeService: ChallengesService) {}
 
     @Get()
-    getAllChallenges(){
+    getAllChallenges() {
         return this.challengeService.findAllChallenges();
     }
 
     @Get(':displayName')
     getAllChallengesByDisplayName(@Param('displayName') displayName: string) {
-        return this.challengeService.findeAllChallengesByDisplayName(displayName);
+        return this.challengeService.findeAllChallengesByDisplayName(
+            displayName,
+        );
     }
-
 
     @Get(':title')
     getChallenges(@Param('title') title: string) {
@@ -32,8 +40,14 @@ export class ChallengesController {
     }
 
     @Put(':challengeTitle')
-    editChallenges(@Param('challengeTitle') challengeTitle: string, @Body() editChallengeDto: EditChallengeDto) {
-        return this.challengeService.editChallenge(challengeTitle, editChallengeDto);
+    editChallenges(
+        @Param('challengeTitle') challengeTitle: string,
+        @Body() editChallengeDto: EditChallengeDto,
+    ) {
+        return this.challengeService.editChallenge(
+            challengeTitle,
+            editChallengeDto,
+        );
     }
 
     @Delete(':title')
@@ -42,14 +56,18 @@ export class ChallengesController {
     }
 
     @Put('/join/:title')
-    joinChallenges(@Param('title') title: string, @Body() joinChallengeDto: JoinLeaveChallengeDto) {
+    joinChallenges(
+        @Param('title') title: string,
+        @Body() joinChallengeDto: JoinLeaveChallengeDto,
+    ) {
         return this.challengeService.joinChallenge(title, joinChallengeDto);
     }
 
     @Put('/leave/:title')
-    leaveChallenges(@Param('title') title: string, @Body() leaveChallengeDto: JoinLeaveChallengeDto) {
+    leaveChallenges(
+        @Param('title') title: string,
+        @Body() leaveChallengeDto: JoinLeaveChallengeDto,
+    ) {
         return this.challengeService.leaveChallenge(title, leaveChallengeDto);
     }
-
-
 }

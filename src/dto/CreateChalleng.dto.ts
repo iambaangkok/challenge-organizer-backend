@@ -1,9 +1,7 @@
-import { ObjectID } from "typeorm";
-
-
+import { ObjectID } from 'typeorm';
 
 export class CreateChallenge {
-    challengeId:string;
+    challengeId: string;
     challengeTitle: string;
     type: string;
     format: string;
@@ -13,7 +11,7 @@ export class CreateChallenge {
     numParticipants: number;
     maxParticipants: number;
     rating: number;
-    closed: boolean
+    closed: boolean;
     bannerImg: string;
 
     participants: [ObjectID];
@@ -25,17 +23,19 @@ export class CreateChallenge {
         user: ObjectID;
         path: string;
     };
-    rewards: [{
-        rankMin: number,
-        rankMax: number,
-        rewardAbsolute: number,
-    }];
+    rewards: [
+        {
+            rankMin: number;
+            rankMax: number;
+            rewardAbsolute: number;
+        },
+    ];
     teams: {
         id: number;
         menubar: [ObjectID];
     };
     maxTeams: number;
-    feedBack :{
+    feedBack: {
         date: Date;
         text: string;
         name: string;
@@ -49,5 +49,5 @@ export class CreateChallenge {
         user_Id: ObjectID;
         score: number;
     };
-    schemaVersion:string;
+    schemaVersion: string;
 }

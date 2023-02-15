@@ -6,8 +6,8 @@ import { ChallengesController } from './controller/challenges/challenges.control
 import { ChallengesService } from './service/challenges.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Challenge,User])],
-  controllers: [ChallengesController],
-  providers: [ChallengesService]
+    imports: [TypeOrmModule.forFeature([Challenge, User])],
+    controllers: [ChallengesController],
+    providers: [ChallengesService],
 })
 export class ChallengesModule {}

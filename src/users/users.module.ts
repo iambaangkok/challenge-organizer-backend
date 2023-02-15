@@ -8,12 +8,12 @@ import { ExampleMiddleware } from './middlewares/example/example.middleware';
 import { Profile } from 'src/typeorm/entities/Profile';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User,Profile])],
-  providers: [UsersService],
-  controllers: [UsersController]
+    imports: [TypeOrmModule.forFeature([User, Profile])],
+    providers: [UsersService],
+    controllers: [UsersController],
 })
 export class UsersModule implements NestModule {
-  configure(customer: MiddlewareConsumer) {
-    customer.apply(ExampleMiddleware).forRoutes('users');
-  }
+    configure(customer: MiddlewareConsumer) {
+        customer.apply(ExampleMiddleware).forRoutes('users');
+    }
 }

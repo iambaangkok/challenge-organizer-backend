@@ -1,5 +1,5 @@
-export class EditChallengeDto{
-    challengeId:string;
+export class EditChallengeDto {
+    challengeId: string;
     challengeTitle: string;
     type: string;
     format: string;
@@ -9,8 +9,8 @@ export class EditChallengeDto{
     numParticipants: number;
     maxParticipants: number;
     rating: number;
-    closed: boolean
+    closed: boolean;
     bannerImg: string;
-    publishedStatus : boolean
-    maxTeams : number
+    publishedStatus: boolean;
+    maxTeams: number;
 }

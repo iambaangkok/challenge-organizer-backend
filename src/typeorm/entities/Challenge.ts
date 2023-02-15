@@ -1,12 +1,14 @@
-
-import { Column, Entity, ObjectID, ObjectIdColumn, PrimaryGeneratedColumn } from "typeorm";
+import {
+    Column,
+    Entity,
+    ObjectID,
+    ObjectIdColumn,
+} from 'typeorm';
 
 @Entity({ name: 'challenges' })
 export class Challenge {
     @ObjectIdColumn()
     challengeId: ObjectID;
-    // @PrimaryGeneratedColumn({ type: 'bigint' })
-    // challengeId: string;
     @Column()
     challengeTitle: string;
     @Column()
@@ -26,7 +28,7 @@ export class Challenge {
     @Column()
     maxParticipants: number;
     @Column()
-    banUser: [Object];
+    banUser: [object];
     @Column()
     publishedStatus: boolean;
     @Column()
@@ -36,22 +38,24 @@ export class Challenge {
     @Column()
     endDate: Date;
     @Column()
-    closed: boolean
+    closed: boolean;
     @Column()
     file: {
-        user: Object,
+        user: object;
         path: string;
     };
     @Column()
-    rewards: [{
-        rankMin: number,
-        rankMax: number,
-        rewardAbsolute: number,
-    }];
+    rewards: [
+        {
+            rankMin: number;
+            rankMax: number;
+            rewardAbsolute: number;
+        },
+    ];
     @Column()
     teams: {
-        team_id: number,
-        menubar: [Object];
+        team_id: number;
+        menubar: [object];
     };
     @Column()
     maxTeams: number;
@@ -71,7 +75,7 @@ export class Challenge {
     // };
 
     @Column()
-    rating : number
+    rating: number;
 
     // @Column()
     // participantsGiveScore: {
@@ -82,11 +86,9 @@ export class Challenge {
     // @Column()
     schema_v: string;
     @Column()
-    join : boolean;
-
+    join: boolean;
 
     // @ManyToMany(()=>)
     // @JoinColumn()
     // challenge : Challenge;
-
 }

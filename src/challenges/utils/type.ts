@@ -5,9 +5,9 @@ export type CreateChallengeParams = {
     format: string;
     startDate: Date;
     endDate: Date;
-    maxParticipants : number
-    numParticipants : number
-}
+    maxParticipants: number;
+    numParticipants: number;
+};
 
 export type EditChallengeParams = {
     challengeTitle: string;
@@ -16,12 +16,12 @@ export type EditChallengeParams = {
     format: string;
     startDate: Date;
     endDate: Date;
-    bannerImg:string;
+    bannerImg: string;
     publishedStatus: boolean;
     maxParticipants: number;
     maxTeams: number;
-}
+};
 
 export type JoinLeaveChallengeParams = {
     userId: string;
-}
+};

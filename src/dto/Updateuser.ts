@@ -1,5 +1,3 @@
-
-
 export class UpdateUserDto {
     userName: string;
     cmuAccount: string;
@@ -7,5 +5,3 @@ export class UpdateUserDto {
     displayName: string;
     update_id: string;
 }
-
-

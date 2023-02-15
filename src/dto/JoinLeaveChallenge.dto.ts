@@ -1,3 +1,3 @@
-export class JoinLeaveChallengeDto{
+export class JoinLeaveChallengeDto {
     userId: string;
 }

@@ -1,8 +1,6 @@
-import { Column, Entity, OneToOne, ObjectIdColumn } from "typeorm";
-import { ObjectID } from "typeorm/driver/mongodb/typings";
-import { User } from "./User";
-
-
+import { Column, Entity, OneToOne, ObjectIdColumn } from 'typeorm';
+import { ObjectID } from 'typeorm/driver/mongodb/typings';
+import { User } from './User';
 
 @Entity({ name: 'profiles' })
 export class Profile {
@@ -12,5 +10,5 @@ export class Profile {
     photo: string;
 
     @OneToOne(() => User, (user) => user.profile)
-    user: User
+    user: User;
 }

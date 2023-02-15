@@ -1,25 +1,22 @@
-import { ObjectID } from "typeorm";
+import { ObjectID } from 'typeorm';
 
 export type CreateUserParams = {
-    fristName: string; 
+    fristName: string;
     lastName: string;
 
     cmuAccount: string;
     studentId: string;
-
-}
+};
 
 export type CreateUserProfileParams = {
-    photo : string;
-}
+    photo: string;
+};
 
 export type FindUserParams = {
-    user_id : string;
+    user_id: string;
     username: string;
     studentId: string;
-}
-
-
+};
 
 export type CreatePostParams = {
     // post_id: number;
@@ -29,19 +26,16 @@ export type CreatePostParams = {
     // directChildPost: [];
     // timeStamp: Date;
     // allowComment: Boolean;
-}
+};
 
 export type UpdateUserParams = {
-
     userName: string;
     cmuAccount: string;
     studentId: string;
     displayName: string;
-
-}
+};
 
 export type DeleteUserParams = {
     user_id: string;
     studentId: string;
-}
-
+};
