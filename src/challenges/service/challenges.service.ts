@@ -34,7 +34,7 @@ export class ChallengesService {
         return challenges;
     }
 
-    async findeAllChallengesByDisplayName(displayname: string) {
+    async findAllChallengesByDisplayName(displayname: string) {
         const user = await this.userRepository.findOneBy({
             displayName: displayname,
         });
