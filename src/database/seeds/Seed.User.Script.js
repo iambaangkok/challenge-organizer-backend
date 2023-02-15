@@ -5,7 +5,9 @@ const faker = require('faker');
 const MongoClient = require('mongodb').MongoClient;
 
 async function seedDB() {
-    const uri = process.env.DB_HOST + '/' + process.env.ENVIRONMENT;
+    // const uri = process.env.DB_HOST + '/' + process.env.ENVIRONMENT;
+    const uri ="mongodb+srv://Geba001:areyougeba@challengeorganizer.kndy1kv.mongodb.net/dev";
+    console.log(uri)
     const client = new MongoClient(uri, {
         useNewUrlParser: true,
         // useUnifiedTopology: true,
@@ -15,28 +17,46 @@ async function seedDB() {
         console.log('Connected to server');
 
         const collection = client
-            .db(process.env.ENVIRONMENT)
+            .db("dev")
             .collection('users');
 
-        collection.drop();
+        // collection.drop();
 
         // make a bunch of time series data
         const timeSeriesData = [];
+        // fake.seed(0)
 
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 10; i++) {
+           
             const users = {
-                firstName: faker.name.firstName(),
+                firstName: faker.name.firstName,
                 lastName: faker.name.lastName(),
                 cmuAccount: faker.internet.email(),
-                studentId: faker.datatype.number(),
+                studentId: await faker.datatype.number().toString(),
                 displayName: faker.name.firstName(),
                 timeStamp: new Date(),
-                'challenges:': [],
+                challenges: faker.name.jobTitle(),
             };
             timeSeriesData.push(users);
             console.log(users);
         }
         await collection.insertMany(timeSeriesData);
+
+
+        // // ถ้าคุณอยากเพิ่ม challeng จริงใน database
+        // const realUser = {
+        //     firstName: "NONTHAWAT",
+        //     lastName: "KONGSICHAI",
+        //     cmuAccount: "nonthawat_k@cmu.ac.th",
+        //     studentId: "610610547",
+        //     displayName: "Tadashi400",
+        //     timeStamp: "2023-01-03T00:00:00.000Z",
+        //     challenges: ["การออกกำลังกายเป็นการรักตัวเองอีกอย่างหนึ่งนะ"],
+        // };
+        // console.log(realUser)
+        // await collection.insertOne(realUser)
+
+
 
         console.log('Database seeded! :)');
         client.close();
