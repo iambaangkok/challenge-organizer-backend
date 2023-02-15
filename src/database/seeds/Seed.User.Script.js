@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // require the necessary libraries
+require('dotenv').config();
 const faker = require('faker');
 const MongoClient = require('mongodb').MongoClient;
 

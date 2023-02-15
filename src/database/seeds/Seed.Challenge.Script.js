@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // require the necessary libraries
+require('dotenv').config();
 const faker = require('faker');
 const MongoClient = require('mongodb').MongoClient;
 
 async function seedDB() {
-    const uri = process.env.DB_HOST + '/' + process.env.ENVIRONMENT;
+    const uri = process.env.DB_URL + '/' + process.env.ENVIRONMENT;
     const client = new MongoClient(uri, {
         useNewUrlParser: true,
         // useUnifiedTopology: true,
