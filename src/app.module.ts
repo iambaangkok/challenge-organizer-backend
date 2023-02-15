@@ -13,11 +13,11 @@ import { Profile } from './typeorm/entities/Profile';
         TypeOrmModule.forRoot({
             useUnifiedTopology: true,
             type: 'mongodb',
-            url: 'mongodb+srv://Geba001:areyougeba@challengeorganizer.kndy1kv.mongodb.net/test', //กลับมาถามหรัสด้วย
+            url: 'mongodb+srv://Geba001:areyougeba@challengeorganizer.kndy1kv.mongodb.net/dev', //กลับมาถามหรัสด้วย
             useNewUrlParser: true,
             synchronize: false,
             logging: true,
-            port: 3000,
+            port: 3030,
             host: 'localhost',
             database: 'test',
             // "entities": ["src/entity/*.*"]
