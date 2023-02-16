@@ -4,7 +4,7 @@ require('dotenv').config();
 const faker = require('faker');
 const MongoClient = require('mongodb').MongoClient;
 
-async function seedStaticData() {
+async function seedStaticData(collection) {
     const realDataChallenges = [
         {
             challengeTitle: 'การออกกำลังกายเป็นการรักตัวเองอีกอย่างหนึ่งนะ',
@@ -45,7 +45,7 @@ async function seedStaticData() {
     await collection.insertMany(realDataChallenges);
 }
 
-async function seedRandomizedData() {
+async function seedRandomizedData(collection) {
     // make a bunch of time series data
     const timeSeriesData = [];
     // fake.seed(0)
@@ -82,8 +82,9 @@ async function seedRandomizedData() {
 
 async function seedDB() {
     // const uri = process.env.DB_URL + '/' + process.env.ENVIRONMENT;
-    // const uri ="mongodb+srv://Geba001:areyougeba@challengeorganizer.kndy1kv.mongodb.net/dev";
-    const uri = 'mongodb://localhost:27107/';
+    const uri =
+        'mongodb+srv://Geba001:areyougeba@challengeorganizer.kndy1kv.mongodb.net/dev';
+    // const uri = 'mongodb://localhost:27107/';
     const client = new MongoClient(uri, {
         useNewUrlParser: true,
         // useUnifiedTopology: true,
@@ -96,8 +97,8 @@ async function seedDB() {
 
         // collection.drop();
         await collection.deleteMany({});
-        await seedStaticData();
-        await seedRandomizedData();
+        await seedStaticData(collection);
+        await seedRandomizedData(collection);
 
         console.log('Database seeded! :)');
         client.close();
