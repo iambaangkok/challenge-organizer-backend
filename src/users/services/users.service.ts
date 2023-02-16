@@ -64,7 +64,7 @@ export class UsersService {
             cmuAccount: cmuaccount,
         });
         console.log(user);
-        const Displayname = 'id' + (await new Date().getTime());
+        const Displayname = 'user' + (await new Date().getTime());
         if (!user) {
             const newUser = this.userRepository.create({
                 ...userDetails,
