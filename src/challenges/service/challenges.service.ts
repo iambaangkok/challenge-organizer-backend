@@ -85,7 +85,7 @@ export class ChallengesService {
                 join: false,
             });
             await this.challengeRepository.save(newChallenge);
-            return { challengeId: newChallenge.challengeId };
+            return { challengeTitle: newChallenge.challengeTitle };
         } else {
             throw new HttpException(
                 'Creation failed. Challenge title already existed',
@@ -163,8 +163,8 @@ export class ChallengesService {
         challengeTitle: string,
         joinChallenge: JoinLeaveChallengeParams,
     ) {
+        console.log(joinChallenge);
         const challenge = await this.findChallenges(challengeTitle);
-
         console.log(challenge);
         const user = await this.userRepository.findOneBy({
             displayName: joinChallenge.displayName,
