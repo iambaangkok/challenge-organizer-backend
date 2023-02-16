@@ -42,8 +42,8 @@ export class ChallengesService {
         if (user == null) {
             return allChallenges;
         }
-        const userId = user.userId;
-        console.log(userId.toString());
+        const userDisplayName = user.displayName;
+        console.log(userDisplayName.toString());
         console.log(allChallenges[0].participants.length);
         if (user.challenges.length == 0) {
             console.log(':)');
@@ -51,9 +51,9 @@ export class ChallengesService {
         } else {
             for (let i = 0; i < allChallenges.length; i++) {
                 for (let j = 0; j < allChallenges[i].participants.length; j++) {
-                    console.log(allChallenges[i].participants[j]);
-                    if (allChallenges[i].participants[j] == userId.toString()) {
+                    if (allChallenges[i].participants[j] == userDisplayName.toString()) {
                         allChallenges[i].join = true;
+                        break;
                     } else {
                         allChallenges[i].join = false;
                     }
