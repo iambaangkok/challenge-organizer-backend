@@ -8,6 +8,8 @@ import { Challenge } from './typeorm/entities/Challenge';
 import { ShopsModule } from './shops/shops.module';
 import { Profile } from './typeorm/entities/Profile';
 import { ConfigModule } from '@nestjs/config';
+import { PostsModule } from './posts/posts.module';
+import { Post } from './typeorm/entities/Post';
 console.log(process.env.DB_URL + '/' + process.env.ENVIRONMENT);
 @Module({
     imports: [
@@ -25,12 +27,13 @@ console.log(process.env.DB_URL + '/' + process.env.ENVIRONMENT);
             host: 'localhost',
             database: 'test',
             // "entities": ["src/entity/*.*"]
-            entities: [User, Challenge, Profile],
-            migrationsTableName: 'test',
+            entities: [User, Challenge, Profile,Post],
+            migrationsTableName: 'dev',
         }),
         ChallengesModule,
         UsersModule,
         ShopsModule,
+        PostsModule,
     ], //PostsModule
     // mongoose.connect(mongoConnectionString, {useNewUrlParser: true, useUnifiedTopology: true});
 
