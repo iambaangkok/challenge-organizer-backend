@@ -33,6 +33,7 @@
         "dotenv": "^16.0.3",
         "migrate": "^1.8.0",
         "mongodb": "^3.7.3",
+        "mysql": "^2.18.1",
         "reflect-metadata": "^0.1.13",
         "rxjs": "^7.2.0",
         "typeorm": "^0.3.11",

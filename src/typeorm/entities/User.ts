@@ -10,7 +10,7 @@ import { Unique } from 'typeorm/decorator/Unique';
 import { Challenge } from './Challenge';
 // import { ObjectID } from 'typeorm/driver/mongodb/typings';
 
-@Unique(['displayname'])
+// @Unique(['displayname'])
 @Entity({ name: 'users' })
 export class User {
     @PrimaryGeneratedColumn()
