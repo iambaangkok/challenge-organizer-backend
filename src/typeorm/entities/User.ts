@@ -1,11 +1,20 @@
-import { Column, Entity } from 'typeorm';
-import { ObjectIdColumn } from 'typeorm/decorator/columns/ObjectIdColumn';
-import { ObjectID } from 'typeorm/driver/mongodb/typings';
+import { 
+    Column, 
+    Entity, 
+    PrimaryGeneratedColumn,
+    JoinTable,
+    ManyToMany,    
+} from 'typeorm';
+import { CreateDateColumn } from 'typeorm/decorator/columns/CreateDateColumn';
+import { Unique } from 'typeorm/decorator/Unique';
+import { Challenge } from './Challenge';
+// import { ObjectID } from 'typeorm/driver/mongodb/typings';
 
+@Unique(['displayname'])
 @Entity({ name: 'users' })
 export class User {
-    @ObjectIdColumn()
-    userId: ObjectID;
+    @PrimaryGeneratedColumn()
+    userId: number;
     @Column()
     displayName: string;
     @Column()
@@ -18,10 +27,10 @@ export class User {
     studentId: string;
     @Column()
     rating: string;
-    @Column()
-    timeStamp: Date;
-    @Column()
-    inventory: string[];
+    @CreateDateColumn()
+    createdDate: Date;
+    // @Column()
+    // inventory: string[];
     @Column()
     coin: string;
     @Column()
@@ -32,10 +41,17 @@ export class User {
     banStatus: boolean;
     @Column()
     tasks: string;
-    @Column()
+    @Column({ default: false })
     isAdmin: boolean;
-    @Column()
-    profile: object;
-    @Column()
-    challenges: string[];
+    // @Column()
+    // profile: object;
+    //todo สร้างความสัมพธ์
+
+    // @Column()
+    // challenges: string[];
+    @ManyToMany( (challenge) => Challenge)
+    @JoinTable()
+    challenges: Challenge[]
+
+
 }

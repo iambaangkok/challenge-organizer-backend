@@ -11,14 +11,15 @@ import { HttpStatus } from '@nestjs/common/enums';
 import { ObjectID } from 'typeorm/driver/mongodb/typings';
 import { Profile } from '../../typeorm/entities/Profile';
 import { MongoRepository } from 'typeorm/repository/MongoRepository';
+import {Repository} from 'typeorm';
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
-        private userRepository: MongoRepository<User>,
-        @InjectRepository(Profile)
-        private profileRepository: MongoRepository<Profile>,
+        private userRepository: Repository<User>,
+        // @InjectRepository(Profile)
+        // private profileRepository: MongoRepository<Profile>,
     ) {}
 
     public async findUserinDataBase(user: object) {
@@ -68,9 +69,7 @@ export class UsersService {
         if (!user) {
             const newUser = this.userRepository.create({
                 ...userDetails,
-                timeStamp: new Date(),
                 displayName: Displayname,
-                challenges: [],
             });
             console.log(newUser);
             return (
@@ -86,18 +85,18 @@ export class UsersService {
             };
         }
     }
-
-    async createUserProfile(userprofiles: CreateUserProfileParams) {
-        const user = await this.userRepository.findOneBy({
-            firstName: 'Nonthawat',
-        });
-        console.log(userprofiles);
-        const newProfile = this.profileRepository.create({ ...userprofiles });
-        const saveProfile = await this.profileRepository.save(newProfile);
-        user.profile = saveProfile;
-        console.log(user);
-        return await this.userRepository.save(user);
-    }
+ //Todo ยังไม่สร้างน้า
+    // async createUserProfile(userprofiles: CreateUserProfileParams) {
+    //     const user = await this.userRepository.findOneBy({
+    //         firstName: 'Nonthawat',
+    //     });
+    //     console.log(userprofiles);
+    //     const newProfile = this.profileRepository.create({ ...userprofiles });
+    //     const saveProfile = await this.profileRepository.save(newProfile);
+    //     user.profile = saveProfile;
+    //     console.log(user);
+    //     return await this.userRepository.save(user);
+    // }
 
     /**
      * ! ทำการ Update ได้แล้ว
@@ -121,7 +120,6 @@ export class UsersService {
                 { displayName: displayName },
                 {
                     ...updateUserDetails,
-                    timeStamp: new Date().getTime(),
                 },
             );
         }
@@ -137,8 +135,6 @@ export class UsersService {
                 HttpStatus.BAD_REQUEST,
             );
         } else {
-            const profile = user.profile;
-            await this.profileRepository.delete(profile);
             console.log('Successfully deleted user');
             return await this.userRepository.delete({
                 displayName: displayName,

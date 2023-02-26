@@ -4,38 +4,58 @@ import { ChallengesModule } from './challenges/challenges.module';
 import { UsersModule } from './users/users.module';
 import { User } from './typeorm/entities/User';
 import { Challenge } from './typeorm/entities/Challenge';
+// import { ShopsModule } from './shops/shops.module';
 // import { PostsModule } from './posts/posts.module';
-import { ShopsModule } from './shops/shops.module';
-import { Profile } from './typeorm/entities/Profile';
-import { ConfigModule } from '@nestjs/config';
-import { PostsModule } from './posts/posts.module';
-import { Post } from './typeorm/entities/Post';
-console.log(process.env.DB_URL + '/' + process.env.ENVIRONMENT);
+// console.log(process.env.DB_URL + '/' + process.env.ENVIRONMENT);
 @Module({
-    imports: [
-        ConfigModule.forRoot({
-            isGlobal: true,
-        }),
+    // imports: [
+    //     ConfigModule.forRoot({
+    //         isGlobal: true,
+    //     }),
+    //     TypeOrmModule.forRoot({
+    //         useUnifiedTopology: true,
+    //         type: 'mongodb',
+    //         url: process.env.DB_HOST + '/' + process.env.ENVIRONMENT, //กลับมาถามหรัสด้วย
+    //         useNewUrlParser: true,
+    //         synchronize: false,
+    //         logging: true,
+    //         port: parseInt(process.env.PORT, 10) || 3000,
+    //         host: 'localhost',
+    //         database: 'test',
+    //         // "entities": ["src/entity/*.*"]
+    //         entities: [User, Challenge, Profile,Post],
+    //         migrationsTableName: 'dev',
+    //     }),
+    //     ChallengesModule,
+    //     UsersModule,
+    //     ShopsModule,
+    //     PostsModule,
+    // ], //PostsModule
+    // // mongoose.connect(mongoConnectionString, {useNewUrlParser: true, useUnifiedTopology: true});
+
+
+    imports : [
         TypeOrmModule.forRoot({
-            useUnifiedTopology: true,
-            type: 'mongodb',
-            url: process.env.DB_HOST + '/' + process.env.ENVIRONMENT, //กลับมาถามหรัสด้วย
-            useNewUrlParser: true,
-            synchronize: false,
-            logging: true,
-            port: parseInt(process.env.PORT, 10) || 3000,
-            host: 'localhost',
-            database: 'test',
-            // "entities": ["src/entity/*.*"]
-            entities: [User, Challenge, Profile,Post],
-            migrationsTableName: 'dev',
-        }),
-        ChallengesModule,
+        type: 'mysql',
+        host: 'localhost',
+        port : 3306,
+        database: 'dev',
+        // entities : ["src/typeorm/entity/*.*"],
+        entities : [
+            "src/typeorm/entity/*.*"
+            // User
+        ],
+        synchronize: true,
+        username:'root',
+        autoLoadEntities: true,
+        // password: ,
+
+    }),
+    ChallengesModule,
         UsersModule,
-        ShopsModule,
-        PostsModule,
-    ], //PostsModule
-    // mongoose.connect(mongoConnectionString, {useNewUrlParser: true, useUnifiedTopology: true});
+        // ShopsModule,
+        // PostsModule
+    ],   
 
     controllers: [],
     providers: [],

@@ -1,12 +1,12 @@
 
-import { Column, Entity, ObjectID, ObjectIdColumn } from "typeorm";
+import { Column, Entity, ObjectID,PrimaryGeneratedColumn } from "typeorm";
 import { TreeChildrenPost } from "./TreeChildrenPost";
 import { TreeParentPost } from "./TreeParentPost";
 
 
 @Entity({name:'posts'})
 export class Post{
-    @ObjectIdColumn()
+    @PrimaryGeneratedColumn()
     postId : ObjectID;
     @Column()
     userId : string;

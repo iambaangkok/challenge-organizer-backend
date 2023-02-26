@@ -44,11 +44,11 @@ export class UsersController {
         return this.userService.createUser(createUserDto);
     }
 
-    @Post('userProfiles')
-    createUserProfile(@Body() createUserProfileDto: CreateUserProfileDto) {
-        console.log('POST userProfiles');
-        return this.userService.createUserProfile(createUserProfileDto);
-    }
+    // @Post('userProfiles')
+    // createUserProfile(@Body() createUserProfileDto: CreateUserProfileDto) {
+    //     console.log('POST userProfiles');
+    //     return this.userService.createUserProfile(createUserProfileDto);
+    // }
 
     @Put('/:displayName')
     updateUser(

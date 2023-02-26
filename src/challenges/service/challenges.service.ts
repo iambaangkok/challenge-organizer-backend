@@ -209,7 +209,7 @@ export class ChallengesService {
             }
             await this.challengeRepository.update(
                 { challengeTitle: challengeTitle },
-                { participants: userList, timeStamp: new Date() },
+                { participants: userList, upDateAt: new Date() },
             );
             return {
                 status: 200,
