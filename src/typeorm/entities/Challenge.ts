@@ -1,9 +1,16 @@
-import { Column, Entity, ObjectID, ObjectIdColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { 
+    Column, 
+    Entity, 
+    PrimaryGeneratedColumn,
+    JoinTable,
+    ManyToMany,    
+} from 'typeorm';
 import { CreateDateColumn } from 'typeorm/decorator/columns/CreateDateColumn';
 import { Unique } from 'typeorm/decorator/Unique';
+import { User } from './User'
 
-@Entity({ name: 'challenges' })
 @Unique(["challengeTitle"])
+@Entity({ name: 'challenges' })
 export class Challenge {
     @PrimaryGeneratedColumn()
     challengeId: number;
@@ -15,8 +22,6 @@ export class Challenge {
     type: string;
     @Column()
     format: string;
-    // @Column()
-    // participants: [string];
     @Column()
     numParticipants: number;
     @Column()
@@ -87,7 +92,6 @@ export class Challenge {
     @Column({default :false})
     join: boolean;
 
-    // @ManyToMany(()=>)
-    // @JoinColumn()
-    // challenge : Challenge;
+    @ManyToMany( (user) => User)
+    participants: User[];
 }
