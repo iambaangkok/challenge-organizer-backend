@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Challenge } from '../../typeorm/entities/Challenge';
-import { MongoRepository } from 'typeorm';
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
 import {
@@ -9,14 +8,16 @@ import {
     EditChallengeParams,
     JoinLeaveChallengeParams,
 } from '../utils/type';
-import { User } from '../../typeorm/entities/User';
+import { Repository } from 'typeorm';
+import { User } from 'src/typeorm/entities/User';
 
 @Injectable()
 export class ChallengesService {
     constructor(
         @InjectRepository(Challenge)
-        private challengeRepository: MongoRepository<Challenge>,
-        @InjectRepository(User) private userRepository: MongoRepository<User>,
+        private challengeRepository: Repository<Challenge>,
+        @InjectRepository(User)
+        private userRepository: Repository<User>
     ) {}
 
     async findAllChallenges() {
@@ -51,7 +52,7 @@ export class ChallengesService {
         } else {
             for (let i = 0; i < allChallenges.length; i++) {
                 for (let j = 0; j < allChallenges[i].participants.length; j++) {
-                    if (allChallenges[i].participants[j] == userDisplayName.toString()) {
+                    if (allChallenges[i].participants[j].displayName == userDisplayName.toString()) {
                         allChallenges[i].join = true;
                         break;
                     } else {
@@ -80,9 +81,7 @@ export class ChallengesService {
         if (!challenge) {
             const newChallenge = this.challengeRepository.create({
                 ...challengeDetails,
-                timeStamp: new Date(),
                 participants: [],
-                join: false,
             });
             await this.challengeRepository.save(newChallenge);
             return { challengeTitle: newChallenge.challengeTitle };
@@ -101,7 +100,7 @@ export class ChallengesService {
         if (await this.findChallenges(challengeTitle)) {
             return await this.challengeRepository.update(
                 { challengeTitle: challengeTitle },
-                { ...editChallenge, timeStamp: new Date() },
+                { ...editChallenge, upDateAt: new Date() },
             );
         } else {
             throw new HttpException(
@@ -127,13 +126,13 @@ export class ChallengesService {
                 return deletedChallenge;
             } else {
                 for (let i = 0; i < challenge.participants.length; i++) {
-                    const user_id = challenge.participants[i];
+                    const user_id = challenge.participants[i].userId;
                     const user = await this.userRepository.findOneById(user_id);
                     if (!user) {
                         continue;
                     } else {
                         const filter = await user.challenges.filter(
-                            (e) => e !== challengeTitle,
+                            (e) => e.challengeTitle !== challengeTitle,
                         );
                         console.log(filter);
                         this.userRepository.update(
@@ -181,9 +180,9 @@ export class ChallengesService {
             let challengeList = user.challenges;
             // user part
             if (!challengeList) {
-                challengeList = [challengeTitle];
+                challengeList = [challenge];
             } else {
-                challengeList.push(challengeTitle);
+                challengeList.push(challenge);
             }
             await this.userRepository.update(
                 { displayName: user.displayName },
@@ -192,11 +191,11 @@ export class ChallengesService {
 
             // challenge part
             if (!userList) {
-                userList = [joinChallenge.displayName];
+                userList = [user];
             } else {
                 if (
                     userList.find((displayName_i) => {
-                        return displayName_i === joinChallenge.displayName;
+                        return displayName_i.displayName === joinChallenge.displayName;
                     })
                 ) {
                     throw new HttpException(
@@ -204,7 +203,7 @@ export class ChallengesService {
                         HttpStatus.NOT_MODIFIED,
                     );
                 } else {
-                    userList.push(joinChallenge.displayName);
+                    userList.push(user);
                 }
             }
             await this.challengeRepository.update(
@@ -247,7 +246,7 @@ export class ChallengesService {
             if (challengeList) {
                 if (
                     !challengeList.find((challenge_i) => {
-                        return challenge_i === challenge.challengeTitle;
+                        return challenge_i.challengeTitle === challenge.challengeTitle;
                     })
                 ) {
                     throw new HttpException(
@@ -256,7 +255,7 @@ export class ChallengesService {
                     );
                 } else {
                     const index = challengeList.findIndex((challenge_i) => {
-                        return challenge_i === challenge.challengeTitle;
+                        return challenge_i.challengeTitle === challenge.challengeTitle;
                     });
                     challengeList.splice(index, 1);
                     await this.userRepository.update(
@@ -280,7 +279,7 @@ export class ChallengesService {
             } else {
                 if (
                     !userList.find((displayName_i) => {
-                        return displayName_i === leaveChallenge.displayName;
+                        return displayName_i.displayName === leaveChallenge.displayName;
                     })
                 ) {
                     throw new HttpException(
@@ -289,14 +288,14 @@ export class ChallengesService {
                     );
                 } else {
                     const index = userList.findIndex((displayName_i) => {
-                        return displayName_i === leaveChallenge.displayName;
+                        return displayName_i.displayName === leaveChallenge.displayName;
                     });
                     userList.splice(index, 1);
                 }
             }
             await this.challengeRepository.update(
                 { challengeTitle: challengeTitle },
-                { participants: userList, timeStamp: new Date() },
+                { participants: userList, upDateAt: new Date() },
             );
             return {
                 status: 200,
