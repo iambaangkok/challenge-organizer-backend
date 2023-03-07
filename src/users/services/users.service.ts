@@ -33,7 +33,11 @@ export class UsersService {
     }
 
     async findUsers() {
-        return await this.userRepository.find(); //selet all
+        return await this.userRepository.find({
+            relations : {
+                challenges : true,
+            }
+        }); //selet all
     }
 
     async findByUserId(user_id: ObjectID) {
@@ -69,6 +73,7 @@ export class UsersService {
             const newUser = this.userRepository.create({
                 ...userDetails,
                 displayName: Displayname,
+                challenges : []
             });
             console.log(newUser);
             return (

@@ -1,27 +1,32 @@
-import { 
-    Column, 
-    Entity, 
+import {
+    Column,
+    Entity,
     PrimaryGeneratedColumn,
     JoinTable,
-    ManyToMany,    
+    ManyToMany,
+    ManyToOne,
 } from 'typeorm';
 import { CreateDateColumn } from 'typeorm/decorator/columns/CreateDateColumn';
-import { Unique } from 'typeorm/decorator/Unique';
+import { OneToMany } from 'typeorm/decorator/relations/OneToMany';
 import { Challenge } from './Challenge';
-// import { ObjectID } from 'typeorm/driver/mongodb/typings';
 
-// @Unique(['displayname'])
+
 @Entity({ name: 'users' })
 export class User {
     @PrimaryGeneratedColumn()
     userId: number;
-    @Column()
+    @Column(
+        {
+            length: 15,
+            unique: true
+        }
+    )
     displayName: string;
     @Column()
     firstName: string;
     @Column()
     lastName: string;
-    @Column()
+    @Column({ unique: true })
     cmuAccount: string;
     @Column()
     studentId: string;
@@ -49,9 +54,27 @@ export class User {
 
     // @Column()
     // challenges: string[];
-    @ManyToMany( (challenge) => Challenge)
+    @ManyToMany(() => Challenge , (challenge) => challenge.participants)
     @JoinTable()
     challenges: Challenge[]
+
+
+    @ManyToOne(() => Challenge, (challenge) => challenge.hosts)
+    challenge : Challenge
+
+
+
+
+    @ManyToMany ( () => Challenge , (challenge) => challenge.collaborators)
+    @JoinTable()
+    constructors : Challenge[]
+
+
+    
+    
+
+
+    
 
 
 }

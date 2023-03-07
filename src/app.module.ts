@@ -4,6 +4,10 @@ import { ChallengesModule } from './challenges/challenges.module';
 import { UsersModule } from './users/users.module';
 import { User } from './typeorm/entities/User';
 import { Challenge } from './typeorm/entities/Challenge';
+import { TaskTemplate } from './typeorm/entities/TaskTemplate';
+import { ParticiPantsGiveScore } from './typeorm/entities/participantsGiveScore';
+import { Task } from './typeorm/entities/Task';
+import { Submission } from './typeorm/entities/Submission';
 // import { ShopsModule } from './shops/shops.module';
 // import { PostsModule } from './posts/posts.module';
 // console.log(process.env.DB_URL + '/' + process.env.ENVIRONMENT);
@@ -34,30 +38,35 @@ import { Challenge } from './typeorm/entities/Challenge';
     // // mongoose.connect(mongoConnectionString, {useNewUrlParser: true, useUnifiedTopology: true});
 
 
-    imports : [
+    imports: [
         TypeOrmModule.forRoot({
-        type: 'mysql',
-        host: 'localhost',
-        port : 3306,
-        database: 'dev',
-        // entities : ["src/typeorm/entity/*.*"],
-        entities : [
-            "src/typeorm/entity/*.*"
-            // User
-        ],
-        synchronize: true,
-        username:'root',
-        autoLoadEntities: true,
-        // password: ,
+            type: 'mysql',
+            host: 'localhost',
+            port: 3306,
+            database: 'dev',
+            entities: [
+                // "src/typeorm/entity/*.*"
+                User,
+                Challenge,
+                TaskTemplate,
+                ParticiPantsGiveScore,
+                Task,
+                Submission,
 
-    }),
-    ChallengesModule,
+            ],
+            synchronize: true,
+            username: 'root',
+            // autoLoadEntities: true,
+            // password: ,
+
+        }),
+        ChallengesModule,
         UsersModule,
         // ShopsModule,
         // PostsModule
-    ],   
+    ],
 
     controllers: [],
     providers: [],
 })
-export class AppModule {}
+export class AppModule { }

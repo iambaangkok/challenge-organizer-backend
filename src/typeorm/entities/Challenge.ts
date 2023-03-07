@@ -3,10 +3,17 @@ import {
     Entity, 
     PrimaryGeneratedColumn,
     JoinTable,
-    ManyToMany,    
+    ManyToMany,
+    OneToOne,    
+    JoinColumn,
+    OneToMany,
+    ManyToOne
 } from 'typeorm';
 import { CreateDateColumn } from 'typeorm/decorator/columns/CreateDateColumn';
 import { Unique } from 'typeorm/decorator/Unique';
+import { ParticiPantsGiveScore } from './participantsGiveScore';
+import { Task } from './Task';
+import { TaskTemplate } from './TaskTemplate';
 import { User } from './User'
 
 @Unique(["challengeTitle"])
@@ -92,6 +99,44 @@ export class Challenge {
     @Column({default :false})
     join: boolean;
 
-    @ManyToMany( (user) => User)
+    @ManyToMany( () => User , (user) => user.challenges,{
+        cascade :true
+    })
     participants: User[];
+
+
+    @OneToMany(() => User, (user) => user.challenges,{
+        cascade :true
+    })
+    hosts: User[];
+
+
+    @ManyToMany( () => User, (user) => user.constructors)
+    collaborators : User[];
+
+
+
+    @ManyToOne(()=> Task , (task) => task.hasChallenges)
+    task : Task 
+
+
+    
+
+    // @ManyToMany(() => TaskTemplate ,(tasktemeplate) => tasktemeplate.challenges,{
+    //     cascade : true,
+    // })
+
+
+    // @OneToMany(() => TaskTemplate , (tasktemeplate) => tasktemeplate.challenges)
+    // tasktemeplates : TaskTemplate[];
+    
+    
+
+
+    // @OneToOne(() => ParticiPantsGiveScore ,{
+    //     cascade : true,
+    // } )
+    // @JoinColumn()
+    // particiPantsGiveScore : ParticiPantsGiveScore
+
 }
