@@ -32,14 +32,14 @@ export class Task {
 
 
 
-    @OneToMany(() =>Challenge ,(challenge) => challenge.task,{
-        cascade : true,
-    })
-    hasChallenges: Challenge[] ; 
+    // @OneToMany(() =>Challenge ,(challenge) => challenge.task,{
+    //     cascade : true,
+    // })
+    // hasChallenges: Challenge[] ; 
 
+    @ManyToOne(()=>Challenge, (challenge) => challenge.tasks)
+    hasChallenges: Challenge;
 
-    // @ManyToOne(() => Submission , (submissions)=> submissions.hastask )
-    // submissions : Task
 
     @OneToMany(() => Submission , (submissions)=> submissions.task,{
         cascade : true,

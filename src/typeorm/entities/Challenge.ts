@@ -116,11 +116,15 @@ export class Challenge {
 
 
 
-    @ManyToOne(()=> Task , (task) => task.hasChallenges)
-    task : Task 
+    // @ManyToOne(()=> Task , (task) => task.hasChallenges)
+    // task : Task 
 
 
-    
+    @OneToMany(() => Task, (task) => task.hasChallenges,{
+        cascade :true
+    })
+    tasks : Task[];
+
 
     // @ManyToMany(() => TaskTemplate ,(tasktemeplate) => tasktemeplate.challenges,{
     //     cascade : true,

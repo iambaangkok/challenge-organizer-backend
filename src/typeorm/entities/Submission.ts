@@ -4,9 +4,13 @@ import {
     Entity,
     ManyToOne,
     OneToMany,
+    OneToOne,
     PrimaryGeneratedColumn
 } from "typeorm";
+import { File } from "./File";
 import { Task } from "./Task";
+import { Team } from "./Team";
+import { User } from "./User";
 
 
 
@@ -28,16 +32,23 @@ export class Submission {
     @Column()
     editDate: Date;
 
-    // @OneToMany(() => Task , (task) => task.submissions,{
-    //     cascade : true,
-    // })
-    // hastask: Submission[]
 
 
     @ManyToOne(() => Task, (task) => task.hasSubmissions)
-    task: Task
+    task: Task;
 
-    
+
+
+    @ManyToOne(() => User, (user) => user.submited)
+    hasSubmit : User;
+
+    @ManyToOne(() => Team , (team) => team.hasSubmissions)
+    hasSubmitTeam : Team;
+
+    @OneToOne(() => File , (file) => file.submission)
+    file : File;
+
+
     //TODO เดียวจะมันต้องเชื่อมตาราง File ทีมีความสัมพัทธ์
 
 

@@ -5,10 +5,14 @@ import {
     JoinTable,
     ManyToMany,
     ManyToOne,
+    OneToOne,
 } from 'typeorm';
 import { CreateDateColumn } from 'typeorm/decorator/columns/CreateDateColumn';
 import { OneToMany } from 'typeorm/decorator/relations/OneToMany';
 import { Challenge } from './Challenge';
+import { File } from './File';
+import { Submission } from './Submission';
+import { Team } from './Team';
 
 
 @Entity({ name: 'users' })
@@ -70,10 +74,22 @@ export class User {
     constructors : Challenge[]
 
 
-    
+
+    @OneToMany(()=> Submission , (submission)=> submission.hasSubmit,{
+        cascade : true,
+    })
+    submited : Submission[]
+
+
+    @ManyToOne(()=> Team , (team)=> team.users)
+    inTeam : Team ; 
     
 
 
+
+
+    @OneToOne(()=> File , (file)=> file.user)
+    file : File;
     
 
 

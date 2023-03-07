@@ -8,6 +8,8 @@ import { TaskTemplate } from './typeorm/entities/TaskTemplate';
 import { ParticiPantsGiveScore } from './typeorm/entities/participantsGiveScore';
 import { Task } from './typeorm/entities/Task';
 import { Submission } from './typeorm/entities/Submission';
+import { Team } from './typeorm/entities/Team';
+import { File } from './typeorm/entities/File';
 // import { ShopsModule } from './shops/shops.module';
 // import { PostsModule } from './posts/posts.module';
 // console.log(process.env.DB_URL + '/' + process.env.ENVIRONMENT);
@@ -52,6 +54,8 @@ import { Submission } from './typeorm/entities/Submission';
                 ParticiPantsGiveScore,
                 Task,
                 Submission,
+                Team,
+                File
 
             ],
             synchronize: true,
