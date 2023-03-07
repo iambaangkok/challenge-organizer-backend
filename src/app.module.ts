@@ -10,6 +10,8 @@ import { Task } from './typeorm/entities/Task';
 import { Submission } from './typeorm/entities/Submission';
 import { Team } from './typeorm/entities/Team';
 import { File } from './typeorm/entities/File';
+import { Item } from './typeorm/entities/Item';
+import { Rating } from './typeorm/entities/Rating';
 // import { ShopsModule } from './shops/shops.module';
 // import { PostsModule } from './posts/posts.module';
 // console.log(process.env.DB_URL + '/' + process.env.ENVIRONMENT);
@@ -55,7 +57,9 @@ import { File } from './typeorm/entities/File';
                 Task,
                 Submission,
                 Team,
-                File
+                File,
+                Item,
+                Rating,
 
             ],
             synchronize: true,

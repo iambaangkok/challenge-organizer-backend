@@ -11,6 +11,8 @@ import { CreateDateColumn } from 'typeorm/decorator/columns/CreateDateColumn';
 import { OneToMany } from 'typeorm/decorator/relations/OneToMany';
 import { Challenge } from './Challenge';
 import { File } from './File';
+import { Item } from './Item';
+import { Rating } from './Rating';
 import { Submission } from './Submission';
 import { Team } from './Team';
 
@@ -58,39 +60,52 @@ export class User {
 
     // @Column()
     // challenges: string[];
-    @ManyToMany(() => Challenge , (challenge) => challenge.participants)
+    @ManyToMany(() => Challenge, (challenge) => challenge.participants)
     @JoinTable()
     challenges: Challenge[]
 
 
     @ManyToOne(() => Challenge, (challenge) => challenge.hosts)
-    challenge : Challenge
+    challenge: Challenge
 
 
 
 
-    @ManyToMany ( () => Challenge , (challenge) => challenge.collaborators)
+    @ManyToMany(() => Challenge, (challenge) => challenge.collaborators)
     @JoinTable()
-    constructors : Challenge[]
+    constructors: Challenge[]
 
 
 
-    @OneToMany(()=> Submission , (submission)=> submission.hasSubmit,{
-        cascade : true,
+    @OneToMany(() => Submission, (submission) => submission.hasSubmit, {
+        cascade: true,
     })
-    submited : Submission[]
+    submited: Submission[]
 
 
-    @ManyToOne(()=> Team , (team)=> team.users)
-    inTeam : Team ; 
+    @ManyToOne(() => Team, (team) => team.users)
+    inTeam: Team;
+
+
+
+
+
+    @OneToOne(() => File, (file) => file.user)
+    file: File;
+
+
+    @OneToMany(() => Item, (item) => item.user, {
+        cascade: true,
+    })
+    items: Item[];
+
+
+    @OneToMany(() => Rating, (rating) => rating.user, {
+        cascade: true,
+    })
+    ratings : Rating[];
+
+
     
-
-
-
-
-    @OneToOne(()=> File , (file)=> file.user)
-    file : File;
-    
-
 
 }

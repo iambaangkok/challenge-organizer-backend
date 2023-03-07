@@ -7,6 +7,8 @@ import {
 } from "typeorm";
 import { Submission } from "./Submission";
 import { User } from "./User";
+import { Challenge } from "./Challenge";
+import { Item } from "./Item";
 
 
 @Entity({ name: 'files' })
@@ -30,4 +32,14 @@ export class File {
 
     @OneToOne(() => Submission , (submission) => submission.file)
     submission : Submission ; 
+
+
+    @OneToOne(() => Challenge , (challenge) => challenge.file)
+    challenge : Challenge ; 
+
+    @OneToOne(() => Item ,(item) => item.file)
+    item : Item ; 
+
+
+    
 }

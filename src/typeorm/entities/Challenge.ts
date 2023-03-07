@@ -11,7 +11,9 @@ import {
 } from 'typeorm';
 import { CreateDateColumn } from 'typeorm/decorator/columns/CreateDateColumn';
 import { Unique } from 'typeorm/decorator/Unique';
+import { File } from './File';
 import { ParticiPantsGiveScore } from './participantsGiveScore';
+import { Rating } from './Rating';
 import { Task } from './Task';
 import { TaskTemplate } from './TaskTemplate';
 import { User } from './User'
@@ -124,6 +126,20 @@ export class Challenge {
         cascade :true
     })
     tasks : Task[];
+
+
+
+
+    @OneToOne(() => File ,(file) => file.challenge )
+    file : File;
+
+
+
+    @OneToMany(() => Rating , (rating) => rating.challenges,{
+        cascade :true
+    })
+    ratings : Rating[] ;
+
 
 
     // @ManyToMany(() => TaskTemplate ,(tasktemeplate) => tasktemeplate.challenges,{
