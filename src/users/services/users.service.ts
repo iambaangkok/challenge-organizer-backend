@@ -9,6 +9,7 @@ import {
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
 import { ObjectID } from 'typeorm/driver/mongodb/typings';
+// import { Profile } from '../../typeorm/entities/Profile';
 import { MongoRepository } from 'typeorm/repository/MongoRepository';
 import {Repository} from 'typeorm';
 
@@ -50,8 +51,9 @@ export class UsersService {
 
     async findBydisplayName(displayName: string) {
         console.log(displayName);
-        const user = await this.userRepository.findOneBy({
-            displayName: displayName,
+        const user = await this.userRepository.findOne({
+            relations: { challenges: true },
+            where: {displayName: displayName}
         });
         console.log(user);
         return await this.findUserinDataBase(user);
@@ -69,6 +71,7 @@ export class UsersService {
             const newUser = this.userRepository.create({
                 ...userDetails,
                 displayName: Displayname,
+                challenges: []
             });
             console.log(newUser);
             return (
