@@ -49,9 +49,11 @@ export class User {
 
     // @Column()
     // challenges: string[];
-    @ManyToMany( (challenge) => Challenge)
+    // @ManyToMany( (challenge) => Challenge)
+    // @JoinTable()
+    // challenges: Challenge[]
+
+    @ManyToMany(() => Challenge , (challenge) => challenge.participants)
     @JoinTable()
     challenges: Challenge[]
-
-
 }
