@@ -69,9 +69,13 @@ export class ChallengesService {
     }
 
     async findChallenges(challengeTitle: string) {
-        return await this.challengeRepository.findOne({
-            where: { challengeTitle: challengeTitle },
+        const challenge = await this.challengeRepository.findOne({
+            relations: {participants: true},
+            where: {challengeTitle: challengeTitle}
         });
+        console.log('challengeTitle = ' + challengeTitle)
+        console.log(challenge)
+        return challenge 
     }
 
     async createChallenge(challengeDetails: CreateChallengeParams) {
@@ -85,6 +89,7 @@ export class ChallengesService {
             });
             await this.challengeRepository.save(newChallenge);
             return { challengeTitle: newChallenge.challengeTitle };
+            // return newChallenge;
         } else {
             throw new HttpException(
                 'Creation failed. Challenge title already existed',
@@ -97,21 +102,23 @@ export class ChallengesService {
         challengeTitle: string,
         editChallenge: EditChallengeParams,
     ) {
-        if (await this.findChallenges(challengeTitle)) {
+        if (await this.findChallenges(challengeTitle)){
             return await this.challengeRepository.update(
                 { challengeTitle: challengeTitle },
-                { ...editChallenge, upDateAt: new Date() },
+                { ...editChallenge, upDateAt: new Date() }
             );
         } else {
             throw new HttpException(
                 'Challenge does not exist',
-                HttpStatus.NOT_FOUND,
+                HttpStatus.NOT_FOUND
             );
         }
     }
 
     async deleteChallenge(challengeTitle: string) {
         const challenge = await this.findChallenges(challengeTitle);
+        console.log('participants = ' + challenge.participants)
+        console.log('type participants = ' + typeof(challenge.participants))
         if (!challenge) {
             throw new HttpException(
                 'Challenge does not exist',
@@ -164,9 +171,13 @@ export class ChallengesService {
     ) {
         console.log(joinChallenge);
         const challenge = await this.findChallenges(challengeTitle);
-        console.log(challenge);
-        const user = await this.userRepository.findOneBy({
-            displayName: joinChallenge.displayName,
+        const user = await this.userRepository.findOne({
+            relations: {
+                challenges: true
+            },
+            where: {
+                displayName: joinChallenge.displayName
+            }
         });
         if (user == null) {
             throw new HttpException(
@@ -184,10 +195,8 @@ export class ChallengesService {
             } else {
                 challengeList.push(challenge);
             }
-            await this.userRepository.update(
-                { displayName: user.displayName },
-                { challenges: challengeList },
-            );
+            user.challenges = challengeList;
+            await this.userRepository.save(user);
 
             // challenge part
             if (!userList) {
@@ -206,10 +215,9 @@ export class ChallengesService {
                     userList.push(user);
                 }
             }
-            await this.challengeRepository.update(
-                { challengeTitle: challengeTitle },
-                { participants: userList, upDateAt: new Date() },
-            );
+            challenge.participants = userList;
+            challenge.upDateAt = new Date();
+            await this.challengeRepository.save(challenge);
             return {
                 status: 200,
                 message: `Successfully joined challenge: ${challengeTitle}`,
@@ -227,9 +235,13 @@ export class ChallengesService {
         leaveChallenge: JoinLeaveChallengeParams,
     ) {
         const challenge = await this.findChallenges(challengeTitle);
-
-        const user = await this.userRepository.findOneBy({
-            displayName: leaveChallenge.displayName,
+        const user = await this.userRepository.findOne({
+            relations: {
+                challenges: true
+            },
+            where: {
+                displayName: leaveChallenge.displayName
+            }
         });
         if (user == null) {
             throw new HttpException(
@@ -237,11 +249,9 @@ export class ChallengesService {
                 HttpStatus.NOT_FOUND,
             );
         }
-        console.log(user);
         if (challenge) {
             const userList = challenge.participants;
             const challengeList = user.challenges;
-            console.log(challengeList);
             // user part
             if (challengeList) {
                 if (
@@ -253,15 +263,15 @@ export class ChallengesService {
                         'User is not a participant in this challenge',
                         HttpStatus.NOT_MODIFIED,
                     );
+                
                 } else {
                     const index = challengeList.findIndex((challenge_i) => {
                         return challenge_i.challengeTitle === challenge.challengeTitle;
                     });
                     challengeList.splice(index, 1);
-                    await this.userRepository.update(
-                        { displayName: user.displayName },
-                        { challenges: challengeList },
-                    );
+                    
+                    user.challenges = challengeList;
+                    await this.userRepository.save(user);
                 }
             } else {
                 throw new HttpException(
@@ -293,10 +303,9 @@ export class ChallengesService {
                     userList.splice(index, 1);
                 }
             }
-            await this.challengeRepository.update(
-                { challengeTitle: challengeTitle },
-                { participants: userList, upDateAt: new Date() },
-            );
+            challenge.participants = userList;
+            challenge.upDateAt = new Date();
+            await this.challengeRepository.save(challenge);
             return {
                 status: 200,
                 message: `Successfully left challenge: ${challengeTitle}`,

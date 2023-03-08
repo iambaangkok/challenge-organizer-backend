@@ -5,6 +5,7 @@ import { UsersController } from './controller/users.controller';
 import { UsersService } from './services/users.service';
 import { MiddlewareConsumer } from '@nestjs/common/interfaces/middleware';
 import { ExampleMiddleware } from './middlewares/example/example.middleware';
+// import { Profile } from '../typeorm/entities/Profile';
 
 @Module({
     imports: [TypeOrmModule.forFeature([User])],
