@@ -1,27 +1,38 @@
-import { 
-    Column, 
-    Entity, 
+import {
+    Column,
+    Entity,
     PrimaryGeneratedColumn,
     JoinTable,
-    ManyToMany,    
+    ManyToMany,
+    ManyToOne,
+    OneToOne,
 } from 'typeorm';
 import { CreateDateColumn } from 'typeorm/decorator/columns/CreateDateColumn';
-import { Unique } from 'typeorm/decorator/Unique';
+import { OneToMany } from 'typeorm/decorator/relations/OneToMany';
 import { Challenge } from './Challenge';
-// import { ObjectID } from 'typeorm/driver/mongodb/typings';
+import { File } from './File';
+import { Item } from './Item';
+import { Rating } from './Rating';
+import { Submission } from './Submission';
+import { Team } from './Team';
 
-// @Unique(['displayname'])
+
 @Entity({ name: 'users' })
 export class User {
     @PrimaryGeneratedColumn()
     userId: number;
-    @Column()
+    @Column(
+        {
+            length: 15,
+            unique: true
+        }
+    )
     displayName: string;
     @Column()
     firstName: string;
     @Column()
     lastName: string;
-    @Column()
+    @Column({ unique: true })
     cmuAccount: string;
     @Column()
     studentId: string;
@@ -49,11 +60,52 @@ export class User {
 
     // @Column()
     // challenges: string[];
-    // @ManyToMany( (challenge) => Challenge)
-    // @JoinTable()
-    // challenges: Challenge[]
-
-    @ManyToMany(() => Challenge , (challenge) => challenge.participants)
+    @ManyToMany(() => Challenge, (challenge) => challenge.participants)
     @JoinTable()
     challenges: Challenge[]
+
+
+    @ManyToOne(() => Challenge, (challenge) => challenge.hosts)
+    challenge: Challenge
+
+
+
+
+    @ManyToMany(() => Challenge, (challenge) => challenge.collaborators)
+    @JoinTable()
+    constructors: Challenge[]
+
+
+
+    @OneToMany(() => Submission, (submission) => submission.hasSubmit, {
+        cascade: true,
+    })
+    submited: Submission[]
+
+
+    @ManyToOne(() => Team, (team) => team.users)
+    inTeam: Team;
+
+
+
+
+
+    @OneToOne(() => File, (file) => file.user)
+    file: File;
+
+
+    @OneToMany(() => Item, (item) => item.user, {
+        cascade: true,
+    })
+    items: Item[];
+
+
+    @OneToMany(() => Rating, (rating) => rating.user, {
+        cascade: true,
+    })
+    ratings : Rating[];
+
+
+    
+
 }

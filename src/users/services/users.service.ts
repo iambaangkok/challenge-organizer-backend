@@ -34,7 +34,11 @@ export class UsersService {
     }
 
     async findUsers() {
-        return await this.userRepository.find(); //selet all
+        return await this.userRepository.find({
+            relations : {
+                challenges : true,
+            }
+        }); //selet all
     }
 
     async findByUserId(user_id: ObjectID) {

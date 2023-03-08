@@ -12,7 +12,7 @@ async function seedStaticData(collection) {
         studentId: '610610547',
         displayName: 'Tadashi400',
         timeStamp: '2023-01-03T00:00:00.000Z',
-        challenges: ['การออกกำลังกายเป็นการรักตัวเองอีกอย่างหนึ่งนะ'],
+        // challenges: ['การออกกำลังกายเป็นการรักตัวเองอีกอย่างหนึ่งนะ'],
     };
     console.log(realUser);
     await collection.insertOne(realUser);
@@ -31,7 +31,7 @@ async function seedRandomizedData(collection) {
             studentId: await faker.datatype.number().toString(),
             displayName: faker.name.firstName(),
             timeStamp: new Date(),
-            challenges: faker.name.jobTitle(),
+            // challenges: faker.name.jobTitle(),
         };
         timeSeriesData.push(users);
         console.log(users);
