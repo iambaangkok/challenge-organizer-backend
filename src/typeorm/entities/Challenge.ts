@@ -92,6 +92,10 @@ export class Challenge {
     @Column({default :false})
     join: boolean;
 
-    @ManyToMany( (user) => User)
+    // @ManyToMany( (user) => User)
+    // participants: User[];
+    @ManyToMany( () => User , (user) => user.challenges,{
+        cascade :true
+    })
     participants: User[];
 }

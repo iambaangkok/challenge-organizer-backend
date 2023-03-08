@@ -39,7 +39,7 @@ import { Challenge } from './typeorm/entities/Challenge';
         type: 'mysql',
         host: 'localhost',
         port : 3306,
-        database: 'dev',
+        database: 'devtest',
         // entities : ["src/typeorm/entity/*.*"],
         entities : [
             "src/typeorm/entity/*.*"
