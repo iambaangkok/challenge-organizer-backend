@@ -5,6 +5,8 @@ import {
     ManyToOne,
     CreateDateColumn,
     Tree,
+    TreeChildren,
+    TreeParent,
 } from 'typeorm';
 import { Challenge } from './Challenge';
 import { Tab } from './Tab';
@@ -26,6 +28,12 @@ export class Post{
 
     @Column()
     allowComment: boolean;
+
+    @TreeChildren()
+    children: Post[]
+
+    @TreeParent()
+    parent: Post
 
     @ManyToOne(() => Tab, (tab) => tab.posts, {
         cascade: true

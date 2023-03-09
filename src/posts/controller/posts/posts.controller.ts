@@ -28,9 +28,20 @@ export class PostsController {
     }
 
     @Post()
-    createPost(@Body() postDetails: CreatePostDto){
-        console.log(`/`);
-        return this.postService.createPost(postDetails);
+    createParentPost(@Body() postDetails: CreatePostDto){
+        console.log(`/createParent`);
+        return this.postService.createParentPost(postDetails);
+    }
+
+    @Post('/:postId')
+    createChildrenPost(
+        @Param('postId') postId: number,
+        @Body() postDetials: CreatePostDto
+        ){
+        console.log(`/createChildren`);
+        return this.postService.createChildrenPost(
+            postId,
+            postDetials);
     }
 
     @Put('/:postId')
@@ -39,10 +50,10 @@ export class PostsController {
         @Body() editPostDto: EditPostDto
     ){
         console.log(`PUT /${postId}`);
-        return this.postService.editPose(
+        return this.postService.editPost(
             postId,
             editPostDto
-        )
+        );
     }
 
     @Delete('/:postId')
