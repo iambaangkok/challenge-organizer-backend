@@ -1,49 +1,96 @@
-// import { Injectable } from '@nestjs/common';
-// import { InjectRepository } from '@nestjs/typeorm';
-// // import { Post } from 'src/typeorm/entities/Post';
-// import { User } from 'src/typeorm/entities/User';
-// import { Repository } from 'typeorm';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EditPostParams } from 'src/posts/utils/type';
+import { Post } from 'src/typeorm/entities/Post';
+import { User } from 'src/typeorm/entities/User';
+import { CreatePostParams } from 'src/posts/utils/type';
+import { Repository } from 'typeorm';
 
-// @Injectable()
-// export class PostsService {
-//     constructor(
-//         // @InjectRepository(Post)
-//         // private postRepository: MongoRepository<Post>,
-//         @InjectRepository(User)
-//         private userRepository: Repository<User>,
-//     ) { }
+@Injectable()
+export class PostsService {
+    constructor(
+        @InjectRepository(Post)
+        private postRepository: Repository<Post>,
+        @InjectRepository(User)
+        private userRepository: Repository<User>,
+    ) { }
 
+    async findAllPost(){
+        return await this.postRepository.find({
+            relations: {children:true, parent: true, hasTab: true, hasChallenge: true}
+        });
+    }
 
-//     async findPost() {
-//         const post = await this.postRepository.find();
-//         return 0;
-//     }
+    async findByPostId(postId: number) {
+        const post = await this.postRepository.findOne({
+            relations: {children:true, parent: true, hasTab: true, hasChallenge: true},
+            where: {postId: postId}
+        });
+        return post;
+    }
 
+    async findPostByTab(tabName: string){
+        
+    }
 
+    async createParentPost(postDetails: CreatePostParams) {
+        const newPost = this.postRepository.create({
+            ...postDetails,
+            upDateAt: new Date(),
+            parent: null
+        });
+        await this.postRepository.save(newPost);
+        return newPost;
+    }
 
-//     async createPost() {
-//         // const user = await this.userRepository.findOneById(userId)
-//         const children = [
-//             { 
-//                 comments : "ฉันเห็นด้วยนะ เจ้าลิง",
-//                 postAt :  new Date(),
-//             },
-//             { 
-//                 comments : "จริงงงงงงงงงงงงงงที่สูดดดดดดด",
-//                 postAt :  new Date(),
-//             }
-//         ]
-//         const newPost = await this.postRepository.create({
-//             title: 'สุดยอดกิจกรรม',
-//             description: 'นะนะนั้น เป็นชื่อการแข่งขันที่สุดยอดมาก',
-//             postAt: new Date(),
-//             treeChildren : children
-//         })
-//         await this.postRepository.save(newPost)
+    async createChildrenPost(
+        postId: number,
+        postDetails: CreatePostParams
+    ){
+        const post = await this.findByPostId(postId);
+        console.log(post);
+        if(post){
+            let postList = post.children;
+            const newPost = this.postRepository.create({
+                ...postDetails,
+                upDateAt: new Date(),
+                parent: post
+            })
+            postList.push(newPost);
+            post.children = postList;
+            await this.postRepository.save(post);
+            console.log(newPost);
+            await this.postRepository.save(newPost);
+            return newPost;
+        }else{
+            throw new HttpException(
+                'Parent post does not exist',
+                HttpStatus.NOT_FOUND
+            );
+        }
+    
+    }
 
-//         return newPost
-//     }
+    async editPost(
+        postId: number,
+        editPost: EditPostParams)
+    {
+        const post = await this.findByPostId(postId);
+        if(post){
+            return await this.postRepository.update(
+                { postId: postId },
+                { ...editPost, upDateAt: new Date() }
+            );
+        } else {
+            throw new HttpException(
+                'Post does not exist',
+                HttpStatus.NOT_FOUND
+            );
+        }
+    }
 
+    async deletePost(postId: number){
 
+    }
 
-// }
+}
