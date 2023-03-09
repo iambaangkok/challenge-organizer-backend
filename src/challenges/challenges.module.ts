@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { File } from 'src/typeorm/entities/File';
-import { ParticiPantsGiveScore } from 'src/typeorm/entities/participantsGiveScore';
+import { ParticiPantsGiveScore } from 'src/typeorm/entities/ParticiPantsGiveScore';
 import { Post } from 'src/typeorm/entities/Post';
 import { Rating } from 'src/typeorm/entities/Rating';
 import { Tab } from 'src/typeorm/entities/Tab';

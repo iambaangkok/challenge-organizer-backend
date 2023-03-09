@@ -5,7 +5,7 @@ import { UsersModule } from './users/users.module';
 import { User } from './typeorm/entities/User';
 import { Challenge } from './typeorm/entities/Challenge';
 import { TaskTemplate } from './typeorm/entities/TaskTemplate';
-import { ParticiPantsGiveScore } from './typeorm/entities/ParticipantsGiveScore';
+import { ParticiPantsGiveScore } from './typeorm/entities/ParticiPantsGiveScore';
 import { Task } from './typeorm/entities/Task';
 import { Submission } from './typeorm/entities/Submission';
 import { Team } from './typeorm/entities/Team';
