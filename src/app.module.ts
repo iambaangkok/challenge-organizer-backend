@@ -16,7 +16,11 @@ import { Tab } from './typeorm/entities/Tab';
 import { Post } from './typeorm/entities/Post';
 // import { ShopsModule } from './shops/shops.module';
 // import { PostsModule } from './posts/posts.module';
-import { AuthModule } from './auth/auth.module';
+// import { AuthModule } from './auth/auth.module';
+import { FilesModule } from './files/files.module';
+import { ItemsModule } from './items/items.module';
+import { TabsModule } from './tabs/tabs.module';
+import { PostsModule } from './posts/posts.module';
 // console.log(process.env.DB_URL + '/' + process.env.ENVIRONMENT);
 @Module({
     // imports: [
@@ -75,9 +79,12 @@ import { AuthModule } from './auth/auth.module';
         }),
         ChallengesModule,
         UsersModule,
-        AuthModule,
+        // AuthModule,
+        FilesModule,
+        ItemsModule,
+        TabsModule,
         // ShopsModule,
-        // PostsModule
+        PostsModule
     ],
 
     controllers: [],
