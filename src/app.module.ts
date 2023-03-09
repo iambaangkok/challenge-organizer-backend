@@ -52,7 +52,7 @@ import { PostsModule } from './posts/posts.module';
     imports: [
         TypeOrmModule.forRoot({
             type: 'mysql',
-            host: '10.10.182.143',
+            host: 'localhost',
             port: 3306,
             database: 'dev',
             entities: [
