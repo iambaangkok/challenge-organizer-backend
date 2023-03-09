@@ -114,7 +114,6 @@ export class Challenge {
     //     score: number;
     // };
 
-
     @Column({default :false})
     join: boolean;
 
@@ -153,7 +152,7 @@ export class Challenge {
         cascade : true
     })
     ratings : Rating[] ;
-
+ 
     // @ManyToMany(() => TaskTemplate ,(tasktemeplate) => tasktemeplate.challenges,{
     //     cascade : true,
     // })
