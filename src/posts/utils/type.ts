@@ -7,8 +7,8 @@ export type CreatePostParams = {
     createdAtDate: Date;
     upDateAt: Date;
     allowComment: boolean;
-    hasTab: Tab;
-    hasChallenge: Challenge;
+    tabName: string;
+    challengeTitle: string;
 };
 
 export type EditPostParams = {
@@ -17,8 +17,8 @@ export type EditPostParams = {
     createdAtDate: Date;
     upDateAt: Date;
     allowComment: boolean;
-    hasTab: Tab;
-    hasChallenge: Challenge;
+    tabName: string;
+    challengeTitle: string;
 };
 
 export type DeletePostParams = {

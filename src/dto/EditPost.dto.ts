@@ -7,6 +7,6 @@ export class EditPostDto {
     createdAtDate: Date;
     upDateAt: Date;
     allowComment: boolean;
-    hasTab: Tab;
-    hasChallenge: Challenge;
+    tabName: string;
+    challengeTitle: string;
 }
