@@ -12,6 +12,8 @@ import { Team } from './typeorm/entities/Team';
 import { File } from './typeorm/entities/File';
 import { Item } from './typeorm/entities/Item';
 import { Rating } from './typeorm/entities/Rating';
+import { Tab } from './typeorm/entities/Tab';
+import { Post } from './typeorm/entities/Post';
 // import { ShopsModule } from './shops/shops.module';
 // import { PostsModule } from './posts/posts.module';
 import { AuthModule } from './auth/auth.module';
@@ -61,6 +63,8 @@ import { AuthModule } from './auth/auth.module';
                 File,
                 Item,
                 Rating,
+                Tab,
+                Post
 
             ],
             synchronize: true,

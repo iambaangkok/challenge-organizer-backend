@@ -1,27 +1,39 @@
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    ManyToOne,
+    CreateDateColumn,
+    Tree,
+} from 'typeorm';
+import { Challenge } from './Challenge';
+import { Tab } from './Tab';
 
-// import { Column, Entity, ObjectID,PrimaryGeneratedColumn } from "typeorm";
-// import { TreeChildrenPost } from "./TreeChildrenPost";
-// import { TreeParentPost } from "./TreeParentPost";
+@Entity({name:'posts'})
+@Tree("materialized-path")
+export class Post{
+    @PrimaryGeneratedColumn()
+    postId: number;
 
+    @Column()
+    content: string;
 
-// @Entity({name:'posts'})
-// export class Post{
-//     @PrimaryGeneratedColumn()
-//     postId : ObjectID;
-//     @Column()
-//     userId : string;
-//     @Column()
-//     title : string;
-//     @Column()
-//     description : string;
-//     @Column()
-//     postAt: Date;
-//     @Column()
-//     editAt: Date ;
-//     @Column((type)=>TreeChildrenPost)
-//     treeChildren : TreeChildrenPost[];
-//     @Column((type)=> TreeParentPost)
-//     treeParent : TreeParentPost;
-// }
+    @CreateDateColumn()
+    createdAtDate: Date;
+    
+    @Column()
+    upDateAt: Date;
+
+    @Column()
+    allowComment: boolean;
+
+    @ManyToOne(() => Tab, (tab) => tab.posts, {
+        cascade: true
+    })
+    hasTab: Tab;
+
+    @ManyToOne(() => Challenge, (challenge) => challenge.posts)
+    hasChallenge: Challenge;
+}
 
 
