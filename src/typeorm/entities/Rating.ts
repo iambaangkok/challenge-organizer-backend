@@ -30,7 +30,7 @@ export class Rating {
     editAtDate : Date;
 
 
-    @ManyToOne(()=> User , (user)=> user.rating)
+    @ManyToOne(()=> User , (user)=> user.ratings)
     user : User ;
 
     @ManyToOne(()=> Challenge , (challenge)=> challenge.rating)

@@ -15,6 +15,12 @@ import { PostsService } from 'src/posts/services/posts/posts.service';
 export class PostsController {
     constructor(private postService:PostsService){}
 
+    @Get('/')
+    getAllPost(){
+        console.log(`GET /`)
+        return this.postService.findAllPost();
+    }
+
     @Get('/:postId')
     getPostById(@Param('postId') postId: number){
         console.log(`GET /postId`);
@@ -27,7 +33,7 @@ export class PostsController {
         return this.postService.findPostByTab(tabName);
     }
 
-    @Post()
+    @Post('/')
     createParentPost(@Body() postDetails: CreatePostDto){
         console.log(`/createParent`);
         return this.postService.createParentPost(postDetails);
