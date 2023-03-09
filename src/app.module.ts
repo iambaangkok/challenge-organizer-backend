@@ -5,7 +5,7 @@ import { UsersModule } from './users/users.module';
 import { User } from './typeorm/entities/User';
 import { Challenge } from './typeorm/entities/Challenge';
 import { TaskTemplate } from './typeorm/entities/TaskTemplate';
-import { ParticiPantsGiveScore } from './typeorm/entities/participantsGiveScore';
+import { ParticiPantsGiveScore } from './typeorm/entities/ParticipantsGiveScore';
 import { Task } from './typeorm/entities/Task';
 import { Submission } from './typeorm/entities/Submission';
 import { Team } from './typeorm/entities/Team';
@@ -52,7 +52,7 @@ import { PostsModule } from './posts/posts.module';
     imports: [
         TypeOrmModule.forRoot({
             type: 'mysql',
-            host: 'localhost',
+            host: '10.10.182.143',
             port: 3306,
             database: 'dev',
             entities: [
@@ -72,9 +72,9 @@ import { PostsModule } from './posts/posts.module';
 
             ],
             synchronize: true,
-            username: 'root',
+            username: 'dev',
             // autoLoadEntities: true,
-            // password: ,
+            password: 'password' ,
 
         }),
         ChallengesModule,
