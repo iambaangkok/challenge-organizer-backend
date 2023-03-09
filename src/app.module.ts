@@ -14,6 +14,7 @@ import { Item } from './typeorm/entities/Item';
 import { Rating } from './typeorm/entities/Rating';
 // import { ShopsModule } from './shops/shops.module';
 // import { PostsModule } from './posts/posts.module';
+import { AuthModule } from './auth/auth.module';
 // console.log(process.env.DB_URL + '/' + process.env.ENVIRONMENT);
 @Module({
     // imports: [
@@ -70,6 +71,7 @@ import { Rating } from './typeorm/entities/Rating';
         }),
         ChallengesModule,
         UsersModule,
+        AuthModule,
         // ShopsModule,
         // PostsModule
     ],

@@ -36,16 +36,18 @@ export class User {
     cmuAccount: string;
     @Column()
     studentId: string;
-    @Column()
-    rating: string;
+    // @Column()
+    // rating: string;
     @CreateDateColumn()
     createdDate: Date;
+    @Column()
+    editAtDate: Date;
     // @Column()
     // inventory: string[];
     @Column()
     coin: string;
-    @Column()
-    profileImg: string;
+    // @Column()
+    // profileImg: string;
     @Column()
     equipmentFrame: string;
     @Column({ default: false })
