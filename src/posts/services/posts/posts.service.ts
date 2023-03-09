@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EditPostParams } from 'src/posts/utils/type';
+import { DeletePostParams, EditPostParams } from 'src/posts/utils/type';
 import { Post } from 'src/typeorm/entities/Post';
 import { User } from 'src/typeorm/entities/User';
 import { CreatePostParams } from 'src/posts/utils/type';
@@ -89,7 +89,11 @@ export class PostsService {
         }
     }
 
-    async deletePost(postId: number){
+    async deletePost(
+        postId: number,
+        deletePost: DeletePostParams
+        )
+    {
 
     }
 

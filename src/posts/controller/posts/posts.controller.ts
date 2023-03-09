@@ -8,6 +8,7 @@ import {
     Body
 } from '@nestjs/common';
 import { CreatePostDto } from 'src/dto/CreatePost.dto';
+import { DeletePostDto } from 'src/dto/DeletePost.dto';
 import { EditPostDto } from 'src/dto/EditPost.dto';
 import { PostsService } from 'src/posts/services/posts/posts.service';
 
@@ -63,9 +64,12 @@ export class PostsController {
     }
 
     @Delete('/:postId')
-    deletePost(@Param('postId') postId: number){
+    deletePost(
+        @Param('postId') postId: number,
+        @Body() deletePostDto: DeletePostDto
+        ){
         console.log(`DELETE /${postId}`);
-        return this.postService.deletePost(postId);
+        return this.postService.deletePost(postId, deletePostDto)
     }
 
 }
