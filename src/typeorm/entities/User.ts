@@ -75,10 +75,14 @@ export class User {
     @JoinTable()
     challenges: Challenge[]
 
-    @ManyToOne(() => Challenge, (challenge) => challenge.hosts)
+    @ManyToOne(() => Challenge, (challenge) => challenge.hosts,{
+        onDelete :'CASCADE'
+    })
     challenge: Challenge
 
-    @ManyToMany(() => Challenge, (challenge) => challenge.collaborators)
+    @ManyToMany(() => Challenge, (challenge) => challenge.collaborators,{
+
+    })
     @JoinTable()
     constructors: Challenge[]
 
@@ -87,7 +91,9 @@ export class User {
     })
     submited: Submission[]
 
-    @ManyToOne(() => Team, (team) => team.users)
+    @ManyToOne(() => Team, (team) => team.users,{
+        onDelete : 'CASCADE'
+    })
     inTeam: Team;
 
     @OneToOne(() => File, (file) => file.user)
