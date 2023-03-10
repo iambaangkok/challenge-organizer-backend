@@ -10,7 +10,6 @@ import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
 import { ObjectID } from 'typeorm/driver/mongodb/typings';
 // import { Profile } from '../../typeorm/entities/Profile';
-import { MongoRepository } from 'typeorm/repository/MongoRepository';
 import {Repository} from 'typeorm';
 
 @Injectable()

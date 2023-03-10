@@ -17,6 +17,7 @@ import { Post } from './typeorm/entities/Post';
 // import { ShopsModule } from './shops/shops.module';
 // import { PostsModule } from './posts/posts.module';
 import { AuthModule } from './auth/auth.module';
+import { TaskModule } from './task/task.module';
 // console.log(process.env.DB_URL + '/' + process.env.ENVIRONMENT);
 @Module({
     // imports: [
@@ -76,6 +77,7 @@ import { AuthModule } from './auth/auth.module';
         ChallengesModule,
         UsersModule,
         AuthModule,
+        TaskModule,
         // ShopsModule,
         // PostsModule
     ],
