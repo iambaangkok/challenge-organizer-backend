@@ -32,7 +32,7 @@ export class Challenge {
     @Column()
     description: string;
 
-    @Column()
+    @Column({default: "single"})
     type: string;
     
     @Column()
