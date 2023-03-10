@@ -16,7 +16,7 @@ import { Tab } from './typeorm/entities/Tab';
 import { Post } from './typeorm/entities/Post';
 // import { ShopsModule } from './shops/shops.module';
 // import { PostsModule } from './posts/posts.module';
-import { AuthModule } from './auth/auth.module';
+// import { AuthModule } from './auth/auth.module';
 import { TaskModule } from './task/task.module';
 // import { AuthModule } from './auth/auth.module';
 import { FilesModule } from './files/files.module';
@@ -50,7 +50,6 @@ import { PostsModule } from './posts/posts.module';
     // ], //PostsModule
     // // mongoose.connect(mongoConnectionString, {useNewUrlParser: true, useUnifiedTopology: true});
 
-
     imports: [
         TypeOrmModule.forRoot({
             type: 'mysql',
@@ -70,28 +69,26 @@ import { PostsModule } from './posts/posts.module';
                 Item,
                 Rating,
                 Tab,
-                Post
-
+                Post,
             ],
             synchronize: true,
             username: 'root',
             // autoLoadEntities: true,
             // password: 'password' ,
-
         }),
         ChallengesModule,
         UsersModule,
-        AuthModule,
+        // AuthModule,
         TaskModule,
         // AuthModule,
         FilesModule,
         ItemsModule,
         TabsModule,
         // ShopsModule,
-        PostsModule
+        PostsModule,
     ],
 
     controllers: [],
     providers: [],
 })
-export class AppModule { }
+export class AppModule {}
