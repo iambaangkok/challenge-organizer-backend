@@ -53,17 +53,17 @@ pipeline {
                 }
             }
         }
-        stage('run docker image') {
-            when{
-                branch 'master'
-            }
-            steps {
-                // bat 'docker pull iambaangkok/challenge-organizer-backend'
-                bat 'docker rm -f challenge-organizer-backend'
-                bat 'docker run -dp 3030:3000 --name challenge-organizer-backend iambaangkok/challenge-organizer-backend'
-                // bat 'docker compose up'
-            }
-        }
+        // stage('run docker image') {
+        //     when{
+        //         branch 'master'
+        //     }
+        //     steps {
+        //         // bat 'docker pull iambaangkok/challenge-organizer-backend'
+        //         bat 'docker rm -f challenge-organizer-backend'
+        //         bat 'docker run -dp 3030:3000 --name challenge-organizer-backend iambaangkok/challenge-organizer-backend'
+        //         // bat 'docker compose up'
+        //     }
+        // }
         
 
 
