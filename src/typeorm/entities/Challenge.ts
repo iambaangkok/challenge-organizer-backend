@@ -12,7 +12,7 @@ import {
 import { CreateDateColumn } from 'typeorm/decorator/columns/CreateDateColumn';
 import { Unique } from 'typeorm/decorator/Unique';
 import { File } from './File';
-import { ParticiPantsGiveScore } from './participantsGiveScore';
+import { ParticiPantsGiveScore } from './ParticiPantsGiveScore';
 import { Rating } from './Rating';
 import { Tab } from './Tab';
 import { Task } from './Task';
@@ -114,7 +114,6 @@ export class Challenge {
     //     score: number;
     // };
 
-
     @Column({default :false})
     join: boolean;
 
@@ -153,7 +152,7 @@ export class Challenge {
         cascade : true
     })
     ratings : Rating[] ;
-
+ 
     // @ManyToMany(() => TaskTemplate ,(tasktemeplate) => tasktemeplate.challenges,{
     //     cascade : true,
     // })

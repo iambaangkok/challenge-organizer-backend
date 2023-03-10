@@ -16,16 +16,6 @@ export type FindUserParams = {
     studentId: string;
 };
 
-export type CreatePostParams = {
-    // post_id: number;
-    // repliedPost: string;
-    // user_id: string;
-    // markdown: string;
-    // directChildPost: [];
-    // timeStamp: Date;
-    // allowComment: Boolean;
-};
-
 export type UpdateUserParams = {
     userName: string;
     cmuAccount: string;

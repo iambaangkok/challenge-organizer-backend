@@ -14,12 +14,7 @@ export class Tab {
     @PrimaryGeneratedColumn()
     tabId: number;
 
-    @Column(
-        {
-            length: 40,
-            unique: true
-        }
-    )
+    @Column()
     tabName: string;
 
     @Column({ default: false })

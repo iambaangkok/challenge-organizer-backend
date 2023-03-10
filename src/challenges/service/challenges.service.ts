@@ -117,8 +117,6 @@ export class ChallengesService {
 
     async deleteChallenge(challengeTitle: string) {
         const challenge = await this.findChallenges(challengeTitle);
-        console.log('participants = ' + challenge.participants)
-        console.log('type participants = ' + typeof(challenge.participants))
         if (!challenge) {
             throw new HttpException(
                 'Challenge does not exist',

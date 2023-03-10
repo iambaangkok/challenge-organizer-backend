@@ -5,7 +5,7 @@ import { UsersModule } from './users/users.module';
 import { User } from './typeorm/entities/User';
 import { Challenge } from './typeorm/entities/Challenge';
 import { TaskTemplate } from './typeorm/entities/TaskTemplate';
-import { ParticiPantsGiveScore } from './typeorm/entities/participantsGiveScore';
+import { ParticiPantsGiveScore } from './typeorm/entities/ParticiPantsGiveScore';
 import { Task } from './typeorm/entities/Task';
 import { Submission } from './typeorm/entities/Submission';
 import { Team } from './typeorm/entities/Team';
@@ -18,6 +18,11 @@ import { Post } from './typeorm/entities/Post';
 // import { PostsModule } from './posts/posts.module';
 import { AuthModule } from './auth/auth.module';
 import { TaskModule } from './task/task.module';
+// import { AuthModule } from './auth/auth.module';
+import { FilesModule } from './files/files.module';
+import { ItemsModule } from './items/items.module';
+import { TabsModule } from './tabs/tabs.module';
+import { PostsModule } from './posts/posts.module';
 // console.log(process.env.DB_URL + '/' + process.env.ENVIRONMENT);
 @Module({
     // imports: [
@@ -69,17 +74,21 @@ import { TaskModule } from './task/task.module';
 
             ],
             synchronize: true,
-            username: 'root',
+            username: 'dev',
             // autoLoadEntities: true,
-            // password: ,
+            password: 'password' ,
 
         }),
         ChallengesModule,
         UsersModule,
         AuthModule,
         TaskModule,
+        // AuthModule,
+        FilesModule,
+        ItemsModule,
+        TabsModule,
         // ShopsModule,
-        // PostsModule
+        PostsModule
     ],
 
     controllers: [],
