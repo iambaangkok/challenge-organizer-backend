@@ -38,6 +38,7 @@ export class ChallengesService {
     async findAllChallengesByDisplayName(displayname: string) {
         const user = await this.userRepository.findOneBy({
             displayName: displayname,
+    
         });
         const allChallenges = await this.challengeRepository.find();
         if (user == null) {
@@ -70,7 +71,10 @@ export class ChallengesService {
 
     async findChallenges(challengeTitle: string) {
         const challenge = await this.challengeRepository.findOne({
-            relations: {participants: true},
+            relations: {
+                participants: true,
+                tasks : true,
+            },
             where: {challengeTitle: challengeTitle}
         });
         console.log('challengeTitle = ' + challengeTitle)

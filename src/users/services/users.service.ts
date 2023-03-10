@@ -90,18 +90,6 @@ export class UsersService {
             };
         }
     }
- //Todo ยังไม่สร้างน้า
-    // async createUserProfile(userprofiles: CreateUserProfileParams) {
-    //     const user = await this.userRepository.findOneBy({
-    //         firstName: 'Nonthawat',
-    //     });
-    //     console.log(userprofiles);
-    //     const newProfile = this.profileRepository.create({ ...userprofiles });
-    //     const saveProfile = await this.profileRepository.save(newProfile);
-    //     user.profile = saveProfile;
-    //     console.log(user);
-    //     return await this.userRepository.save(user);
-    // }
 
     /**
      * ! ทำการ Update ได้แล้ว

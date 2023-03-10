@@ -74,9 +74,9 @@ import { PostsModule } from './posts/posts.module';
 
             ],
             synchronize: true,
-            username: 'dev',
+            username: 'root',
             // autoLoadEntities: true,
-            password: 'password' ,
+            // password: 'password' ,
 
         }),
         ChallengesModule,

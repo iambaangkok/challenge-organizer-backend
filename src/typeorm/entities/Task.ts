@@ -21,7 +21,7 @@ export class Task {
     @Column()
     description: string;
 
-    @Column()
+    @Column({default : 0})
     score: number;
 
     @CreateDateColumn()
@@ -30,6 +30,9 @@ export class Task {
     @Column()
     editAt: Date;
 
+    @Column('bool',{default : false})
+    doned : boolean;
+
 
 
     // @OneToMany(() =>Challenge ,(challenge) => challenge.task,{
@@ -37,7 +40,7 @@ export class Task {
     // })
     // hasChallenges: Challenge[] ; 
 
-    @ManyToOne(()=>Challenge, (challenge) => challenge.tasks)
+    @ManyToOne(()=> Challenge, (challenge) => challenge.tasks)
     hasChallenges: Challenge;
 
 
