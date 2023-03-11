@@ -42,7 +42,7 @@ export class Challenge {
     numParticipants: number;
 
     @Column()
-    host: string;
+    hostName: string;
 
     @Column()
     banckImg: string;
@@ -111,7 +111,7 @@ export class Challenge {
     // @Column()
     // participantsGiveScore: {
     //     username: string;
-    //     score: number;
+    //     score: number; 
     // };
 
     @Column({default :false})
@@ -122,10 +122,11 @@ export class Challenge {
     })
     participants: User[];
 
-    @OneToMany(() => User, (user) => user.challenges,{
-        cascade : true
+
+    @ManyToOne(() =>User, (user) => user.hosts,{
+        onDelete : 'CASCADE'
     })
-    hosts: User[];
+    host : User
 
     @ManyToMany( () => User, (user) => user.constructors)
     collaborators : User[];

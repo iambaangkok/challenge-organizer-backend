@@ -75,10 +75,11 @@ export class User {
     @JoinTable()
     challenges: Challenge[]
 
-    @ManyToOne(() => Challenge, (challenge) => challenge.hosts,{
-        onDelete :'CASCADE'
+
+    @OneToMany(() => Challenge , (challenge) => challenge.host,{
+        cascade : true
     })
-    challenge: Challenge
+    hosts : Challenge[] 
 
     @ManyToMany(() => Challenge, (challenge) => challenge.collaborators,{
 
