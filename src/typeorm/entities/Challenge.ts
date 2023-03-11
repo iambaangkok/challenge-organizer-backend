@@ -38,7 +38,7 @@ export class Challenge {
     @Column({nullable: true})
     format?: string;
 
-    @Column({default: 1})
+    @Column({default: 0})
     numParticipants?: number;
 
     @Column({nullable: false})

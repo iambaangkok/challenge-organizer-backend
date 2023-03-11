@@ -202,6 +202,7 @@ export class ChallengesService {
             }
             user.challenges = challengeList;
             await this.userRepository.save(user);
+            challenge.numParticipants++;
 
             // challenge part
             if (!userList) {
@@ -311,6 +312,7 @@ export class ChallengesService {
             challenge.participants = userList;
             challenge.upDateAt = new Date();
             await this.challengeRepository.save(challenge);
+            challenge.numParticipants--;
             return {
                 status: 200,
                 message: `Successfully left challenge: ${challengeTitle}`,
