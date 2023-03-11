@@ -76,6 +76,7 @@ export class ChallengesService {
             relations: {
                 participants: true,
                 tasks : true,
+                collaborators: true
             },
             where: {challengeTitle: challengeTitle}
         });
@@ -311,8 +312,8 @@ export class ChallengesService {
             }
             challenge.participants = userList;
             challenge.upDateAt = new Date();
-            await this.challengeRepository.save(challenge);
             challenge.numParticipants--;
+            await this.challengeRepository.save(challenge);
             return {
                 status: 200,
                 message: `Successfully left challenge: ${challengeTitle}`,

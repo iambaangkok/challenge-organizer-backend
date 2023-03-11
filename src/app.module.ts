@@ -16,7 +16,7 @@ import { Tab } from './typeorm/entities/Tab';
 import { Post } from './typeorm/entities/Post';
 // import { ShopsModule } from './shops/shops.module';
 // import { PostsModule } from './posts/posts.module';
-import { AuthModule } from './auth/auth.module';
+// import { AuthModule } from './auth/auth.module';
 import { TaskModule } from './task/task.module';
 // import { AuthModule } from './auth/auth.module';
 import { FilesModule } from './files/files.module';
@@ -81,7 +81,7 @@ import { PostsModule } from './posts/posts.module';
         }),
         ChallengesModule,
         UsersModule,
-        AuthModule,
+        // AuthModule,
         TaskModule,
         // AuthModule,
         FilesModule,
