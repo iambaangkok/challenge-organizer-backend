@@ -21,7 +21,7 @@ export class ChallengesService {
     ) {}
 
     async findAllChallenges() {
-        const challenges = await this.challengeRepository.find();
+        const challenges = await this.challengeRepository.find({ relations: {participants: true}});
         for (let i = 0; i < challenges.length; i++) {
             const joinTrue = challenges[i].join == true;
             if (joinTrue) {
@@ -35,18 +35,20 @@ export class ChallengesService {
         return challenges;
     }
 
-    async findAllChallengesByDisplayName(displayname: string) {
-        const user = await this.userRepository.findOneBy({
-            displayName: displayname,
-    
+    async findAllChallengesByDisplayName(displayName: string) {
+        const user = await this.userRepository.findOne({
+            relations: {
+                challenges: true
+            },
+            where: {
+                displayName: displayName
+            }
         });
-        const allChallenges = await this.challengeRepository.find();
+        const allChallenges = await this.findAllChallenges();
         if (user == null) {
             return allChallenges;
         }
         const userDisplayName = user.displayName;
-        console.log(userDisplayName.toString());
-        console.log(allChallenges[0].participants.length);
         if (user.challenges.length == 0) {
             console.log(':)');
             return allChallenges;
@@ -181,6 +183,7 @@ export class ChallengesService {
                 displayName: joinChallenge.displayName
             }
         });
+        console.log(user)
         if (user == null) {
             throw new HttpException(
                 'User does not exist',
