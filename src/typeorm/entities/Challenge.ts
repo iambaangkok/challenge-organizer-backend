@@ -24,7 +24,7 @@ import { Post } from './Post'
 @Entity({ name: 'challenges' })
 export class Challenge {
     @PrimaryGeneratedColumn()
-    challengeId: number;
+    challengeId?: number;
 
     @Column()
     challengeTitle: string;
@@ -33,22 +33,22 @@ export class Challenge {
     description: string;
 
     @Column({default: "single"})
-    type: string;
+    type?: string;
     
-    @Column()
-    format: string;
+    @Column({nullable: true})
+    format?: string;
 
-    @Column()
-    numParticipants: number;
+    @Column({default: 1})
+    numParticipants?: number;
 
-    @Column()
+    @Column({nullable: false})
     host: string;
 
-    @Column()
-    banckImg: string;
+    @Column({nullable: true})
+    banckImg?: string;
 
-    @Column()
-    maxParticipants: number;
+    @Column({default: 10})
+    maxParticipants?: number;
 
     // @Column()
     // banUser: [object];
@@ -62,14 +62,14 @@ export class Challenge {
     @Column()
     upDateAt: Date;
 
-    @Column()
-    startDate: Date;
+    @Column({nullable: true})
+    startDate?: Date;
 
-    @Column()
-    endDate: Date;
+    @Column({nullable: true})
+    endDate?: Date;
 
     @Column({default: false})
-    closed: boolean;
+    closed?: boolean;
     // @Column()
     // file: {
     //     user: object;
@@ -89,7 +89,7 @@ export class Challenge {
     //     menubar: [object];
     // };
     @Column({default : 1 })
-    maxTeams: number;
+    maxTeams?: number;
 
     // @Column()
     // feedback: {
@@ -105,8 +105,8 @@ export class Challenge {
     //     coint_ClinkRating: number;
     // };
 
-    @Column()
-    rating: number;
+    @Column({default: 0})
+    rating?: number;
 
     // @Column()
     // participantsGiveScore: {
