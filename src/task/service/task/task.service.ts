@@ -1,6 +1,6 @@
 import { ConsoleLogger, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateTaskParams } from 'src/task/utils/type';
+import { CreateTaskParams, EditTaskParams } from 'src/task/utils/type';
 import { Challenge } from 'src/typeorm/entities/Challenge';
 import { Task } from 'src/typeorm/entities/Task';
 import { Repository } from 'typeorm';
@@ -35,8 +35,12 @@ export class TaskService {
                 hasChallenges: challenge
             })
             return (
-                this.taskRepository.save(newTask),
-                newTask
+                await this.taskRepository.save(newTask),
+                {
+                    taskId: newTask.taskId,
+                    description: newTask.description,
+                    score: newTask.score
+                }
             )
         } else {
             throw new HttpException(
@@ -48,16 +52,48 @@ export class TaskService {
     }
 
 
-    async deleteTask(taskId: number) {
+    async editedTask(
+        taskId: number,
+        editTask: EditTaskParams) {
         const task = await this.taskRepository.findOne({
-            where : { taskId : taskId}
+            where: { taskId: taskId }
         })
 
-        if(task){
-            
+        if (task) {
+            const updateTask = await this.taskRepository.update(
+                { taskId: task.taskId },
+                {
+                    ...editTask,
+                    editAt: new Date()
+                }
+            )
+            return {...editTask}
 
-        }else{
+        } else {
+            throw new HttpException(
+                'ไม่มี Task นี้ให้อัปเดต',
+                HttpStatus.NOT_FOUND
+            );
+        }
 
+
+    }
+
+
+
+    async deleteTask(taskId: number) {
+        const task = await this.taskRepository.findOne({
+            where: { taskId: taskId }
+        })
+
+        // console.log(typeof(taskId))
+        if (task) {
+            console.log(`Task has delete ${task.description}`)
+            return this.taskRepository.remove(task)
+        } else {
+            throw new HttpException(
+                'ไม่มี Task ให้ลบ',
+                HttpStatus.BAD_REQUEST)
         }
 
     }

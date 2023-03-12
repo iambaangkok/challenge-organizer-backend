@@ -34,18 +34,26 @@ export class Submission {
 
 
 
-    @ManyToOne(() => Task, (task) => task.hasSubmissions)
+    @ManyToOne(() => Task, (task) => task.hasSubmissions,{
+        onDelete : 'CASCADE'
+    })
     task: Task;
 
 
 
-    @ManyToOne(() => User, (user) => user.submited)
+    @ManyToOne(() => User, (user) => user.submited,{
+        onDelete : 'CASCADE'
+    })
     hasSubmit : User;
 
-    @ManyToOne(() => Team , (team) => team.hasSubmissions)
+    @ManyToOne(() => Team , (team) => team.hasSubmissions,{
+        onDelete : 'CASCADE'
+    })
     hasSubmitTeam : Team;
 
-    @OneToOne(() => File , (file) => file.submission)
+    @OneToOne(() => File , (file) => file.submission,{
+        onDelete : 'CASCADE'
+    })
     file : File;
 
 

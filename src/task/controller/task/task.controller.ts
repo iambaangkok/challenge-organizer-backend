@@ -1,31 +1,49 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { CreateTaskDto } from 'src/dto/CreateTask.dto';
+import { Body, Controller, Get, ParseArrayPipe, ParseIntPipe, Post } from '@nestjs/common';
+import { Delete, Param, Put } from '@nestjs/common/decorators';
+import { CreateTaskDto, EditTaskDto } from 'src/dto/CreateTask.dto';
 import { TaskService } from 'src/task/service/task/task.service';
 
 @Controller('api/task')
 export class TaskController {
 
-    constructor(private taskService : TaskService){}
+    constructor(private taskService: TaskService) { }
 
 
 
 
     @Get()
-    async viewAllTasks(){
+    async viewAllTasks() {
         return this.taskService.findTasks();
     }
 
 
     @Post()
-    createTask(@Body() createTaskDto : CreateTaskDto){
+    createTask(@Body() createTaskDto: CreateTaskDto) {
         const challeneTitle = createTaskDto.challengeTitle
-        return this.taskService.createTask(createTaskDto , challeneTitle);
+        return this.taskService.createTask(createTaskDto, challeneTitle);
+    }
+
+    @Put('/:taskId')
+    editeTask(
+        @Param('taskId',ParseIntPipe) taskId: number,
+        @Body() editTaskDto: EditTaskDto,
+    ) {
+        console.log(`PUT /${taskId}`);
+        return this.taskService.editedTask(taskId,editTaskDto);
+    }
+
+    @Delete('/:taskId')
+    deleteTask(
+        @Param('taskId',ParseIntPipe) taskId: number
+    ) {
+        console.log(`DELETE /${taskId}`);
+        return this.taskService.deleteTask(taskId);
     }
 
 
 
 
-    
+
 
 
 }
