@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../typeorm/entities/User';
 import {
     CreateUserParams,
-    CreateUserProfileParams,
     UpdateUserParams,
 } from '../utils/type';
 import { HttpException } from '@nestjs/common/exceptions';
@@ -36,6 +35,7 @@ export class UsersService {
         return await this.userRepository.find({
             relations : {
                 challenges : true,
+                constructors : true,
             }
         }); //selet all
     }
@@ -134,4 +134,7 @@ export class UsersService {
             });
         }
     }
+
+
+  
 }

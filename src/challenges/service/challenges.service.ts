@@ -4,7 +4,9 @@ import { Challenge } from '../../typeorm/entities/Challenge';
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
 import {
+    AddCollaborator,
     CreateChallengeParams,
+    DeleteCollaborator,
     EditChallengeParams,
     JoinLeaveChallengeParams,
 } from '../utils/type';
@@ -17,11 +19,16 @@ export class ChallengesService {
         @InjectRepository(Challenge)
         private challengeRepository: Repository<Challenge>,
         @InjectRepository(User)
-        private userRepository: Repository<User>
-    ) {}
+        private userRepository: Repository<User>,
+    ) { }
 
     async findAllChallenges() {
-        const challenges = await this.challengeRepository.find({ relations: {participants: true}});
+        const challenges = await this.challengeRepository.find({
+            relations: {
+                participants: true,
+                collaborators: true,
+            }
+        });
         for (let i = 0; i < challenges.length; i++) {
             const joinTrue = challenges[i].join == true;
             if (joinTrue) {
@@ -75,14 +82,14 @@ export class ChallengesService {
         const challenge = await this.challengeRepository.findOne({
             relations: {
                 participants: true,
-                tasks : true,
-                collaborators: true
+                tasks: true,
+                collaborators: true,
             },
-            where: {challengeTitle: challengeTitle}
+            where: { challengeTitle: challengeTitle }
         });
         console.log('challengeTitle = ' + challengeTitle)
         console.log(challenge)
-        return challenge 
+        return challenge
     }
 
     async createChallenge(challengeDetails: CreateChallengeParams) {
@@ -93,6 +100,7 @@ export class ChallengesService {
             const newChallenge = this.challengeRepository.create({
                 ...challengeDetails,
                 participants: [],
+                collaborators: []
             });
             await this.challengeRepository.save(newChallenge);
             return { challengeTitle: newChallenge.challengeTitle };
@@ -109,7 +117,7 @@ export class ChallengesService {
         challengeTitle: string,
         editChallenge: EditChallengeParams,
     ) {
-        if (await this.findChallenges(challengeTitle)){
+        if (await this.findChallenges(challengeTitle)) {
             return await this.challengeRepository.update(
                 { challengeTitle: challengeTitle },
                 { ...editChallenge, upDateAt: new Date() }
@@ -270,13 +278,13 @@ export class ChallengesService {
                         'User is not a participant in this challenge',
                         HttpStatus.NOT_MODIFIED,
                     );
-                
+
                 } else {
                     const index = challengeList.findIndex((challenge_i) => {
                         return challenge_i.challengeTitle === challenge.challengeTitle;
                     });
                     challengeList.splice(index, 1);
-                    
+
                     user.challenges = challengeList;
                     await this.userRepository.save(user);
                 }
@@ -325,4 +333,86 @@ export class ChallengesService {
             );
         }
     }
+
+    async addCollaborators(addCollaboratorDetails: AddCollaborator) {
+        const challenge = await this.challengeRepository.findOne({
+            where: {
+                challengeTitle: addCollaboratorDetails.challengeTitle
+            },
+            relations: {
+                collaborators: true,
+            }
+        })
+        const user = await this.userRepository.findOne({
+            where: {
+                cmuAccount: addCollaboratorDetails.cmuAccount
+            }
+        })
+        if (!user) {
+            throw new HttpException("not found user", HttpStatus.BAD_REQUEST)
+        } else {
+
+            if (challenge) {
+                const challengeCollaboratorOld = challenge.collaborators
+                challengeCollaboratorOld.push(user)
+                challenge.collaborators = challengeCollaboratorOld
+                this.challengeRepository.save(challenge)
+                return {
+                    Massage: "Add collaborators Susese ",
+                    CollaboratorName: `${user.displayName}`
+                }
+
+
+            } else {
+                throw new HttpException("not found challenge", HttpStatus.BAD_REQUEST)
+            }
+        }
+    }
+
+    async deleteCollaborators(deleteCollaboratorsDetails: DeleteCollaborator) {
+
+        const challenge = await this.challengeRepository.findOne({
+            where: {
+                challengeId: deleteCollaboratorsDetails.challengeId
+            },
+            relations: {
+                collaborators: true
+            }
+        })
+
+        const user = await this.userRepository.findOne({
+            where: {
+                userId: deleteCollaboratorsDetails.userId
+            },
+            relations: {
+                constructors: true
+            }
+        })
+        
+        if (!user) {
+            throw new HttpException("ไม่มี user น้า", HttpStatus.BAD_REQUEST)
+        } else {
+            if (!challenge) {
+                throw new HttpException("Not found challenge", HttpStatus.BAD_REQUEST)
+            } else {
+                const id = challenge.challengeId
+                challenge.collaborators = challenge.collaborators.filter((challenge) => {
+                    return id !== deleteCollaboratorsDetails.challengeId
+                })
+                await this.challengeRepository.save(challenge)
+                return {
+                    Massage : "Remove Suc",
+                    userName : `${user.displayName}`
+                }
+            }
+        }
+
+
+
+
+
+    }
+
+
+
 }

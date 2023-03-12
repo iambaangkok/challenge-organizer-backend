@@ -64,4 +64,7 @@ export class UsersController {
         console.log(`DELETE /${displayName}`);
         return await this.userService.deleteUser(displayName);
     }
+
+
+    
 }
