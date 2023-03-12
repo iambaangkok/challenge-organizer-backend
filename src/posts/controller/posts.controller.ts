@@ -10,7 +10,7 @@ import {
 import { CreatePostDto } from 'src/dto/CreatePost.dto';
 import { DeletePostDto } from 'src/dto/DeletePost.dto';
 import { EditPostDto } from 'src/dto/EditPost.dto';
-import { PostsService } from 'src/posts/services/posts/posts.service';
+import { PostsService } from '../services/posts.service';
 
 @Controller('/api/posts')
 export class PostsController {

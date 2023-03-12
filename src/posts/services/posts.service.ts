@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeletePostParams, EditPostParams } from 'src/posts/utils/type';
-import { Post } from 'src/typeorm/entities/Post';
-import { User } from 'src/typeorm/entities/User';
 import { CreatePostParams } from 'src/posts/utils/type';
+import { User } from '../../typeorm/entities/User';
+import { Post } from '../../typeorm/entities/Post';
 import { Repository } from 'typeorm';
 
 @Injectable()

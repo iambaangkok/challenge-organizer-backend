@@ -9,3 +9,11 @@ export class CreateTaskDto{
     challengeTitle : string;
 
 }
+
+
+export class EditTaskDto{
+    description: string;
+    score: number;
+    doned : boolean;
+}
+

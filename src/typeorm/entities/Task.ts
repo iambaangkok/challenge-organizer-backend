@@ -40,8 +40,10 @@ export class Task {
     // })
     // hasChallenges: Challenge[] ; 
 
-    @ManyToOne(()=> Challenge, (challenge) => challenge.tasks)
-    hasChallenges: Challenge;
+    @ManyToOne(()=> Challenge, (challenge) => challenge.tasks,{
+        onDelete : 'CASCADE'
+    })
+    hasChallenges?: Challenge;
 
 
     @OneToMany(() => Submission , (submissions)=> submissions.task,{

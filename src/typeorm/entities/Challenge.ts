@@ -24,7 +24,7 @@ import { Post } from './Post';
 @Entity({ name: 'challenges' })
 export class Challenge {
     @PrimaryGeneratedColumn()
-    challengeId: number;
+    challengeId?: number;
 
     @Column()
     challengeTitle: string;
@@ -32,22 +32,22 @@ export class Challenge {
     @Column()
     description: string;
 
-    @Column({ default: 'single' })
+    @Column({default: "single"})
     type?: string;
-
-    @Column({ default: 'temp' })
+    
+    @Column({nullable: true})
     format?: string;
 
-    @Column({ default: 1 })
+    @Column({default: 0})
     numParticipants?: number;
 
-    @Column({ nullable: true })
-    host?: string;
+    @Column({nullable: false})
+    host: string;
 
-    @Column({ nullable: true })
+    @Column({nullable: true})
     banckImg?: string;
 
-    @Column({ nullable: true })
+    @Column({default: 10})
     maxParticipants?: number;
 
     // @Column()
@@ -59,16 +59,13 @@ export class Challenge {
     @CreateDateColumn({ nullable: true })
     createdAtDate?: Date;
 
-    @Column({ nullable: true })
-    upDateAt?: Date;
-
-    @Column({ nullable: true })
+    @Column({nullable: true})
     startDate?: Date;
 
-    @Column({ nullable: true })
+    @Column({nullable: true})
     endDate?: Date;
 
-    @Column({ default: false })
+    @Column({default: false})
     closed?: boolean;
     // @Column()
     // file: {
@@ -88,7 +85,7 @@ export class Challenge {
     //     team_id: number;
     //     menubar: [object];
     // };
-    @Column({ default: 1 })
+    @Column({default : 1 })
     maxTeams?: number;
 
     // @Column()
@@ -105,7 +102,7 @@ export class Challenge {
     //     coint_ClinkRating: number;
     // };
 
-    @Column({ nullable: true })
+    @Column({default: 0})
     rating?: number;
 
     // @Column()

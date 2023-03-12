@@ -23,6 +23,8 @@ export class Tab {
     @OneToMany(() => Post, (post) => post.hasTab)
     posts: Post[];
 
-    @ManyToOne(() => Challenge, (challenge) => challenge.tabs)
+    @ManyToOne(() => Challenge, (challenge) => challenge.tabs,{
+        onDelete : 'CASCADE'
+    })
     hasChallenge: Challenge;
 }
