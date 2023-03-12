@@ -34,12 +34,6 @@ export class Task {
     doned : boolean;
 
 
-
-    // @OneToMany(() =>Challenge ,(challenge) => challenge.task,{
-    //     cascade : true,
-    // })
-    // hasChallenges: Challenge[] ; 
-
     @ManyToOne(()=> Challenge, (challenge) => challenge.tasks,{
         onDelete : 'CASCADE'
     })

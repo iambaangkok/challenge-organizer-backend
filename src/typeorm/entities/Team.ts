@@ -19,24 +19,24 @@ export class Team {
     teamId: number;
 
     @Column()
-    name: string;
+    name?: string;
 
     @CreateDateColumn()
-    createdAtDate: Date;
+    createdAtDate?: Date;
 
     @Column()
-    editDate: Date;
+    editDate?: Date;
 
     @OneToMany(() => Submission , (submission) => submission.hasSubmitTeam,{
         cascade: true
     })
-    hasSubmissions : Submission[] ;
+    hasSubmissions?: Submission[] ;
 
 
     @OneToMany(()=> User , (user) => user.inTeam,{
         cascade: true
     })
-    users : User[] ;
+    users?: User[] ;
 
 
 

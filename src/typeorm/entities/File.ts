@@ -18,27 +18,27 @@ export class File {
     fileId : number ;
 
     @Column()
-    path : string ;
+    path? : string ;
 
     @CreateDateColumn()
     createdAtDate : Date ;
 
     @Column()
-    editDate : Date ;
+    editDate? : Date ;
 
     
     @OneToOne(()=> User , (user) => user.file)
-    user : User;
+    user? : User;
 
     @OneToOne(() => Submission , (submission) => submission.file)
-    submission : Submission ; 
+    submission? : Submission ; 
 
 
     @OneToOne(() => Challenge , (challenge) => challenge.file)
-    challenge : Challenge ; 
+    challenge? : Challenge ; 
 
     @OneToOne(() => Item ,(item) => item.file)
-    item : Item ; 
+    item? : Item ; 
 
 
     

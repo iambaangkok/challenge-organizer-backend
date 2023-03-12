@@ -19,22 +19,22 @@ export class Item {
     itemId: number;
 
     @Column()
-    inShop : string; // ไม่แน่ใจ
+    inShop? : string; // ไม่แน่ใจ
 
     @Column()
-    price : number ;
+    price? : number ;
 
     @CreateDateColumn()
     createAtDate: Date;
 
     @Column()
-    editAtDate: Date;
+    editAtDate?: Date;
 
     @ManyToOne(()=> User, (user) => user.items)
-    user : User;
+    user? : User;
 
 
     @OneToOne(()=> File , (file) => file.item)
-    file: File;
+    file?: File;
 
 }

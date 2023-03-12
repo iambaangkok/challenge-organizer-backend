@@ -18,33 +18,33 @@ export class Post{
     postId: number;
 
     @Column()
-    content: string;
+    content?: string;
 
     @CreateDateColumn()
     createdAtDate: Date;
     
     @Column()
-    upDateAt: Date;
+    upDateAt?: Date;
 
-    @Column()
-    allowComment: boolean;
+    @Column({default : true})
+    allowComment?: boolean;
 
     @TreeChildren()
-    children: Post[]
+    children?: Post[]
 
     @TreeParent()
-    parent: Post
+    parent?: Post
 
     @Column()
-    owener: string;
+    owener?: string;
 
     @ManyToOne(() => Tab, (tab) => tab.posts, {
         cascade: true
     })
-    hasTab: Tab;
+    hasTab?: Tab;
 
     @ManyToOne(() => Challenge, (challenge) => challenge.posts)
-    hasChallenge: Challenge;
+    hasChallenge?: Challenge;
 }
 
 

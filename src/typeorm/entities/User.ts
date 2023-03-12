@@ -27,43 +27,43 @@ export class User {
             unique: true
         }
     )
-    displayName: string;
+    displayName?: string;
 
     @Column()
-    firstName: string;
+    firstName?: string;
 
     @Column()
-    lastName: string;
+    lastName?: string;
 
     @Column({ unique: true })
-    cmuAccount: string;
+    cmuAccount?: string;
 
     @Column()
-    studentId: string;
+    studentId?: string;
     // @Column()
     // rating: string;
     @CreateDateColumn()
-    createdDate: Date;
+    createdDate?: Date;
     @Column()
-    editAtDate: Date;
+    editAtDate?: Date;
     // @Column()
     // inventory: string[];
 
-    @Column()
-    coin: string;
+    @Column({default : "0"})
+    coin?: string;
     // @Column()
     // profileImg: string;
     @Column()
-    equipmentFrame: string;
+    equipmentFrame?: string;
 
     @Column({ default: false })
     banStatus: boolean;
 
     @Column()
-    tasks: string;
+    tasks?: string;
 
     @Column({ default: false })
-    isAdmin: boolean;
+    isAdmin?: boolean;
 
     // @Column()
     // profile: object;
@@ -73,40 +73,40 @@ export class User {
     // challenges: string[];
     @ManyToMany(() => Challenge, (challenge) => challenge.participants)
     @JoinTable()
-    challenges: Challenge[]
+    challenges?: Challenge[]
 
     @ManyToOne(() => Challenge, (challenge) => challenge.hosts,{
         onDelete :'CASCADE'
     })
-    challenge: Challenge
+    challenge?: Challenge
 
     @ManyToMany(() => Challenge, (challenge) => challenge.collaborators,{
         cascade : true,
         onDelete : 'CASCADE'
     })
     @JoinTable()
-    constructors: Challenge[]
+    constructors?: Challenge[]
 
     @OneToMany(() => Submission, (submission) => submission.hasSubmit, {
         cascade: true,
     })
-    submited: Submission[]
+    submited?: Submission[]
 
     @ManyToOne(() => Team, (team) => team.users,{
         onDelete : 'CASCADE'
     })
-    inTeam: Team;
+    inTeam?: Team;
 
     @OneToOne(() => File, (file) => file.user)
-    file: File;
+    file?: File;
 
     @OneToMany(() => Item, (item) => item.user, {
         cascade: true,
     })
-    items: Item[];
+    items?: Item[];
 
     @OneToMany(() => Rating, (rating) => rating.user, {
         cascade: true,
     })
-    ratings : Rating[];
+    ratings?: Rating[];
 }

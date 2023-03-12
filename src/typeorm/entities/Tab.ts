@@ -15,16 +15,16 @@ export class Tab {
     tabId: number;
 
     @Column()
-    tabName: string;
+    tabName?: string;
 
     @Column({ default: false })
     permission: boolean
 
     @OneToMany(() => Post, (post) => post.hasTab)
-    posts: Post[];
+    posts?: Post[];
 
     @ManyToOne(() => Challenge, (challenge) => challenge.tabs,{
         onDelete : 'CASCADE'
     })
-    hasChallenge: Challenge;
+    hasChallenge?: Challenge;
 }

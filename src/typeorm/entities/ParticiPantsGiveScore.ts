@@ -9,16 +9,16 @@ export class ParticiPantsGiveScore {
     particGSId: number;
 
     @Column()
-    displayName: string;
+    displayName?: string;
 
     @Column()
-    fristName: string;
+    fristName?: string;
 
     @Column()
-    lastName: string;
+    lastName?: string;
 
     @Column()
-    score: number;
+    score?: number;
 
     @CreateDateColumn()
     createdAt: Date;

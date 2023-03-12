@@ -12,10 +12,10 @@ export class TaskTemplate{
     taskTemplateId : number;
 
     @Column()
-    markDown : string;  
+    markDown?: string;  
 
     @Column()
-    type : string;
+    type?: string;
 
     @CreateDateColumn()
     createdAt : Date;
