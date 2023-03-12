@@ -59,6 +59,9 @@ export class Challenge {
     @CreateDateColumn({ nullable: true })
     createdAtDate?: Date;
 
+    @Column({ nullable: true })
+    upDateAt?: Date
+
     @Column({nullable: true})
     startDate?: Date;
 

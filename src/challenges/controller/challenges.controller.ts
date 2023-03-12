@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { ChallengesService } from '../service/challenges.service';
 import { CreateChallenge } from '../../dto/CreateChallenge.dto';
-// import { CreateChallengeParams } from 'src/challenges/utils/type';
 import { EditChallengeDto } from '../../dto/EditChallenge.dto';
 import { JoinLeaveChallengeDto } from '../../dto/JoinLeaveChallenge.dto';
 
