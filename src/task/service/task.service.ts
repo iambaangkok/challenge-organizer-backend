@@ -1,8 +1,8 @@
 import { ConsoleLogger, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateTaskParams, EditTaskParams } from 'src/task/utils/type';
-import { Challenge } from 'src/typeorm/entities/Challenge';
-import { Task } from 'src/typeorm/entities/Task';
+import { Challenge } from '../../typeorm/entities/Challenge';
+import { Task } from '../../typeorm/entities/Task';
 import { Repository } from 'typeorm';
 
 @Injectable()
