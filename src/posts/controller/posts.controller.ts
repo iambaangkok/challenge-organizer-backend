@@ -1,41 +1,41 @@
-import { 
-    Controller, 
-    Get, 
+import {
+    Controller,
+    Get,
     Post,
     Delete,
     Param,
     Put,
-    Body
+    Body,
 } from '@nestjs/common';
-import { CreatePostDto } from 'src/dto/CreatePost.dto';
-import { DeletePostDto } from 'src/dto/DeletePost.dto';
-import { EditPostDto } from 'src/dto/EditPost.dto';
+import { CreatePostDto } from '../../dto/CreatePost.dto';
+import { DeletePostDto } from '../../dto/DeletePost.dto';
+import { EditPostDto } from '../../dto/EditPost.dto';
 import { PostsService } from '../services/posts.service';
 
 @Controller('/api/posts')
 export class PostsController {
-    constructor(private postService:PostsService){}
+    constructor(private postService: PostsService) {}
 
     @Get('/')
-    getAllPost(){
-        console.log(`GET /`)
+    getAllPost() {
+        console.log(`GET /`);
         return this.postService.findAllPost();
     }
 
     @Get('/:postId')
-    getPostById(@Param('postId') postId: number){
+    getPostById(@Param('postId') postId: number) {
         console.log(`GET /postId`);
         return this.postService.findByPostId(postId);
     }
 
     @Get('/:tabName')
-    getPostByTab(@Param('tabName') tabName: string){
+    getPostByTab(@Param('tabName') tabName: string) {
         console.log(`GET /tabName`);
         return this.postService.findPostByTab(tabName);
     }
 
     @Post('/')
-    createParentPost(@Body() postDetails: CreatePostDto){
+    createParentPost(@Body() postDetails: CreatePostDto) {
         console.log(`/createParent`);
         return this.postService.createParentPost(postDetails);
     }
@@ -43,33 +43,27 @@ export class PostsController {
     @Post('/:postId')
     createChildrenPost(
         @Param('postId') postId: number,
-        @Body() postDetials: CreatePostDto
-        ){
+        @Body() postDetials: CreatePostDto,
+    ) {
         console.log(`/createChildren`);
-        return this.postService.createChildrenPost(
-            postId,
-            postDetials);
+        return this.postService.createChildrenPost(postId, postDetials);
     }
 
     @Put('/:postId')
     editPost(
         @Param('postId') postId: number,
-        @Body() editPostDto: EditPostDto
-    ){
+        @Body() editPostDto: EditPostDto,
+    ) {
         console.log(`PUT /${postId}`);
-        return this.postService.editPost(
-            postId,
-            editPostDto
-        );
+        return this.postService.editPost(postId, editPostDto);
     }
 
     @Delete('/:postId')
     deletePost(
         @Param('postId') postId: number,
-        @Body() deletePostDto: DeletePostDto
-        ){
+        @Body() deletePostDto: DeletePostDto,
+    ) {
         console.log(`DELETE /${postId}`);
-        return this.postService.deletePost(postId, deletePostDto)
+        return this.postService.deletePost(postId, deletePostDto);
     }
-
 }
