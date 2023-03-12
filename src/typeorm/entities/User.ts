@@ -81,7 +81,8 @@ export class User {
     challenge?: Challenge
 
     @ManyToMany(() => Challenge, (challenge) => challenge.collaborators,{
-
+        cascade : true,
+        onDelete : 'CASCADE'
     })
     @JoinTable()
     constructors?: Challenge[]

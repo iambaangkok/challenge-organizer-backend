@@ -25,3 +25,15 @@ export type EditChallengeParams = {
 export type JoinLeaveChallengeParams = {
     displayName: string;
 };
+
+
+export type AddCollaborator = {
+    challengeTitle: string
+    cmuAccount: string
+}
+
+
+export type DeleteCollaborator ={
+    challengeId: number
+    userId: number
+}

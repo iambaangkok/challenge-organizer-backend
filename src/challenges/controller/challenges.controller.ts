@@ -9,13 +9,14 @@ import {
 } from '@nestjs/common';
 import { ChallengesService } from '../service/challenges.service';
 import { CreateChallenge } from '../../dto/CreateChallenge.dto';
-// import { CreateChallengeParams } from 'src/challenges/utils/type';
 import { EditChallengeDto } from '../../dto/EditChallenge.dto';
 import { JoinLeaveChallengeDto } from '../../dto/JoinLeaveChallenge.dto';
+import { AddCollaboratorDto } from 'src/dto/AddCollaborator';
+import { DeleteCollaborator } from 'src/dto/DeleteCollaborator';
 
 @Controller('api/challenges')
 export class ChallengesController {
-    constructor(private challengeService: ChallengesService) {}
+    constructor(private challengeService: ChallengesService) { }
 
     @Get('/')
     getAllChallenges() {
@@ -31,6 +32,15 @@ export class ChallengesController {
         );
     }
 
+    @Put('/addCollaborators')
+    addCollaborator(
+        @Body() addCollaborator: AddCollaboratorDto
+    ) {
+        console.log("No")
+        return this.challengeService.addCollaborators(addCollaborator)
+    }
+
+
     @Get('/:challengeTitle')
     getChallenges(@Param('challengeTitle') challengeTitle: string) {
         console.log(`GET /${challengeTitle}`);
@@ -43,6 +53,8 @@ export class ChallengesController {
         return this.challengeService.createChallenge(challengeDetails);
     }
 
+
+
     @Put('/:challengeTitle')
     editChallenges(
         @Param('challengeTitle') challengeTitle: string,
@@ -53,6 +65,13 @@ export class ChallengesController {
             challengeTitle,
             editChallengeDto,
         );
+    }
+    @Delete('/deleteCollaborators')
+    deleteCollaborator(
+        @Body() deleteCollaboratorDto: DeleteCollaborator
+    ){
+        console.log(`DELETE /${deleteCollaboratorDto.userId}/delete`);
+        return this.challengeService.deleteCollaborators(deleteCollaboratorDto)
     }
 
     @Delete('/:challengeTitle')
@@ -84,4 +103,15 @@ export class ChallengesController {
             leaveChallengeDto,
         );
     }
+
+    // @Delete('/deleteCollaborators')
+    // deleteCollaborator(
+    //     @Body() deleteCollaboratorDto: DeleteCollaborator
+    // ){
+    //     console.log(`DELETE /${deleteCollaboratorDto.userId}/delete`);
+    //     return this.challengeService.deleteCollaborators(deleteCollaboratorDto)
+    // }
+
+
+
 }

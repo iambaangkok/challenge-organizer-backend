@@ -35,6 +35,9 @@ export class Post{
     @TreeParent()
     parent: Post
 
+    @Column()
+    owener: string;
+
     @ManyToOne(() => Tab, (tab) => tab.posts, {
         cascade: true
     })

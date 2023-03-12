@@ -59,10 +59,11 @@ export class Challenge {
     @CreateDateColumn({ nullable: true })
     createdAtDate?: Date;
 
-    @Column()
-    upDateAt: Date;
-
     @Column({ nullable: true })
+    upDateAt?: Date
+
+    @Column({nullable: true})
+
     startDate?: Date;
 
     @Column({ nullable: true })
@@ -91,34 +92,17 @@ export class Challenge {
     @Column({ default: 1 })
     maxTeams?: number;
 
-    // @Column()
-    // feedback: {
-    //     date: Date;
-    //     text: string;
-    //     name: string;
-    // };
-
-    // @Column()
-    // rating: {
-    //     rating: number;
-    //     total: number;
-    //     coint_ClinkRating: number;
-    // };
 
     @Column({ default: 0 })
     rating?: number;
 
-    // @Column()
-    // participantsGiveScore: {
-    //     username: string;
-    //     score: number;
-    // };
 
     @Column({ default: false })
     join?: boolean;
 
-    @ManyToMany(() => User, (user) => user.challenges, {
-        cascade: true,
+    @ManyToMany( () => User , (user) => user.challenges,{
+        cascade : true,
+        onDelete :"CASCADE"
     })
     participants?: User[];
 
@@ -127,8 +111,11 @@ export class Challenge {
     })
     hosts?: User[];
 
-    @ManyToMany(() => User, (user) => user.constructors)
-    collaborators?: User[];
+    @ManyToMany( () => User, (user) => user.constructors,{
+        onDelete :'CASCADE'
+    })
+    collaborators : User[];
+
 
     @OneToMany(() => Tab, (tab) => tab.hasChallenge, {
         cascade: true,

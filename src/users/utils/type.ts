@@ -27,3 +27,5 @@ export type DeleteUserParams = {
     user_id: string;
     studentId: string;
 };
+
+
