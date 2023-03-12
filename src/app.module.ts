@@ -50,7 +50,6 @@ import { PostsModule } from './posts/posts.module';
     // ], //PostsModule
     // // mongoose.connect(mongoConnectionString, {useNewUrlParser: true, useUnifiedTopology: true});
 
-
     imports: [
         TypeOrmModule.forRoot({
             type: 'mysql',
@@ -70,14 +69,12 @@ import { PostsModule } from './posts/posts.module';
                 Item,
                 Rating,
                 Tab,
-                Post
-
+                Post,
             ],
             synchronize: true,
             username: 'root',
             // autoLoadEntities: true,
             // password: 'password' ,
-
         }),
         ChallengesModule,
         UsersModule,
@@ -88,10 +85,10 @@ import { PostsModule } from './posts/posts.module';
         ItemsModule,
         TabsModule,
         // ShopsModule,
-        PostsModule
+        PostsModule,
     ],
 
     controllers: [],
     providers: [],
 })
-export class AppModule { }
+export class AppModule {}
