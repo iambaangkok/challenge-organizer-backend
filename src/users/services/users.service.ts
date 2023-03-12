@@ -10,16 +10,15 @@ import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
 import { ObjectID } from 'typeorm/driver/mongodb/typings';
 // import { Profile } from '../../typeorm/entities/Profile';
-import {Repository} from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
-        private userRepository: Repository<User>,
-        // @InjectRepository(Profile)
-        // private profileRepository: MongoRepository<Profile>,
-    ) {}
+        private userRepository: Repository<User>, // @InjectRepository(Profile)
+    ) // private profileRepository: MongoRepository<Profile>,
+    {}
 
     public async findUserinDataBase(user: object) {
         if (!user) {
@@ -34,9 +33,9 @@ export class UsersService {
 
     async findUsers() {
         return await this.userRepository.find({
-            relations : {
-                challenges : true,
-            }
+            relations: {
+                challenges: true,
+            },
         }); //selet all
     }
 
@@ -56,7 +55,7 @@ export class UsersService {
         console.log(displayName);
         const user = await this.userRepository.findOne({
             relations: { challenges: true },
-            where: {displayName: displayName}
+            where: { displayName: displayName },
         });
         console.log(user);
         return await this.findUserinDataBase(user);
@@ -69,12 +68,12 @@ export class UsersService {
             cmuAccount: cmuaccount,
         });
         console.log(user);
-        const Displayname = 'user' + (await new Date().getTime());
+        const Displayname = 'id' + (await new Date().getTime());
         if (!user) {
             const newUser = this.userRepository.create({
                 ...userDetails,
                 displayName: Displayname,
-                challenges: []
+                challenges: [],
             });
             console.log(newUser);
             return (
