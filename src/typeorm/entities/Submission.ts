@@ -24,37 +24,37 @@ export class Submission {
     submissionId: number;
 
     @Column()
-    score: string;
+    score?: string;
 
     @CreateDateColumn()
     createDate: Date;
 
     @Column()
-    editDate: Date;
+    editDate?: Date;
 
 
 
     @ManyToOne(() => Task, (task) => task.hasSubmissions,{
         onDelete : 'CASCADE'
     })
-    task: Task;
+    task?: Task;
 
 
 
     @ManyToOne(() => User, (user) => user.submited,{
         onDelete : 'CASCADE'
     })
-    hasSubmit : User;
+    hasSubmit? : User;
 
     @ManyToOne(() => Team , (team) => team.hasSubmissions,{
         onDelete : 'CASCADE'
     })
-    hasSubmitTeam : Team;
+    hasSubmitTeam?: Team;
 
     @OneToOne(() => File , (file) => file.submission,{
         onDelete : 'CASCADE'
     })
-    file : File;
+    file? : File;
 
 
     //TODO เดียวจะมันต้องเชื่อมตาราง File ทีมีความสัมพัทธ์

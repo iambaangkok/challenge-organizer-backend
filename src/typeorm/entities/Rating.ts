@@ -21,20 +21,20 @@ export class Rating {
     ratingId : number ;
 
     @Column()
-    rating : number ; 
+    rating?: number ; 
 
     @CreateDateColumn()
     createAtDate : Date;
 
     @Column()
-    editAtDate : Date;
+    editAtDate?: Date;
 
 
     @ManyToOne(()=> User , (user)=> user.ratings)
-    user : User ;
+    user? : User ;
 
     @ManyToOne(()=> Challenge , (challenge)=> challenge.rating)
-    challenges : Challenge;
+    challenges? : Challenge;
 
 
 }

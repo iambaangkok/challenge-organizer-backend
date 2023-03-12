@@ -114,7 +114,7 @@ export class Challenge {
     @ManyToMany( () => User, (user) => user.constructors,{
         onDelete :'CASCADE'
     })
-    collaborators : User[];
+    collaborators? : User[];
 
 
     @OneToMany(() => Tab, (tab) => tab.hasChallenge, {

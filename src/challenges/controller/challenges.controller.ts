@@ -6,13 +6,18 @@ import {
     Param,
     Post,
     Put,
+    UploadedFiles,
+    UseInterceptors
+
 } from '@nestjs/common';
 import { ChallengesService } from '../service/challenges.service';
 import { CreateChallenge } from '../../dto/CreateChallenge.dto';
+// import { CreateChallengeParams } from 'src/challenges/utils/type';
 import { EditChallengeDto } from '../../dto/EditChallenge.dto';
 import { JoinLeaveChallengeDto } from '../../dto/JoinLeaveChallenge.dto';
 import { AddCollaboratorDto } from 'src/dto/AddCollaborator';
 import { DeleteCollaborator } from 'src/dto/DeleteCollaborator';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('api/challenges')
 export class ChallengesController {
@@ -36,7 +41,7 @@ export class ChallengesController {
     addCollaborator(
         @Body() addCollaborator: AddCollaboratorDto
     ) {
-        console.log("No")
+        console.log(`PUT /${addCollaborator.challengeTitle}`);
         return this.challengeService.addCollaborators(addCollaborator)
     }
 
@@ -66,6 +71,7 @@ export class ChallengesController {
             editChallengeDto,
         );
     }
+    
     @Delete('/deleteCollaborators')
     deleteCollaborator(
         @Body() deleteCollaboratorDto: DeleteCollaborator
@@ -112,6 +118,14 @@ export class ChallengesController {
     //     return this.challengeService.deleteCollaborators(deleteCollaboratorDto)
     // }
 
+    @Post("/file")
+    // @UseInterceptors(FileInterceptor('file'))
+    uploadFile(
+        @UploadedFiles() file: Express.Multer.File
+        ){
+        console.log('file', file)
+        return ("file upload")
+    }
 
 
 }

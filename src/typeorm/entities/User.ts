@@ -27,43 +27,43 @@ export class User {
             unique: true
         }
     )
-    displayName: string;
+    displayName?: string;
 
     @Column()
-    firstName: string;
+    firstName?: string;
 
     @Column()
-    lastName: string;
+    lastName?: string;
 
     @Column({ unique: true })
-    cmuAccount: string;
+    cmuAccount?: string;
 
     @Column()
-    studentId: string;
+    studentId?: string;
     // @Column()
     // rating: string;
     @CreateDateColumn()
-    createdDate: Date;
+    createdDate?: Date;
     @Column()
-    editAtDate: Date;
+    editAtDate?: Date;
     // @Column()
     // inventory: string[];
 
-    @Column()
-    coin: string;
+    @Column({default : "0"})
+    coin?: string;
     // @Column()
     // profileImg: string;
     @Column()
-    equipmentFrame: string;
+    equipmentFrame?: string;
 
     @Column({ default: false })
     banStatus: boolean;
 
     @Column()
-    tasks: string;
+    tasks?: string;
 
     @Column({ default: false })
-    isAdmin: boolean;
+    isAdmin?: boolean;
 
     // @Column()
     // profile: object;

@@ -32,6 +32,7 @@ export class TaskService {
         if (challenge) {
             const newTask = this.taskRepository.create({
                 ...taskDetile,
+                createdAt : new Date(),
                 hasChallenges: challenge
             })
             return (
