@@ -32,22 +32,22 @@ export class Challenge {
     @Column()
     description: string;
 
-    @Column({default: "single"})
+    @Column({ default: 'single' })
     type?: string;
-    
-    @Column({nullable: true})
+
+    @Column({ nullable: true })
     format?: string;
 
-    @Column({default: 0})
+    @Column({ default: 0 })
     numParticipants?: number;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     host: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     banckImg?: string;
 
-    @Column({default: 10})
+    @Column({ default: 10 })
     maxParticipants?: number;
 
     // @Column()
@@ -63,12 +63,13 @@ export class Challenge {
     upDateAt?: Date
 
     @Column({nullable: true})
+
     startDate?: Date;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     endDate?: Date;
 
-    @Column({default: false})
+    @Column({ default: false })
     closed?: boolean;
     // @Column()
     // file: {
@@ -88,11 +89,11 @@ export class Challenge {
     //     team_id: number;
     //     menubar: [object];
     // };
-    @Column({default : 1 })
+    @Column({ default: 1 })
     maxTeams?: number;
 
 
-    @Column({default: 0})
+    @Column({ default: 0 })
     rating?: number;
 
 
@@ -103,40 +104,41 @@ export class Challenge {
         cascade : true,
         onDelete :"CASCADE"
     })
-    participants: User[];
+    participants?: User[];
 
     @OneToMany(() => User, (user) => user.challenges, {
         cascade: true,
     })
-    hosts: User[];
+    hosts?: User[];
 
     @ManyToMany( () => User, (user) => user.constructors,{
         onDelete :'CASCADE'
     })
     collaborators : User[];
 
+
     @OneToMany(() => Tab, (tab) => tab.hasChallenge, {
         cascade: true,
     })
-    tabs: Tab[];
+    tabs?: Tab[];
 
     @OneToMany(() => Post, (post) => post.hasChallenge, {
         cascade: true,
     })
-    posts: Post[];
+    posts?: Post[];
 
     @OneToMany(() => Task, (task) => task.hasChallenges, {
         cascade: true,
     })
-    tasks: Task[];
+    tasks?: Task[];
 
     @OneToOne(() => File, (file) => file.challenge)
-    file: File;
+    file?: File;
 
     @OneToMany(() => Rating, (rating) => rating.challenges, {
         cascade: true,
     })
-    ratings: Rating[];
+    ratings?: Rating[];
 
     // @ManyToMany(() => TaskTemplate ,(tasktemeplate) => tasktemeplate.challenges,{
     //     cascade : true,

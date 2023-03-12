@@ -73,40 +73,40 @@ export class User {
     // challenges: string[];
     @ManyToMany(() => Challenge, (challenge) => challenge.participants)
     @JoinTable()
-    challenges: Challenge[]
+    challenges?: Challenge[]
 
     @ManyToOne(() => Challenge, (challenge) => challenge.hosts,{
         onDelete :'CASCADE'
     })
-    challenge: Challenge
+    challenge?: Challenge
 
     @ManyToMany(() => Challenge, (challenge) => challenge.collaborators,{
         cascade : true,
         onDelete : 'CASCADE'
     })
     @JoinTable()
-    constructors: Challenge[]
+    constructors?: Challenge[]
 
     @OneToMany(() => Submission, (submission) => submission.hasSubmit, {
         cascade: true,
     })
-    submited: Submission[]
+    submited?: Submission[]
 
     @ManyToOne(() => Team, (team) => team.users,{
         onDelete : 'CASCADE'
     })
-    inTeam: Team;
+    inTeam?: Team;
 
     @OneToOne(() => File, (file) => file.user)
-    file: File;
+    file?: File;
 
     @OneToMany(() => Item, (item) => item.user, {
         cascade: true,
     })
-    items: Item[];
+    items?: Item[];
 
     @OneToMany(() => Rating, (rating) => rating.user, {
         cascade: true,
     })
-    ratings : Rating[];
+    ratings?: Rating[];
 }

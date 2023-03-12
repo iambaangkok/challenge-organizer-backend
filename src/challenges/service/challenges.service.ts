@@ -11,7 +11,7 @@ import {
     JoinLeaveChallengeParams,
 } from '../utils/type';
 import { Repository } from 'typeorm';
-import { User } from 'src/typeorm/entities/User';
+import { User } from '../../typeorm/entities/User';
 
 @Injectable()
 export class ChallengesService {
@@ -20,6 +20,7 @@ export class ChallengesService {
         private challengeRepository: Repository<Challenge>,
         @InjectRepository(User)
         private userRepository: Repository<User>,
+
     ) { }
 
     async findAllChallenges() {
@@ -28,6 +29,7 @@ export class ChallengesService {
                 participants: true,
                 collaborators: true,
             }
+
         });
         for (let i = 0; i < challenges.length; i++) {
             const joinTrue = challenges[i].join == true;
@@ -45,11 +47,11 @@ export class ChallengesService {
     async findAllChallengesByDisplayName(displayName: string) {
         const user = await this.userRepository.findOne({
             relations: {
-                challenges: true
+                challenges: true,
             },
             where: {
-                displayName: displayName
-            }
+                displayName: displayName,
+            },
         });
         const allChallenges = await this.findAllChallenges();
         if (user == null) {
@@ -62,7 +64,10 @@ export class ChallengesService {
         } else {
             for (let i = 0; i < allChallenges.length; i++) {
                 for (let j = 0; j < allChallenges[i].participants.length; j++) {
-                    if (allChallenges[i].participants[j].displayName == userDisplayName.toString()) {
+                    if (
+                        allChallenges[i].participants[j].displayName ==
+                        userDisplayName.toString()
+                    ) {
                         allChallenges[i].join = true;
                         break;
                     } else {
@@ -85,11 +90,13 @@ export class ChallengesService {
                 tasks: true,
                 collaborators: true,
             },
-            where: { challengeTitle: challengeTitle }
+
+            where: { challengeTitle: challengeTitle },
         });
-        console.log('challengeTitle = ' + challengeTitle)
-        console.log(challenge)
-        return challenge
+        console.log('challengeTitle = ' + challengeTitle);
+        console.log(challenge);
+        return challenge;
+
     }
 
     async createChallenge(challengeDetails: CreateChallengeParams) {
@@ -120,12 +127,12 @@ export class ChallengesService {
         if (await this.findChallenges(challengeTitle)) {
             return await this.challengeRepository.update(
                 { challengeTitle: challengeTitle },
-                { ...editChallenge, upDateAt: new Date() }
+                { ...editChallenge, upDateAt: new Date() },
             );
         } else {
             throw new HttpException(
                 'Challenge does not exist',
-                HttpStatus.NOT_FOUND
+                HttpStatus.NOT_FOUND,
             );
         }
     }
@@ -186,13 +193,13 @@ export class ChallengesService {
         const challenge = await this.findChallenges(challengeTitle);
         const user = await this.userRepository.findOne({
             relations: {
-                challenges: true
+                challenges: true,
             },
             where: {
-                displayName: joinChallenge.displayName
-            }
+                displayName: joinChallenge.displayName,
+            },
         });
-        console.log(user)
+        console.log(user);
         if (user == null) {
             throw new HttpException(
                 'User does not exist',
@@ -219,7 +226,10 @@ export class ChallengesService {
             } else {
                 if (
                     userList.find((displayName_i) => {
-                        return displayName_i.displayName === joinChallenge.displayName;
+                        return (
+                            displayName_i.displayName ===
+                            joinChallenge.displayName
+                        );
                     })
                 ) {
                     throw new HttpException(
@@ -252,11 +262,11 @@ export class ChallengesService {
         const challenge = await this.findChallenges(challengeTitle);
         const user = await this.userRepository.findOne({
             relations: {
-                challenges: true
+                challenges: true,
             },
             where: {
-                displayName: leaveChallenge.displayName
-            }
+                displayName: leaveChallenge.displayName,
+            },
         });
         if (user == null) {
             throw new HttpException(
@@ -271,17 +281,22 @@ export class ChallengesService {
             if (challengeList) {
                 if (
                     !challengeList.find((challenge_i) => {
-                        return challenge_i.challengeTitle === challenge.challengeTitle;
+                        return (
+                            challenge_i.challengeTitle ===
+                            challenge.challengeTitle
+                        );
                     })
                 ) {
                     throw new HttpException(
                         'User is not a participant in this challenge',
                         HttpStatus.NOT_MODIFIED,
                     );
-
                 } else {
                     const index = challengeList.findIndex((challenge_i) => {
-                        return challenge_i.challengeTitle === challenge.challengeTitle;
+                        return (
+                            challenge_i.challengeTitle ===
+                            challenge.challengeTitle
+                        );
                     });
                     challengeList.splice(index, 1);
 
@@ -304,7 +319,10 @@ export class ChallengesService {
             } else {
                 if (
                     !userList.find((displayName_i) => {
-                        return displayName_i.displayName === leaveChallenge.displayName;
+                        return (
+                            displayName_i.displayName ===
+                            leaveChallenge.displayName
+                        );
                     })
                 ) {
                     throw new HttpException(
@@ -313,7 +331,10 @@ export class ChallengesService {
                     );
                 } else {
                     const index = userList.findIndex((displayName_i) => {
-                        return displayName_i.displayName === leaveChallenge.displayName;
+                        return (
+                            displayName_i.displayName ===
+                            leaveChallenge.displayName
+                        );
                     });
                     userList.splice(index, 1);
                 }
