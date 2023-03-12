@@ -19,21 +19,26 @@ export class Task {
     taskId: number;
 
     @Column()
-    description: string;
+    description?: string;
 
     @Column({default : 0})
-    score: number;
+    score?: number;
 
     @CreateDateColumn()
     createdAt: Date;
 
     @Column()
-    editAt: Date;
+    editAt?: Date;
 
     @Column('bool',{default : false})
-    doned : boolean;
+    doned?: boolean;
 
 
+    @Column()
+    start?: Date;
+
+    @Column()
+    end?: Date;
     @ManyToOne(()=> Challenge, (challenge) => challenge.tasks,{
         onDelete : 'CASCADE'
     })
@@ -43,5 +48,5 @@ export class Task {
     @OneToMany(() => Submission , (submissions)=> submissions.task,{
         cascade : true,
     })
-    hasSubmissions: Submission[] ;
+    hasSubmissions?: Submission[] ;
 }
