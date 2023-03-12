@@ -1,13 +1,13 @@
-import { 
-    Column, 
-    Entity, 
+import {
+    Column,
+    Entity,
     PrimaryGeneratedColumn,
     JoinTable,
     ManyToMany,
-    OneToOne,    
+    OneToOne,
     JoinColumn,
     OneToMany,
-    ManyToOne
+    ManyToOne,
 } from 'typeorm';
 import { CreateDateColumn } from 'typeorm/decorator/columns/CreateDateColumn';
 import { Unique } from 'typeorm/decorator/Unique';
@@ -17,10 +17,10 @@ import { Rating } from './Rating';
 import { Tab } from './Tab';
 import { Task } from './Task';
 import { TaskTemplate } from './TaskTemplate';
-import { User } from './User'
-import { Post } from './Post'
+import { User } from './User';
+import { Post } from './Post';
 
-@Unique(["challengeTitle"])
+@Unique(['challengeTitle'])
 @Entity({ name: 'challenges' })
 export class Challenge {
     @PrimaryGeneratedColumn()
@@ -32,44 +32,44 @@ export class Challenge {
     @Column()
     description: string;
 
-    @Column({default: "single"})
-    type: string;
-    
-    @Column()
-    format: string;
+    @Column({ default: 'single' })
+    type?: string;
 
-    @Column()
-    numParticipants: number;
+    @Column({ default: 'temp' })
+    format?: string;
 
-    @Column()
-    host: string;
+    @Column({ default: 1 })
+    numParticipants?: number;
 
-    @Column()
-    banckImg: string;
+    @Column({ nullable: true })
+    host?: string;
 
-    @Column()
-    maxParticipants: number;
+    @Column({ nullable: true })
+    banckImg?: string;
+
+    @Column({ nullable: true })
+    maxParticipants?: number;
 
     // @Column()
     // banUser: [object];
 
-    @Column({default: true})
-    publishedStatus: boolean;
+    @Column({ default: true })
+    publishedStatus?: boolean;
 
-    @CreateDateColumn()
-    createdAtDate: Date;
+    @CreateDateColumn({ nullable: true })
+    createdAtDate?: Date;
 
-    @Column()
-    upDateAt: Date;
+    @Column({ nullable: true })
+    upDateAt?: Date;
 
-    @Column()
-    startDate: Date;
+    @Column({ nullable: true })
+    startDate?: Date;
 
-    @Column()
-    endDate: Date;
+    @Column({ nullable: true })
+    endDate?: Date;
 
-    @Column({default: false})
-    closed: boolean;
+    @Column({ default: false })
+    closed?: boolean;
     // @Column()
     // file: {
     //     user: object;
@@ -88,8 +88,8 @@ export class Challenge {
     //     team_id: number;
     //     menubar: [object];
     // };
-    @Column({default : 1 })
-    maxTeams: number;
+    @Column({ default: 1 })
+    maxTeams?: number;
 
     // @Column()
     // feedback: {
@@ -105,8 +105,8 @@ export class Challenge {
     //     coint_ClinkRating: number;
     // };
 
-    @Column()
-    rating: number;
+    @Column({ nullable: true })
+    rating?: number;
 
     // @Column()
     // participantsGiveScore: {
@@ -114,45 +114,45 @@ export class Challenge {
     //     score: number;
     // };
 
-    @Column({default :false})
-    join: boolean;
+    @Column({ default: false })
+    join?: boolean;
 
-    @ManyToMany( () => User , (user) => user.challenges,{
-        cascade : true
+    @ManyToMany(() => User, (user) => user.challenges, {
+        cascade: true,
     })
     participants: User[];
 
-    @OneToMany(() => User, (user) => user.challenges,{
-        cascade : true
+    @OneToMany(() => User, (user) => user.challenges, {
+        cascade: true,
     })
     hosts: User[];
 
-    @ManyToMany( () => User, (user) => user.constructors)
-    collaborators : User[];
+    @ManyToMany(() => User, (user) => user.constructors)
+    collaborators: User[];
 
-    @OneToMany(() => Tab, (tab) => tab.hasChallenge,{
-        cascade: true
+    @OneToMany(() => Tab, (tab) => tab.hasChallenge, {
+        cascade: true,
     })
     tabs: Tab[];
 
-    @OneToMany(() => Post, (post) => post.hasChallenge,{
-        cascade: true
+    @OneToMany(() => Post, (post) => post.hasChallenge, {
+        cascade: true,
     })
     posts: Post[];
 
-    @OneToMany(() => Task, (task) => task.hasChallenges,{
-        cascade : true
+    @OneToMany(() => Task, (task) => task.hasChallenges, {
+        cascade: true,
     })
-    tasks : Task[];
+    tasks: Task[];
 
-    @OneToOne(() => File ,(file) => file.challenge )
-    file : File;
+    @OneToOne(() => File, (file) => file.challenge)
+    file: File;
 
-    @OneToMany(() => Rating , (rating) => rating.challenges,{
-        cascade : true
+    @OneToMany(() => Rating, (rating) => rating.challenges, {
+        cascade: true,
     })
-    ratings : Rating[] ;
- 
+    ratings: Rating[];
+
     // @ManyToMany(() => TaskTemplate ,(tasktemeplate) => tasktemeplate.challenges,{
     //     cascade : true,
     // })
@@ -165,5 +165,4 @@ export class Challenge {
     // } )
     // @JoinColumn()
     // particiPantsGiveScore : ParticiPantsGiveScore
-
 }

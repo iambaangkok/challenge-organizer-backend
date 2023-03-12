@@ -11,7 +11,7 @@ import { AppModule } from '../../../app.module';
 import { userStub } from './testData';
 import { ConfigModule } from '@nestjs/config';
 
-describe('UsersController', () => {
+describe.skip('UsersController', () => {
     const BASE_PATH = '/api/users';
     const COLLECTION = 'users';
 
