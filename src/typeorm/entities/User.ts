@@ -112,6 +112,8 @@ export class User {
     ratings?: Rating[];
 
 
-
-
+    @ManyToOne(() => Challenge ,(challenge) => challenge.host,{
+        onDelete : 'CASCADE'
+    })
+    hasHost?: Challenge[];
 }
