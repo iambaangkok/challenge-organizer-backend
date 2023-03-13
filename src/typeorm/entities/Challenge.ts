@@ -95,10 +95,6 @@ export class Challenge {
     @Column({ default: 0 })
     rating?: number;
 
-
-    @Column({ default: false })
-    join?: boolean;
-
     @ManyToMany( () => User , (user) => user.challenges,{
         cascade : true,
         onDelete :"CASCADE"

@@ -7,8 +7,7 @@ import {
     Post,
     Put,
     UploadedFiles,
-    UseInterceptors
-
+    UseInterceptors,
 } from '@nestjs/common';
 import { ChallengesService } from '../service/challenges.service';
 import { CreateChallenge } from '../../dto/CreateChallenge.dto';
@@ -21,7 +20,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('api/challenges')
 export class ChallengesController {
-    constructor(private challengeService: ChallengesService) { }
+    constructor(private challengeService: ChallengesService) {}
 
     @Get('/')
     getAllChallenges() {
@@ -38,13 +37,10 @@ export class ChallengesController {
     }
 
     @Put('/addCollaborators')
-    addCollaborator(
-        @Body() addCollaborator: AddCollaboratorDto
-    ) {
+    addCollaborator(@Body() addCollaborator: AddCollaboratorDto) {
         console.log(`PUT /${addCollaborator.challengeTitle}`);
-        return this.challengeService.addCollaborators(addCollaborator)
+        return this.challengeService.addCollaborators(addCollaborator);
     }
-
 
     @Get('/:challengeTitle')
     getChallenges(@Param('challengeTitle') challengeTitle: string) {
@@ -58,8 +54,6 @@ export class ChallengesController {
         return this.challengeService.createChallenge(challengeDetails);
     }
 
-
-
     @Put('/:challengeTitle')
     editChallenges(
         @Param('challengeTitle') challengeTitle: string,
@@ -71,13 +65,11 @@ export class ChallengesController {
             editChallengeDto,
         );
     }
-    
+
     @Delete('/deleteCollaborators')
-    deleteCollaborator(
-        @Body() deleteCollaboratorDto: DeleteCollaborator
-    ){
+    deleteCollaborator(@Body() deleteCollaboratorDto: DeleteCollaborator) {
         console.log(`DELETE /${deleteCollaboratorDto.userId}/delete`);
-        return this.challengeService.deleteCollaborators(deleteCollaboratorDto)
+        return this.challengeService.deleteCollaborators(deleteCollaboratorDto);
     }
 
     @Delete('/:challengeTitle')
@@ -118,14 +110,10 @@ export class ChallengesController {
     //     return this.challengeService.deleteCollaborators(deleteCollaboratorDto)
     // }
 
-    @Post("/file")
+    @Post('/file')
     // @UseInterceptors(FileInterceptor('file'))
-    uploadFile(
-        @UploadedFiles() file: Express.Multer.File
-        ){
-        console.log('file', file)
-        return ("file upload")
+    uploadFile(@UploadedFiles() file: Express.Multer.File) {
+        console.log('file', file);
+        return 'file upload';
     }
-
-
 }

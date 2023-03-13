@@ -19,7 +19,7 @@ export const challengesTestData1: Challenge = {
     closed: false,
     maxTeams: 1,
     rating: 5,
-    join: false,
+    // join: false,
     participants: [userTestData1],
     // hosts: [],
     collaborators: [],
