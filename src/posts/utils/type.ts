@@ -23,3 +23,7 @@ export type DeletePostParams = {
     tabName: string;
     challengeTitle: string;
 }
+
+export type FindPostParams = {
+    challengeTitle: string;
+}
