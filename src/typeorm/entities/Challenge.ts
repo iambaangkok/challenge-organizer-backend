@@ -117,7 +117,7 @@ export class Challenge {
 
 
     @OneToMany(() => Tab, (tab) => tab.hasChallenge, {
-        cascade: true,
+        cascade: true, onDelete : 'CASCADE'
     })
     tabs?: Tab[];
 
