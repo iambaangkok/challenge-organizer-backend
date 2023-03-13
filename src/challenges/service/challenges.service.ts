@@ -20,16 +20,14 @@ export class ChallengesService {
         private challengeRepository: Repository<Challenge>,
         @InjectRepository(User)
         private userRepository: Repository<User>,
-
-    ) { }
+    ) {}
 
     async findAllChallenges() {
         const challenges = await this.challengeRepository.find({
             relations: {
                 participants: true,
                 collaborators: true,
-            }
-
+            },
         });
         for (let i = 0; i < challenges.length; i++) {
             const joinTrue = challenges[i].join == true;
@@ -96,7 +94,6 @@ export class ChallengesService {
         console.log('challengeTitle = ' + challengeTitle);
         console.log(challenge);
         return challenge;
-
     }
 
     async createChallenge(challengeDetails: CreateChallengeParams) {
@@ -107,7 +104,7 @@ export class ChallengesService {
             const newChallenge = this.challengeRepository.create({
                 ...challengeDetails,
                 participants: [],
-                collaborators: []
+                collaborators: [],
             });
             await this.challengeRepository.save(newChallenge);
             return { challengeTitle: newChallenge.challengeTitle };
@@ -358,82 +355,78 @@ export class ChallengesService {
     async addCollaborators(addCollaboratorDetails: AddCollaborator) {
         const challenge = await this.challengeRepository.findOne({
             where: {
-                challengeTitle: addCollaboratorDetails.challengeTitle
+                challengeTitle: addCollaboratorDetails.challengeTitle,
             },
             relations: {
                 collaborators: true,
-            }
-        })
+            },
+        });
         const user = await this.userRepository.findOne({
             where: {
-                cmuAccount: addCollaboratorDetails.cmuAccount
-            }
-        })
+                cmuAccount: addCollaboratorDetails.cmuAccount,
+            },
+        });
         if (!user) {
-            throw new HttpException("not found user", HttpStatus.BAD_REQUEST)
+            throw new HttpException('not found user', HttpStatus.BAD_REQUEST);
         } else {
-
             if (challenge) {
-                const challengeCollaboratorOld = challenge.collaborators
-                challengeCollaboratorOld.push(user)
-                challenge.collaborators = challengeCollaboratorOld
-                this.challengeRepository.save(challenge)
+                const challengeCollaboratorOld = challenge.collaborators;
+                challengeCollaboratorOld.push(user);
+                challenge.collaborators = challengeCollaboratorOld;
+                this.challengeRepository.save(challenge);
                 return {
-                    Massage: "Add collaborators Susese ",
-                    CollaboratorName: `${user.displayName}`
-                }
-
-
+                    Massage: 'Add collaborators Susese ',
+                    CollaboratorName: `${user.displayName}`,
+                };
             } else {
-                throw new HttpException("not found challenge", HttpStatus.BAD_REQUEST)
+                throw new HttpException(
+                    'not found challenge',
+                    HttpStatus.BAD_REQUEST,
+                );
             }
         }
     }
 
     async deleteCollaborators(deleteCollaboratorsDetails: DeleteCollaborator) {
-
         const challenge = await this.challengeRepository.findOne({
             where: {
-                challengeId: deleteCollaboratorsDetails.challengeId
+                challengeId: deleteCollaboratorsDetails.challengeId,
             },
             relations: {
-                collaborators: true
-            }
-        })
+                collaborators: true,
+            },
+        });
 
         const user = await this.userRepository.findOne({
             where: {
-                userId: deleteCollaboratorsDetails.userId
+                userId: deleteCollaboratorsDetails.userId,
             },
             relations: {
-                constructors: true
-            }
-        })
-        
+                constructors: true,
+            },
+        });
+
         if (!user) {
-            throw new HttpException("ไม่มี user น้า", HttpStatus.BAD_REQUEST)
+            throw new HttpException('ไม่มี user น้า', HttpStatus.BAD_REQUEST);
         } else {
             if (!challenge) {
-                throw new HttpException("Not found challenge", HttpStatus.BAD_REQUEST)
+                throw new HttpException(
+                    'Not found challenge',
+                    HttpStatus.BAD_REQUEST,
+                );
             } else {
-                const id = challenge.challengeId
-                challenge.collaborators = challenge.collaborators.filter((challenge) => {
-                    return id !== deleteCollaboratorsDetails.challengeId
-                })
-                await this.challengeRepository.save(challenge)
+                const id = challenge.challengeId;
+                challenge.collaborators = challenge.collaborators.filter(
+                    (challenge) => {
+                        return id !== deleteCollaboratorsDetails.challengeId;
+                    },
+                );
+                await this.challengeRepository.save(challenge);
                 return {
-                    Massage : "Remove Suc",
-                    userName : `${user.displayName}`
-                }
+                    Massage: 'Remove Suc',
+                    userName: `${user.displayName}`,
+                };
             }
         }
-
-
-
-
-
     }
-
-
-
 }
