@@ -30,7 +30,7 @@ export class ChallengesService {
             },
         });
         for (let i = 0; i < challenges.length; i++) {
-            const joinTrue = challenges[i].join == true;
+            const joinTrue = (challenges[i].join == true);
             if (joinTrue) {
                 challenges[i].join = false;
                 await this.challengeRepository.update(
