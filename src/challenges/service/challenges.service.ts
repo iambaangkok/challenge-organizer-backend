@@ -101,12 +101,18 @@ export class ChallengesService {
             challengeDetails.challengeTitle,
         );
         if (!challenge) {
-            if(challengeDetails.challengeTitle == null || challengeDetails.description == null || challengeDetails.host == null){
-                throw new BadRequestException('You need to put all required fields to create a challenge')
+            if (
+                challengeDetails.challengeTitle == null ||
+                challengeDetails.description == null ||
+                challengeDetails.host == null
+            ) {
+                throw new BadRequestException(
+                    'You need to put all required fields to create a challenge',
+                );
             }
             const newChallenge = this.challengeRepository.create({
                 ...challengeDetails,
-                upDateAt: new Date(),
+                tasks: [],
                 participants: [],
                 collaborators: [],
             });
