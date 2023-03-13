@@ -40,8 +40,8 @@ export class Challenge {
     @Column({ default: 0 })
     numParticipants?: number;
 
-    @Column()
-    host: string;
+    // @Column({nullable: false})
+    // host: string;
 
     @Column({ nullable: true })
     banckImg?: string;
@@ -105,10 +105,10 @@ export class Challenge {
     })
     participants?: User[];
 
-    @OneToMany(() => User, (user) => user.challenges, {
-        cascade: true,
-    })
-    hosts?: User[];
+    // @OneToMany(() => User, (user) => user.challenges, {
+    //     cascade: true,
+    // })
+    // hosts?: User[];
 
     @ManyToMany( () => User, (user) => user.constructors,{
         onDelete :'CASCADE'
@@ -139,6 +139,11 @@ export class Challenge {
     })
     ratings?: Rating[];
 
+
+    @ManyToOne(() => User, (user) => user.hasHost,{
+        cascade: true,
+    })
+    host?: User ;
     // @ManyToMany(() => TaskTemplate ,(tasktemeplate) => tasktemeplate.challenges,{
     //     cascade : true,
     // })

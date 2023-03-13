@@ -13,7 +13,6 @@ export const userTestData1: User = {
     coin: '',
     equipmentFrame: '',
     banStatus: false,
-    tasks: '',
     isAdmin: false,
     constructors: [],
     submited: [],
