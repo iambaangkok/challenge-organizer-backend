@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Challenge } from '../../typeorm/entities/Challenge';
-import { HttpException } from '@nestjs/common/exceptions';
+import { BadRequestException, HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
 import {
     AddCollaborator,
@@ -101,14 +101,17 @@ export class ChallengesService {
             challengeDetails.challengeTitle,
         );
         if (!challenge) {
+            if(challengeDetails.challengeTitle == null || challengeDetails.description == null || challengeDetails.host == null){
+                throw new BadRequestException('You need to put all required fields to create a challenge')
+            }
             const newChallenge = this.challengeRepository.create({
                 ...challengeDetails,
+                upDateAt: new Date(),
                 participants: [],
                 collaborators: [],
             });
             await this.challengeRepository.save(newChallenge);
             return { challengeTitle: newChallenge.challengeTitle };
-            // return newChallenge;
         } else {
             throw new HttpException(
                 'Creation failed. Challenge title already existed',

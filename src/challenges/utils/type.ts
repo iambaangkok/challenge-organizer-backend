@@ -3,6 +3,7 @@ export type CreateChallengeParams = {
     description: string;
     type: string;
     format: string;
+    host: string;
     startDate: Date;
     endDate: Date;
     maxParticipants: number;

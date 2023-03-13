@@ -1,3 +1,4 @@
+import { IsNotEmpty } from 'class-validator';
 import { ObjectID } from 'typeorm';
 
 export class CreateChallenge {
@@ -15,7 +16,7 @@ export class CreateChallenge {
     bannerImg: string;
 
     participants: [ObjectID];
-    host: ObjectID;
+    host: string;
     banUser: [ObjectID];
     publishedStatus: boolean;
     timeStamp: Date;
