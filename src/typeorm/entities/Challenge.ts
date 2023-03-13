@@ -16,7 +16,6 @@ import { ParticiPantsGiveScore } from './ParticiPantsGiveScore';
 import { Rating } from './Rating';
 import { Tab } from './Tab';
 import { Task } from './Task';
-import { TaskTemplate } from './TaskTemplate';
 import { User } from './User';
 import { Post } from './Post';
 

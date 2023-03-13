@@ -103,6 +103,7 @@ export class ChallengesService {
         if (!challenge) {
             const newChallenge = this.challengeRepository.create({
                 ...challengeDetails,
+                tasks :[],
                 participants: [],
                 collaborators: [],
             });

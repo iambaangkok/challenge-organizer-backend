@@ -1,9 +1,11 @@
 import { ConsoleLogger, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateTaskParams, EditTaskParams } from 'src/task/utils/type';
+import { CreateTaskParams, EditTaskParams, TaskUserParams } from 'src/task/utils/type';
 import { Challenge } from '../../typeorm/entities/Challenge';
 import { Task } from '../../typeorm/entities/Task';
 import { Repository } from 'typeorm';
+import { User } from 'src/typeorm/entities/User';
+import { FindTaskInUser } from 'src/dto/CreateTask.dto';
 
 @Injectable()
 export class TaskService {
@@ -12,6 +14,8 @@ export class TaskService {
         private challengeRepository: Repository<Challenge>,
         @InjectRepository(Task)
         private taskRepository: Repository<Task>,
+        @InjectRepository(User)
+        private userRepository: Repository<User>,
     ) { }
 
 
@@ -21,6 +25,48 @@ export class TaskService {
     }
 
 
+    async findTaskByDisplayName(userDetile: TaskUserParams) {
+        const user = await this.userRepository.findOne({
+            where: {
+                displayName: userDetile.displayName
+            },
+            relations: {
+                challenges: true,
+            }
+        })
+        if (user.challenges.length === 0) {
+            throw new HttpException("Not join challenge", HttpStatus.BAD_REQUEST)
+        }
+        const listIdChallege = []
+        for (let i = 0; i < user.challenges.length; ++i) {
+            console.log(user.challenges[i].challengeId)
+            listIdChallege.push(user.challenges[i].challengeId)
+        }
+        const task = await this.taskRepository.find({
+            relations: {
+                hasChallenges: true
+            }
+        }
+        )
+        if (!user) {
+            throw new HttpException("Not found user", HttpStatus.BAD_REQUEST)
+        } else {
+            const listTask = []
+            for (let i = 0; i < listIdChallege.length; i++) {
+                for (let j = 0; j < task.length; j++) {
+                    if (task[j].hasChallenges.challengeId == listIdChallege[i]) {
+                        console.log(task[i])
+                        listTask.push(task[i])
+                    }
+
+                }
+
+            }
+            return listTask
+        }
+
+
+    }
 
     async createTask(taskDetile: CreateTaskParams, challengeTitle: string) {
 
@@ -32,7 +78,7 @@ export class TaskService {
         if (challenge) {
             const newTask = this.taskRepository.create({
                 ...taskDetile,
-                createdAt : new Date(),
+                createdAt: new Date(),
                 hasChallenges: challenge
             })
             return (
@@ -68,7 +114,7 @@ export class TaskService {
                     editAt: new Date()
                 }
             )
-            return {...editTask}
+            return { ...editTask }
 
         } else {
             throw new HttpException(

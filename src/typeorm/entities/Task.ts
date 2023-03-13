@@ -4,7 +4,8 @@ import {
     Entity,
     ManyToOne,
     OneToMany,
-    PrimaryGeneratedColumn
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
 } from "typeorm";
 import { Challenge } from './Challenge';
 import { Submission } from "./Submission";
@@ -27,18 +28,19 @@ export class Task {
     @CreateDateColumn()
     createdAt: Date;
 
-    @Column()
+    @UpdateDateColumn()
     editAt?: Date;
 
     @Column('bool',{default : false})
     doned?: boolean;
 
 
-    @Column()
+    @Column({nullable : true})
     start?: Date;
 
-    @Column()
+    @Column({nullable : true})
     end?: Date;
+    
     @ManyToOne(()=> Challenge, (challenge) => challenge.tasks,{
         onDelete : 'CASCADE'
     })

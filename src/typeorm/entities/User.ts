@@ -6,6 +6,7 @@ import {
     ManyToMany,
     ManyToOne,
     OneToOne,
+    UpdateDateColumn,
 } from 'typeorm';
 import { CreateDateColumn } from 'typeorm/decorator/columns/CreateDateColumn';
 import { OneToMany } from 'typeorm/decorator/relations/OneToMany';
@@ -23,7 +24,6 @@ export class User {
 
     @Column(
         {
-            length: 15,
             unique: true
         }
     )
@@ -38,13 +38,14 @@ export class User {
     @Column({ unique: true })
     cmuAccount?: string;
 
-    @Column()
+    @Column({nullable: true})
     studentId?: string;
     // @Column()
     // rating: string;
     @CreateDateColumn()
     createdDate?: Date;
-    @Column()
+
+    @UpdateDateColumn()
     editAtDate?: Date;
     // @Column()
     // inventory: string[];
@@ -53,14 +54,14 @@ export class User {
     coin?: string;
     // @Column()
     // profileImg: string;
-    @Column()
+    @Column({nullable :true})
     equipmentFrame?: string;
 
     @Column({ default: false })
     banStatus: boolean;
 
-    @Column()
-    tasks?: string;
+    // @Column()
+    // tasks?: string;
 
     @Column({ default: false })
     isAdmin?: boolean;
@@ -109,4 +110,8 @@ export class User {
         cascade: true,
     })
     ratings?: Rating[];
+
+
+
+
 }

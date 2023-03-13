@@ -6,7 +6,6 @@ import { Post } from '../typeorm/entities/Post';
 import { Rating } from '../typeorm/entities/Rating';
 import { Tab } from '../typeorm/entities/Tab';
 import { Task } from '../typeorm/entities/Task';
-import { TaskTemplate } from '../typeorm/entities/TaskTemplate';
 import { Challenge } from '../typeorm/entities/Challenge';
 import { User } from '../typeorm/entities/User';
 import { ChallengesController } from './controller/challenges.controller';
