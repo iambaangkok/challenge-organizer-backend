@@ -105,10 +105,10 @@ export class Challenge {
     })
     participants?: User[];
 
-    @OneToMany(() => User, (user) => user.challenges, {
-        cascade: true,
-    })
-    hosts?: User[];
+    // @OneToMany(() => User, (user) => user.challenges, {
+    //     cascade: true,
+    // })
+    // hosts?: User[];
 
     @ManyToMany( () => User, (user) => user.constructors,{
         onDelete :'CASCADE'
@@ -140,7 +140,7 @@ export class Challenge {
     ratings?: Rating[];
 
 
-    @OneToMany(() => User, (user) => user.hasHost,{
+    @ManyToOne(() => User, (user) => user.hasHost,{
         cascade: true,
     })
     host?: User ;
