@@ -1,3 +1,6 @@
+import { User } from "../../typeorm/entities/User";
+
+//TODO อย่าลืมเพิ่ม file หรือ banerImg
 export type CreateChallengeParams = {
     challengeTitle: string;
     description: string;

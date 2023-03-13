@@ -76,10 +76,10 @@ export class User {
     @JoinTable()
     challenges?: Challenge[]
 
-    @ManyToOne(() => Challenge, (challenge) => challenge.hosts,{
-        onDelete :'CASCADE'
-    })
-    challenge?: Challenge
+    // @ManyToOne(() => Challenge, (challenge) => challenge.hosts,{
+    //     onDelete :'CASCADE'
+    // })
+    // challenge?: Challenge
 
     @ManyToMany(() => Challenge, (challenge) => challenge.collaborators,{
         cascade : true,
@@ -112,6 +112,8 @@ export class User {
     ratings?: Rating[];
 
 
-
-
+    @OneToMany(() => Challenge ,(challenge) => challenge.host,{
+        onDelete : 'CASCADE'
+    })
+    hasHost?: Challenge[];
 }

@@ -88,12 +88,25 @@ async function seedDB() {
     const client = new MongoClient(uri, {
         useNewUrlParser: true,
         // useUnifiedTopology: true,
+
+
     });
+
+
     try {
         await client.connect();
         console.log('Connected to server');
 
         const collection = client.db('dev').collection('challenges');
+        
+        const connection = mysql.createConnection({
+            type: 'mysql',
+            host: 'localhost',
+            port: 3306,
+            database: 'dev',
+            username: 'root',
+            multipleStatements: true,
+        })
 
         // collection.drop();
         await collection.deleteMany({});

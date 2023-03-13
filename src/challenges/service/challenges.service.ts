@@ -20,7 +20,7 @@ export class ChallengesService {
         private challengeRepository: Repository<Challenge>,
         @InjectRepository(User)
         private userRepository: Repository<User>,
-    ) {}
+    ) { }
 
     async findAllChallenges() {
         const challenges = await this.challengeRepository.find({
@@ -87,6 +87,7 @@ export class ChallengesService {
                 participants: true,
                 tasks: true,
                 collaborators: true,
+                host : true
             },
 
             where: { challengeTitle: challengeTitle },
@@ -100,23 +101,43 @@ export class ChallengesService {
         const challenge = await this.findChallenges(
             challengeDetails.challengeTitle,
         );
+
+        if (
+            challengeDetails.challengeTitle == null ||
+            challengeDetails.description == null ||
+            challengeDetails.host == null
+        ) {
+            throw new BadRequestException(
+                'You need to put all required fields to create a challenge',
+            );
+        }
+
+        console.log(challengeDetails.host)
+
+        const user = await this.userRepository.findOne({
+            where: { displayName: challengeDetails.host }
+        })
+    
+        if(!user){
+            throw new HttpException("Not found user",HttpStatus.BAD_REQUEST)
+        }
         if (!challenge) {
-            if (
-                challengeDetails.challengeTitle == null ||
-                challengeDetails.description == null ||
-                challengeDetails.host == null
-            ) {
-                throw new BadRequestException(
-                    'You need to put all required fields to create a challenge',
-                );
-            }
+            console.log(user)
             const newChallenge = this.challengeRepository.create({
-                ...challengeDetails,
+                challengeTitle: challengeDetails.challengeTitle,
+                description: challengeDetails.description,
+                type: challengeDetails.type,
+                format: challengeDetails.format,
+                numParticipants: challengeDetails.numParticipants,
+                endDate: challengeDetails.endDate,
+                maxParticipants: challengeDetails.maxParticipants,
+                host: user,
                 tasks: [],
                 participants: [],
                 collaborators: [],
             });
             await this.challengeRepository.save(newChallenge);
+
             return { challengeTitle: newChallenge.challengeTitle };
         } else {
             throw new HttpException(
