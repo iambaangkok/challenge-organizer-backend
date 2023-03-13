@@ -1,6 +1,6 @@
 import { Body, Controller, Get, ParseArrayPipe, ParseIntPipe, Post } from '@nestjs/common';
 import { Delete, Param, Put } from '@nestjs/common/decorators';
-import { CreateTaskDto, EditTaskDto } from 'src/dto/CreateTask.dto';
+import { CreateTaskDto, EditTaskDto, FindTaskInUser } from 'src/dto/CreateTask.dto';
 import { TaskService } from '../service/task.service';
 
 @Controller('api/task')
@@ -14,6 +14,19 @@ export class TaskController {
     @Get()
     async viewAllTasks() {
         return this.taskService.findTasks();
+    }
+
+
+
+    // @Get("")
+    // async viewTask(task)
+
+
+    @Get('viewByDisPlayName')
+    async viewTaskByDisplayName(
+        @Body() displayName: FindTaskInUser 
+    ){
+        return this.taskService.findTaskByDisplayName(displayName);
     }
 
 

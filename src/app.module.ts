@@ -4,7 +4,6 @@ import { ChallengesModule } from './challenges/challenges.module';
 import { UsersModule } from './users/users.module';
 import { User } from './typeorm/entities/User';
 import { Challenge } from './typeorm/entities/Challenge';
-import { TaskTemplate } from './typeorm/entities/TaskTemplate';
 import { ParticiPantsGiveScore } from './typeorm/entities/ParticiPantsGiveScore';
 import { Task } from './typeorm/entities/Task';
 import { Submission } from './typeorm/entities/Submission';
@@ -51,16 +50,38 @@ import { PostsModule } from './posts/posts.module';
     // // mongoose.connect(mongoConnectionString, {useNewUrlParser: true, useUnifiedTopology: true});
 
     imports: [
+        // TypeOrmModule.forRoot({
+        //     type: 'mysql',
+        //     host: 'localhost',
+        //     port: 3306,
+        //     database: 'dev',
+        //     entities: [
+        //         // "src/typeorm/entity/*.*"
+        //         User,
+        //         Challenge,
+        //         ParticiPantsGiveScore,
+        //         Task,
+        //         Submission,
+        //         Team,
+        //         File,
+        //         Item,
+        //         Rating,
+        //         Tab,
+        //         Post,
+        //     ],
+        //     synchronize: true,
+        //     username: 'root',
+        //     // autoLoadEntities: true,
+        //     // password: 'password' ,
+        // }),
         TypeOrmModule.forRoot({
             type: 'mysql',
-            host: 'localhost',
+            host: '10.10.182.143',
             port: 3306,
-            database: 'dev',
+            database: 'dev2', // this maybe dev, test, or prod
             entities: [
-                // "src/typeorm/entity/*.*"
                 User,
                 Challenge,
-                TaskTemplate,
                 ParticiPantsGiveScore,
                 Task,
                 Submission,
@@ -72,9 +93,8 @@ import { PostsModule } from './posts/posts.module';
                 Post,
             ],
             synchronize: true,
-            username: 'root',
-            // autoLoadEntities: true,
-            // password: 'password' ,
+            username: 'dev',
+            password: 'password',
         }),
         ChallengesModule,
         UsersModule,

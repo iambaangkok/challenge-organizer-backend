@@ -17,3 +17,7 @@ export type EditTaskParams = {
     score: number;
     doned : boolean;
 }
+
+export type TaskUserParams ={
+    displayName:string
+}

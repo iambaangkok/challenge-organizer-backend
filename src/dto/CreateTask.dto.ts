@@ -17,3 +17,8 @@ export class EditTaskDto{
     doned : boolean;
 }
 
+export class FindTaskInUser{
+    displayName: string;
+    challengeTitle: string;
+}
+

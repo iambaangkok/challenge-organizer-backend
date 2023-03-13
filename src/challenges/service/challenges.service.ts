@@ -99,6 +99,7 @@ export class ChallengesService {
         if (!challenge) {
             const newChallenge = this.challengeRepository.create({
                 ...challengeDetails,
+                tasks :[],
                 participants: [],
                 collaborators: []
             });
@@ -357,10 +358,11 @@ export class ChallengesService {
                 challengeCollaboratorOld.push(user)
                 challenge.collaborators = challengeCollaboratorOld
                 this.challengeRepository.save(challenge)
-                return {
-                    Massage: "Add collaborators Susese ",
-                    CollaboratorName: `${user.displayName}`
-                }
+                return user
+                // return {
+                //     Massage: "Add collaborators Susese ",
+                //     CollaboratorName: `${user.displayName}`
+                // }
 
 
             } else {
