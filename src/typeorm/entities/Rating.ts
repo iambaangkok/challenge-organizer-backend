@@ -4,6 +4,7 @@ import {
     Entity,
     ManyToOne,
     PrimaryGeneratedColumn,
+    UpdateDateColumn,
 
 } from "typeorm";
 import { Challenge } from "./Challenge";
@@ -26,7 +27,7 @@ export class Rating {
     @CreateDateColumn()
     createAtDate : Date;
 
-    @Column()
+    @UpdateDateColumn()
     editAtDate?: Date;
 
 

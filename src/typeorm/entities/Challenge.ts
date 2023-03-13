@@ -8,6 +8,7 @@ import {
     JoinColumn,
     OneToMany,
     ManyToOne,
+    UpdateDateColumn,
 } from 'typeorm';
 import { CreateDateColumn } from 'typeorm/decorator/columns/CreateDateColumn';
 import { Unique } from 'typeorm/decorator/Unique';
@@ -59,7 +60,7 @@ export class Challenge {
     @CreateDateColumn({ nullable: true })
     createdAtDate?: Date;
 
-    @Column({ nullable: true })
+    @UpdateDateColumn({ nullable: true })
     upDateAt?: Date
 
     @Column({nullable: true})

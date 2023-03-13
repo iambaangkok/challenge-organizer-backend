@@ -4,7 +4,8 @@ import {
     Entity,
     ManyToOne,
     OneToMany,
-    PrimaryGeneratedColumn
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
 } from "typeorm";
 import { Challenge } from './Challenge';
 import { Submission } from "./Submission";
@@ -27,7 +28,7 @@ export class Task {
     @CreateDateColumn()
     createdAt: Date;
 
-    @Column()
+    @UpdateDateColumn()
     editAt?: Date;
 
     @Column('bool',{default : false})

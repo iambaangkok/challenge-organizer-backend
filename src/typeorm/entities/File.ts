@@ -4,6 +4,7 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     OneToOne,
+    UpdateDateColumn,
 } from "typeorm";
 import { Submission } from "./Submission";
 import { User } from "./User";
@@ -23,7 +24,7 @@ export class File {
     @CreateDateColumn()
     createdAtDate : Date ;
 
-    @Column()
+    @UpdateDateColumn()
     editDate? : Date ;
 
     

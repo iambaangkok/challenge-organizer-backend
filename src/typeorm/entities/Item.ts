@@ -1,7 +1,7 @@
 import {
     Column,
     CreateDateColumn,
-    Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn,
+    Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn,
 
 } from "typeorm";
 import { File } from "./File";
@@ -27,7 +27,7 @@ export class Item {
     @CreateDateColumn()
     createAtDate: Date;
 
-    @Column()
+    @UpdateDateColumn()
     editAtDate?: Date;
 
     @ManyToOne(()=> User, (user) => user.items)

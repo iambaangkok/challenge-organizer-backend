@@ -6,6 +6,7 @@ import {
     ManyToMany,
     ManyToOne,
     OneToOne,
+    UpdateDateColumn,
 } from 'typeorm';
 import { CreateDateColumn } from 'typeorm/decorator/columns/CreateDateColumn';
 import { OneToMany } from 'typeorm/decorator/relations/OneToMany';
@@ -21,12 +22,10 @@ export class User {
     @PrimaryGeneratedColumn()
     userId: number;
 
-    @Column(
-        {
-            length: 15,
-            unique: true
-        }
-    )
+    @Column({
+        length: 15,
+        unique: true,
+    })
     displayName?: string;
 
     @Column()
@@ -44,12 +43,12 @@ export class User {
     // rating: string;
     @CreateDateColumn()
     createdDate?: Date;
-    @Column()
+    @UpdateDateColumn()
     editAtDate?: Date;
     // @Column()
     // inventory: string[];
 
-    @Column({default : "0"})
+    @Column({ default: '0' })
     coin?: string;
     // @Column()
     // profileImg: string;
@@ -73,27 +72,27 @@ export class User {
     // challenges: string[];
     @ManyToMany(() => Challenge, (challenge) => challenge.participants)
     @JoinTable()
-    challenges?: Challenge[]
+    challenges?: Challenge[];
 
-    @ManyToOne(() => Challenge, (challenge) => challenge.hosts,{
-        onDelete :'CASCADE'
+    @ManyToOne(() => Challenge, (challenge) => challenge.hosts, {
+        onDelete: 'CASCADE',
     })
-    challenge?: Challenge
+    challenge?: Challenge;
 
-    @ManyToMany(() => Challenge, (challenge) => challenge.collaborators,{
-        cascade : true,
-        onDelete : 'CASCADE'
+    @ManyToMany(() => Challenge, (challenge) => challenge.collaborators, {
+        cascade: true,
+        onDelete: 'CASCADE',
     })
     @JoinTable()
-    constructors?: Challenge[]
+    constructors?: Challenge[];
 
     @OneToMany(() => Submission, (submission) => submission.hasSubmit, {
         cascade: true,
     })
-    submited?: Submission[]
+    submited?: Submission[];
 
-    @ManyToOne(() => Team, (team) => team.users,{
-        onDelete : 'CASCADE'
+    @ManyToOne(() => Team, (team) => team.users, {
+        onDelete: 'CASCADE',
     })
     inTeam?: Team;
 

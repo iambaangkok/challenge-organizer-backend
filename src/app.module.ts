@@ -55,7 +55,7 @@ import { PostsModule } from './posts/posts.module';
             type: 'mysql',
             host: '10.10.182.143',
             port: 3306,
-            database: 'test',
+            database: 'dev_bk',
             entities: [
                 // "src/typeorm/entity/*.*"
                 User,
@@ -71,6 +71,7 @@ import { PostsModule } from './posts/posts.module';
                 Tab,
                 Post,
             ],
+            synchronize: true,
             username: 'dev',
             password: 'password',
         }),

@@ -3,7 +3,8 @@ import {
     CreateDateColumn,
     Entity,
     OneToMany,
-    PrimaryGeneratedColumn
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
 } from "typeorm";
 import { Submission } from "./Submission";
 import { User } from "./User";
@@ -24,7 +25,7 @@ export class Team {
     @CreateDateColumn()
     createdAtDate?: Date;
 
-    @Column()
+    @UpdateDateColumn()
     editDate?: Date;
 
     @OneToMany(() => Submission , (submission) => submission.hasSubmitTeam,{

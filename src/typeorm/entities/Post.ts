@@ -7,6 +7,7 @@ import {
     Tree,
     TreeChildren,
     TreeParent,
+    UpdateDateColumn,
 } from 'typeorm';
 import { Challenge } from './Challenge';
 import { Tab } from './Tab';
@@ -23,7 +24,7 @@ export class Post{
     @CreateDateColumn()
     createdAtDate: Date;
     
-    @Column()
+    @UpdateDateColumn()
     upDateAt?: Date;
 
     @Column({default : true})
