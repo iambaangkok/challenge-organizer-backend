@@ -1,4 +1,63 @@
-import { Controller } from '@nestjs/common';
+import { 
+    Body,
+    Controller, 
+    Get,
+    Delete,
+    Param,
+    Post,
+    Put
+} from '@nestjs/common';
+import { CreateTabDto } from 'src/dto/CreateTab.dto';
+import { DeleteTabDto } from 'src/dto/DeleteTab.dto';
+import { EditTabDto } from 'src/dto/EditTab.dto';
+import { TabsService } from '../service/tabs.service';
 
-@Controller('tabs')
-export class TabsController {}
+@Controller('api/tabs')
+export class TabsController {
+    constructor(private tabService: TabsService) { }
+
+    @Get('/')
+    getAllTab(){
+        console.log(`GET /`);
+        return this.tabService.findAllTab();
+    }
+
+    @Get('/:challengeTitle')
+    getAllTabByChallenge(@Param('challengeTitle') challengeTitle: string){
+        console.log(`GET /${challengeTitle}`);
+        return this.tabService.findAllTabByChallenge(challengeTitle);
+    }
+
+    @Get('/:tabName')
+    getTabByName(
+        @Param('tabName') tabName: string,
+        @Body() challengeTitle: string    
+    ){
+        console.log(`GET /${tabName}`);
+        return this.tabService.findTabByName(tabName, challengeTitle);
+    }
+
+    @Post('/')
+    createTab(@Body() createTab: CreateTabDto){
+        console.log(`POST /${createTab.tabName} in challenge ${createTab.challengeTitle}`);
+        return this.tabService.createTab(createTab);
+    }
+
+    @Put('/:tabName')
+    editTab(
+        @Param('tabName') tabName: string,
+        @Body() editTab: EditTabDto
+    ){
+        console.log(`PUT /${tabName} in challenge ${editTab.challengeTitle}`);
+        return this.tabService.editTab(tabName, editTab);
+    }
+
+    @Delete('/:tabName')
+    deleteTab(
+        @Param('tabName') tabName: string,
+        @Body() deleteTab: DeleteTabDto
+    ){
+        console.log(`DELETE /${tabName} in challenge ${deleteTab.challengeTitle}`);
+        return this.tabService.deleteTab(tabName, deleteTab);
+    }
+}
