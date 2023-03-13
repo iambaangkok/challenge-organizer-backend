@@ -78,7 +78,7 @@ import { PostsModule } from './posts/posts.module';
             type: 'mysql',
             host: '10.10.182.143',
             port: 3306,
-            database: 'dev2', // this maybe dev, test, or prod
+            database: 'test', // this maybe dev, test, or prod
             entities: [
                 User,
                 Challenge,

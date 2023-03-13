@@ -20,7 +20,7 @@ export class ChallengesService {
         private challengeRepository: Repository<Challenge>,
         @InjectRepository(User)
         private userRepository: Repository<User>,
-    ) { }
+    ) {}
 
     async findAllChallenges() {
         const challenges = await this.challengeRepository.find({
@@ -29,17 +29,13 @@ export class ChallengesService {
                 collaborators: true,
             },
         });
+        const challengesObject: Record<string, any>[] = [];
         for (let i = 0; i < challenges.length; i++) {
-            const joinTrue = challenges[i].join == true;
-            if (joinTrue) {
-                challenges[i].join = false;
-                await this.challengeRepository.update(
-                    { challengeTitle: challenges[i].challengeTitle },
-                    { join: challenges[i].join },
-                );
-            }
+            challengesObject.push(challenges[i]);
+            challengesObject[i].join = false;
         }
-        return challenges;
+        console.log(challengesObject[0]);
+        return challengesObject;
     }
 
     async findAllChallengesByDisplayName(displayName: string) {
@@ -51,14 +47,18 @@ export class ChallengesService {
                 displayName: displayName,
             },
         });
-        const allChallenges = await this.findAllChallenges();
+        const allChallenges: Record<string, any>[] =
+            await this.findAllChallenges();
         if (user == null) {
-            return allChallenges;
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         }
         const userDisplayName = user.displayName;
         if (user.challenges.length == 0) {
             console.log(':)');
-            return allChallenges;
+            return allChallenges.map((chal) => {
+                chal.join = false;
+                return chal;
+            });
         } else {
             for (let i = 0; i < allChallenges.length; i++) {
                 for (let j = 0; j < allChallenges[i].participants.length; j++) {
@@ -72,10 +72,6 @@ export class ChallengesService {
                         allChallenges[i].join = false;
                     }
                 }
-                await this.challengeRepository.update(
-                    { challengeTitle: allChallenges[i].challengeTitle },
-                    { join: allChallenges[i].join },
-                );
             }
         }
         return allChallenges;
@@ -87,7 +83,7 @@ export class ChallengesService {
                 participants: true,
                 tasks: true,
                 collaborators: true,
-                host : true
+                host: true,
             },
 
             where: { challengeTitle: challengeTitle },
@@ -112,17 +108,17 @@ export class ChallengesService {
             );
         }
 
-        console.log(challengeDetails.host)
+        console.log(challengeDetails.host);
 
         const user = await this.userRepository.findOne({
-            where: { displayName: challengeDetails.host }
-        })
-    
-        if(!user){
-            throw new HttpException("Not found user",HttpStatus.BAD_REQUEST)
+            where: { displayName: challengeDetails.host },
+        });
+
+        if (!user) {
+            throw new HttpException('Not found user', HttpStatus.BAD_REQUEST);
         }
         if (!challenge) {
-            console.log(user)
+            console.log(user);
             const newChallenge = this.challengeRepository.create({
                 challengeTitle: challengeDetails.challengeTitle,
                 description: challengeDetails.description,
