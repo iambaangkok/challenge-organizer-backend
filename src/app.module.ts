@@ -53,9 +53,9 @@ import { PostsModule } from './posts/posts.module';
     imports: [
         TypeOrmModule.forRoot({
             type: 'mysql',
-            host: 'localhost',
+            host: '10.10.182.143',
             port: 3306,
-            database: 'dev',
+            database: 'test',
             entities: [
                 // "src/typeorm/entity/*.*"
                 User,
@@ -71,10 +71,8 @@ import { PostsModule } from './posts/posts.module';
                 Tab,
                 Post,
             ],
-            synchronize: true,
-            username: 'root',
-            // autoLoadEntities: true,
-            // password: 'password' ,
+            username: 'dev',
+            password: 'password',
         }),
         ChallengesModule,
         UsersModule,
