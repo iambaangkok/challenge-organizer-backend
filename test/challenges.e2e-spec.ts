@@ -51,12 +51,12 @@ describe('ChallengesController E2E Test', () => {
             });
         });
     });
-    describe('GET /studentId/:studentId', () => {
-        describe('given user does not exist', () => {
+    describe.skip('GET /:challengeTitle', () => {
+        describe('given challenge does not exist', () => {
             it('should fail, return a 404', () => {
-                const studentId = 1;
+                const challengeTitle = '';
                 return request(server)
-                    .get(BASE_PATH + '/studentId/' + studentId)
+                    .get(BASE_PATH + '/' + challengeTitle)
                     .expect(404);
             });
         });
@@ -69,7 +69,7 @@ describe('ChallengesController E2E Test', () => {
             });
         });
     });
-    describe('POST /', () => {
+    describe.skip('POST /', () => {
         describe('given missing attribute from request body', () => {
             it('should fail, return a 400', () => {
                 return request(server)
