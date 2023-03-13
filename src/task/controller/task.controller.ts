@@ -1,6 +1,6 @@
 import { Body, Controller, Get, ParseArrayPipe, ParseIntPipe, Post } from '@nestjs/common';
 import { Delete, Param, Put } from '@nestjs/common/decorators';
-import { CreateTaskDto, EditTaskDto, FindTaskInUser } from 'src/dto/CreateTask.dto';
+import { CreateTaskDto, EditTaskDto, FindTaskInUser } from '../../dto/CreateTask.dto';
 import { TaskService } from '../service/task.service';
 
 @Controller('api/task')

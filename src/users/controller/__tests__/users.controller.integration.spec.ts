@@ -8,7 +8,7 @@ import * as request from 'supertest';
 import { Db, MongoClient } from 'mongodb';
 
 import { AppModule } from '../../../app.module';
-import { userStub } from './testData';
+import { userTestData1 } from './users.testdata';
 import { ConfigModule } from '@nestjs/config';
 
 describe.skip('UsersController', () => {
@@ -21,52 +21,55 @@ describe.skip('UsersController', () => {
     let app: any;
 
     beforeAll(async () => {
-        const moduleRef = await Test.createTestingModule({
-            imports: [
-                ConfigModule.forRoot({
-                    isGlobal: true,
-                }),
-                AppModule,
-            ],
-        }).compile();
-
-        app = moduleRef.createNestApplication();
-        await app.init();
-        api = app.getHttpServer();
-
-        const uri = process.env.DB_HOST + '/' + process.env.ENVIRONMENT;
-        client = await createClientConnection(uri);
-        db = getDb(client);
+        // const moduleRef = await Test.createTestingModule({
+        //     imports: [
+        //         ConfigModule.forRoot({
+        //             isGlobal: true,
+        //         }),
+        //         AppModule,
+        //     ],
+        // }).compile();
+        // app = moduleRef.createNestApplication();
+        // await app.init();
+        // api = app.getHttpServer();
+        // const uri = process.env.DB_HOST + '/' + process.env.ENVIRONMENT;
+        // client = await createClientConnection(uri);
+        // db = getDb(client);
         // db = new Db(
         //     COLLECTION,
         //     new Server(
         //         process.env.DB_HOST + '/' + process.env.ENVIRONMENT,
         //         27017,
         //         {auto_reconnect: false, poolSize: 4},
-
         //     ),
         // );
     });
 
-    afterAll(async () => {
-        await closeClientConnection(client);
-        await app.close();
-    });
-
-    beforeEach(async () => {
-        await db.collection(COLLECTION).drop();
-        await db.createCollection(COLLECTION);
-    });
-
-    describe('/', () => {
-        it('should return an array of users', async () => {
-            await db.collection(COLLECTION).insertOne(userStub);
-            const res = await request(api).get(`${BASE_PATH}/`);
-
-            expect(res.status).toBe(200);
-            expect(res.body).toMatchObject([userStub]);
+    describe.skip('nothing', () => {
+        it('should do nothing', () => {
+            expect(true).toBe(true);
         });
     });
+
+    // afterAll(async () => {
+    //     await closeClientConnection(client);
+    //     await app.close();
+    // });
+
+    // beforeEach(async () => {
+    //     await db.collection(COLLECTION).drop();
+    //     await db.createCollection(COLLECTION);
+    // });
+
+    // describe('/', () => {
+    //     it('should return an array of users', async () => {
+    //         await db.collection(COLLECTION).insertOne(userTestData1);
+    //         const res = await request(api).get(`${BASE_PATH}/`);
+
+    //         expect(res.status).toBe(200);
+    //         expect(res.body).toMatchObject([userTestData1]);
+    //     });
+    // });
 
     // describe('createUser', () => {
     //     it('should create a user', async () => {

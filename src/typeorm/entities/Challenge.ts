@@ -31,22 +31,22 @@ export class Challenge {
     @Column()
     description: string;
 
-    @Column({default: "single"})
+    @Column({ default: 'single' })
     type?: string;
-    
-    @Column({nullable: true})
+
+    @Column({ nullable: true })
     format?: string;
 
-    @Column({default: 0})
+    @Column({ default: 0 })
     numParticipants?: number;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     host: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     banckImg?: string;
 
-    @Column({default: 10})
+    @Column({ default: 10 })
     maxParticipants?: number;
 
     // @Column()
@@ -62,12 +62,13 @@ export class Challenge {
     upDateAt?: Date
 
     @Column({nullable: true})
+
     startDate?: Date;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     endDate?: Date;
 
-    @Column({default: false})
+    @Column({ default: false })
     closed?: boolean;
     // @Column()
     // file: {
@@ -87,11 +88,11 @@ export class Challenge {
     //     team_id: number;
     //     menubar: [object];
     // };
-    @Column({default : 1 })
+    @Column({ default: 1 })
     maxTeams?: number;
 
 
-    @Column({default: 0})
+    @Column({ default: 0 })
     rating?: number;
 
 
@@ -113,6 +114,7 @@ export class Challenge {
         onDelete :'CASCADE'
     })
     collaborators? : User[];
+
 
     @OneToMany(() => Tab, (tab) => tab.hasChallenge, {
         cascade: true,

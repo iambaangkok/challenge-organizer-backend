@@ -15,8 +15,8 @@ import { CreateChallenge } from '../../dto/CreateChallenge.dto';
 // import { CreateChallengeParams } from 'src/challenges/utils/type';
 import { EditChallengeDto } from '../../dto/EditChallenge.dto';
 import { JoinLeaveChallengeDto } from '../../dto/JoinLeaveChallenge.dto';
-import { AddCollaboratorDto } from 'src/dto/AddCollaborator';
-import { DeleteCollaborator } from 'src/dto/DeleteCollaborator';
+import { AddCollaboratorDto } from '../../dto/AddCollaborator';
+import { DeleteCollaborator } from '../../dto/DeleteCollaborator';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('api/challenges')
