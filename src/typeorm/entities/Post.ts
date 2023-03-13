@@ -32,7 +32,7 @@ export class Post{
     @TreeChildren()
     children?: Post[]
 
-    @TreeParent()
+    @TreeParent({ onDelete: 'CASCADE' })
     parent?: Post
 
     @Column()
