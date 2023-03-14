@@ -6,18 +6,20 @@ import {
     Param,
     Post,
     Put,
+    UploadedFile,
     UploadedFiles,
     UseInterceptors
 
 } from '@nestjs/common';
 import { ChallengesService } from '../service/challenges.service';
 import { CreateChallenge } from '../../dto/CreateChallenge.dto';
-// import { CreateChallengeParams } from 'src/challenges/utils/type';
 import { EditChallengeDto } from '../../dto/EditChallenge.dto';
 import { JoinLeaveChallengeDto } from '../../dto/JoinLeaveChallenge.dto';
 import { AddCollaboratorDto } from '../../dto/AddCollaborator';
 import { DeleteCollaborator } from '../../dto/DeleteCollaborator';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('api/challenges')
 export class ChallengesController {
@@ -118,14 +120,19 @@ export class ChallengesController {
     //     return this.challengeService.deleteCollaborators(deleteCollaboratorDto)
     // }
 
-    @Post("/file")
-    // @UseInterceptors(FileInterceptor('file'))
-    uploadFile(
-        @UploadedFiles() file: Express.Multer.File
-        ){
+    @Post('/uploadbanner')
+    @UseInterceptors(FileInterceptor('file', {
+        storage: diskStorage({
+            destination: './uploads/bannerimages',
+            filename: (req, file, cb) => {
+                const suffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+                const ext = extname(file.originalname);
+                cb(null, `${suffix}${ext}`);
+            }
+        })
+    }))
+    uploadBanner(@UploadedFile() file: Express.Multer.File){
         console.log('file', file)
-        return ("file upload")
+        return file.path;
     }
-
-
 }
