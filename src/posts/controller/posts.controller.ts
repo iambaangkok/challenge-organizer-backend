@@ -7,7 +7,7 @@ import {
     Put,
     Body,
 } from '@nestjs/common';
-import { FindPostDto } from 'src/dto/FindPost.dto';
+import { ChallengeTitleDto } from '../../dto/ChallengeTitle';
 import { CreatePostDto } from '../../dto/CreatePost.dto';
 import { DeletePostDto } from '../../dto/DeletePost.dto';
 import { EditPostDto } from '../../dto/EditPost.dto';
@@ -32,7 +32,7 @@ export class PostsController {
     @Get('/get-post-by-tab/:tabName')
     getPostByTab(
         @Param('tabName') tabName: string,
-        @Body() challengeTitle: FindPostDto
+        @Body() challengeTitle: ChallengeTitleDto
         ) {
         console.log(`GET /tabName`);
         return this.postService.findPostByTab(tabName, challengeTitle);
