@@ -135,4 +135,20 @@ export class ChallengesController {
         console.log('file', file)
         return file.path;
     }
+
+    @Post('/uploadfile')
+    @UseInterceptors(FileInterceptor('file', {
+        storage: diskStorage({
+            destination: './uploads/files',
+            filename: (req, file, cb) => {
+                const suffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+                const ext = extname(file.originalname);
+                cb(null, `${suffix}${ext}`);
+            }
+        })
+    }))
+    uploadFile(@UploadedFile() file: Express.Multer.File){
+        console.log('file', file)
+        return file.path;
+    }
 }
