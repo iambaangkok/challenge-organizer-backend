@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const URL = 'http://localhost:3030/api/users';
 
-const main = async () => {
+export const seedUsers = async () => {
     const users = [
         {
             firstName: 'Ava',
@@ -68,9 +68,12 @@ const main = async () => {
 
     for (let i = 0; i < users.length; ++i) {
         setTimeout(async () => {
-            await axios.post(URL, users[i]);
+            console.log('create user ' + users[i].firstName);
+            await axios.post(URL, users[i]).catch((err) => {
+                //
+            });
         }, 100 * (i + 1));
     }
 };
 
-main();
+// seedUsers();
