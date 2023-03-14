@@ -140,7 +140,7 @@ export class Challenge {
     ratings?: Rating[];
 
 
-    @ManyToOne(() => User, (user) => user.hasHost,{
+    @ManyToOne(() => User, (user) => user.isHost,{
         cascade: true,
     })
     host?: User ;
