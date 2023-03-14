@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { Tab } from '../../typeorm/entities/Tab';
 import { Challenge } from '../../typeorm/entities/Challenge';
 import { ChallengesService } from 'src/challenges/service/challenges.service';
+import { UsersService } from 'src/users/services/users.service';
 
 @Injectable()
 export class PostsService {
@@ -16,10 +17,11 @@ export class PostsService {
         private postRepository: Repository<Post>,
         @InjectRepository(Tab)
         private tabRepository: Repository<Tab>,
-        private challengeService: ChallengesService,
         @InjectRepository(Challenge)
-        private challengeRepository: Repository<Challenge>
-    ) { }
+        private challengeRepository: Repository<Challenge>,
+        private readonly challengeService: ChallengesService,
+        private readonly userService: UsersService
+        ) { }
 
     async findAllPost(){
         return await this.postRepository.find({
@@ -58,12 +60,14 @@ export class PostsService {
 
     async createParentPost(postDetails: CreatePostParams) {
         if(postDetails.challengeTitle == null ||
-            postDetails.tabName == null)
+            postDetails.tabName == null ||
+            postDetails.displayName == null)
         {
             throw new BadRequestException(
                 'You need to put all required fields to create a post',
             );
         }
+        const user = await this.userService.findBydisplayName(postDetails.displayName);
 
         const challenge = await this.challengeRepository.findOne({
             relations: {
@@ -89,7 +93,8 @@ export class PostsService {
                 upDateAt: new Date(),
                 parent: null,
                 hasTab: tab,
-                hasChallenge: challenge
+                hasChallenge: challenge,
+                owner: user
             });
             await this.postRepository.save(newPost);
             return newPost;
