@@ -20,7 +20,7 @@ export class ChallengesService {
         private challengeRepository: Repository<Challenge>,
         @InjectRepository(User)
         private userRepository: Repository<User>,
-    ) {}
+    ) { }
 
     async findAllChallenges() {
         const challenges = await this.challengeRepository.find({
@@ -399,7 +399,7 @@ export class ChallengesService {
                 const challengeCollaboratorOld = challenge.collaborators;
                 challengeCollaboratorOld.push(user);
                 challenge.collaborators = challengeCollaboratorOld;
-                this.challengeRepository.save(challenge);
+                await this.challengeRepository.save(challenge);
                 return {
                     Massage: 'Add collaborators Susese ',
                     CollaboratorName: `${user.displayName}`,
