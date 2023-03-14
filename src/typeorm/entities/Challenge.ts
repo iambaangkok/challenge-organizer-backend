@@ -28,7 +28,7 @@ export class Challenge {
     @Column()
     challengeTitle: string;
 
-    @Column()
+    @Column({length : 400})
     description: string;
 
     @Column({ default: 'single' })

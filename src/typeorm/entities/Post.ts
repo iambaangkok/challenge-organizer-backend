@@ -18,7 +18,7 @@ export class Post{
     @PrimaryGeneratedColumn()
     postId: number;
 
-    @Column()
+    @Column({type: 'text'})
     content?: string;
 
     @CreateDateColumn()
