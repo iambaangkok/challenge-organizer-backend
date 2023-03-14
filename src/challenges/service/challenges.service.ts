@@ -12,7 +12,7 @@ import {
 } from '../utils/type';
 import { Repository } from 'typeorm';
 import { User } from '../../typeorm/entities/User';
-import { Tab } from 'src/typeorm/entities/Tab';
+import { Tab } from '../../typeorm/entities/Tab';
 
 @Injectable()
 export class ChallengesService {
