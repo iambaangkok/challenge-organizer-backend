@@ -41,3 +41,8 @@ export type DeleteCollaborator ={
     challengeTitle: string;
     displayName: string;
 }
+
+
+export type TaskChallenge = {
+    challengeTitle : string ;
+}

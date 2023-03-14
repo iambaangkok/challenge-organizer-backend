@@ -5,3 +5,7 @@ export class AddCollaboratorDto{
 
 
 }
+
+export class findChallengeTask{
+    challengeTitle: string;
+}

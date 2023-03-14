@@ -17,7 +17,7 @@ import { CreateChallenge } from '../../dto/CreateChallenge.dto';
 // import { CreateChallengeParams } from 'src/challenges/utils/type';
 import { EditChallengeDto } from '../../dto/EditChallenge.dto';
 import { JoinLeaveChallengeDto } from '../../dto/JoinLeaveChallenge.dto';
-import { AddCollaboratorDto } from '../../dto/AddCollaborator';
+import { AddCollaboratorDto, findChallengeTask } from '../../dto/AddCollaborator';
 import { DeleteCollaborator } from '../../dto/DeleteCollaborator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -39,6 +39,12 @@ export class ChallengesController {
         return this.challengeService.findAllChallengesByDisplayName(
             displayName,
         );
+    }
+
+    @Get('/allTask')
+    getAllTask(@Body() challengeTitle : findChallengeTask){
+        console.log(`GET /allTask by challengeTitle/${challengeTitle.challengeTitle}`);
+        return this.challengeService.allTask(challengeTitle)
     }
 
     @Put('/addCollaborators')
