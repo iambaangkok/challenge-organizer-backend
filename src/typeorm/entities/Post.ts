@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Challenge } from './Challenge';
 import { Tab } from './Tab';
+import { User } from './User';
 
 @Entity({name:'posts'})
 @Tree("materialized-path")
@@ -35,8 +36,10 @@ export class Post{
     @TreeParent({ onDelete: 'CASCADE' })
     parent?: Post
 
-    @Column()
-    owener?: string;
+    @ManyToOne(() => User, (user) => user.isOwner,{
+        cascade: true
+    })
+    owner?: User;
 
     @ManyToOne(() => Tab, (tab) => tab.posts, {
         cascade: true
