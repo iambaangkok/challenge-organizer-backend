@@ -185,7 +185,7 @@ export class ChallengesService {
                             (e) => e.challengeTitle !== challengeTitle,
                         );
                         console.log(filter);
-                        this.userRepository.update(
+                       await this.userRepository.update(
                             { userId: user.userId },
                             { challenges: filter },
                         );
