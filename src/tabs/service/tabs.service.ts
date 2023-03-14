@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateTabParams, DeleteTabParams, EditTabParams } from '../utils/type';
 import { Challenge } from '../../typeorm/entities/Challenge';
 import { Post } from '../../typeorm/entities/Post';
-import { ChallengesService } from 'src/challenges/service/challenges.service';
+import { ChallengesService } from '../../challenges/service/challenges.service';
 
 @Injectable()
 export class TabsService {
