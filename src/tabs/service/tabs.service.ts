@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateTabParams, DeleteTabParams, EditTabParams } from '../utils/type';
 import { Challenge } from '../../typeorm/entities/Challenge';
 import { Post } from '../../typeorm/entities/Post';
+import { ChallengesService } from 'src/challenges/service/challenges.service';
 
 @Injectable()
 export class TabsService {
@@ -12,7 +13,7 @@ export class TabsService {
         @InjectRepository(Tab)
         private tabRepository: Repository<Tab>,
         @InjectRepository(Challenge)
-        private challengeRepository: Repository<Challenge>,
+        private readonly challengeService: ChallengesService,
         @InjectRepository(Post)
         private postRepository: Repository<Post>
     ) { }
@@ -25,16 +26,7 @@ export class TabsService {
     }
 
     async findAllTabByChallenge(challengeTitle: string) {
-        const challenge = await this.challengeRepository.findOne({
-            relations: {
-                participants: true,
-                tasks: true,
-                collaborators: true,
-                host : true,
-                tabs: { posts: true }
-            },
-            where: {challengeTitle: challengeTitle}
-        });
+        const challenge = await this.challengeService.findChallenges(challengeTitle);
         if(challenge){
             return challenge.tabs;
         } else {
@@ -49,17 +41,7 @@ export class TabsService {
         tabName: string,
         challengeTitle: string
         ) {
-        const challenge = await this.challengeRepository.findOne({
-            relations: {
-                participants: true,
-                tasks: true,
-                collaborators: true,
-                host : true,
-                tabs: true
-            },
-            where: {challengeTitle: challengeTitle[0]}
-        });
-
+        const challenge = await this.challengeService.findChallenges(challengeTitle);
         if(challenge){
             const tab = await this.tabRepository.findOne({
                 relations: {hasChallenge: true, posts: true},
@@ -78,21 +60,12 @@ export class TabsService {
     }
 
     async createTab(tabDetails: CreateTabParams) {
-        const challenge = await this.challengeRepository.findOne({
-            relations: {
-                participants: true,
-                tasks: true,
-                collaborators: true,
-                host : true,
-                tabs: true
-            },
-            where: {challengeTitle: tabDetails.challengeTitle}
-        });
+        const challenge = await this.challengeService.findChallenges(tabDetails.challengeTitle);
 
         if(challenge){
             const newTab = this.tabRepository.create({
                 tabName: tabDetails.tabName,
-                permission: tabDetails.permission,
+                hasChallenge: challenge
             })
             await this.tabRepository.save(newTab);
         } else {
@@ -107,16 +80,7 @@ export class TabsService {
         tabName: string,
         editTab: EditTabParams
         ) {
-        const challenge = await this.challengeRepository.findOne({
-            relations: {
-                participants: true,
-                tasks: true,
-                collaborators: true,
-                host : true,
-                tabs: true
-            },
-            where: {challengeTitle: editTab.challengeTitle}
-        });
+        const challenge = await this.challengeService.findChallenges(editTab.challengeTitle);
 
         if(challenge){
             return await this.tabRepository.update(
@@ -135,16 +99,7 @@ export class TabsService {
         tabName: string,
         deleteTab: DeleteTabParams
         ) {
-        const challenge = await this.challengeRepository.findOne({
-            relations: {
-                participants: true,
-                tasks: true,
-                collaborators: true,
-                host : true,
-                tabs: true
-            },
-            where: {challengeTitle: deleteTab.challengeTitle}
-        });
+        const challenge = await this.challengeService.findChallenges(deleteTab.challengeTitle);
 
         if(challenge){
             const tab = await this.findTabByName(tabName, deleteTab.challengeTitle);
