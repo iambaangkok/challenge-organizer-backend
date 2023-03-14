@@ -2,7 +2,6 @@ import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nes
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeletePostParams, EditPostParams, FindPostParams } from '../utils/type';
 import { CreatePostParams } from '../utils/type';
-import { User } from '../../typeorm/entities/User';
 import { Post } from '../../typeorm/entities/Post';
 import { Repository } from 'typeorm';
 import { Tab } from '../../typeorm/entities/Tab';

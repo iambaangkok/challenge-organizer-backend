@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Tab } from '../../typeorm/entities/Tab';
 import { Repository } from 'typeorm';
 import { CreateTabParams, DeleteTabParams, EditTabParams } from '../utils/type';
-import { Challenge } from '../../typeorm/entities/Challenge';
 import { Post } from '../../typeorm/entities/Post';
 import { ChallengesService } from '../../challenges/service/challenges.service';
 
@@ -12,7 +11,6 @@ export class TabsService {
     constructor(
         @InjectRepository(Tab)
         private tabRepository: Repository<Tab>,
-        @InjectRepository(Challenge)
         private readonly challengeService: ChallengesService,
         @InjectRepository(Post)
         private postRepository: Repository<Post>
