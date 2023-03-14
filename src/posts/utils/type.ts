@@ -4,6 +4,7 @@ export type CreatePostParams = {
     createdAtDate: Date;
     upDateAt: Date;
     allowComment: boolean;
+    displayName: string;
     tabName: string;
     challengeTitle: string;
 };
