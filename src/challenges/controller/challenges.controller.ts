@@ -8,6 +8,9 @@ import {
     Put,
     UploadedFiles,
     UseInterceptors,
+    UploadedFile 
+
+
 } from '@nestjs/common';
 import { ChallengesService } from '../service/challenges.service';
 import { CreateChallenge } from '../../dto/CreateChallenge.dto';
@@ -17,6 +20,8 @@ import { JoinLeaveChallengeDto } from '../../dto/JoinLeaveChallenge.dto';
 import { AddCollaboratorDto } from '../../dto/AddCollaborator';
 import { DeleteCollaborator } from '../../dto/DeleteCollaborator';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname, join } from 'path';
 
 @Controller('api/challenges')
 export class ChallengesController {
@@ -67,9 +72,11 @@ export class ChallengesController {
     }
 
     @Delete('/deleteCollaborators')
-    deleteCollaborator(@Body() deleteCollaboratorDto: DeleteCollaborator) {
-        console.log(`DELETE /${deleteCollaboratorDto.userId}/delete`);
-        return this.challengeService.deleteCollaborators(deleteCollaboratorDto);
+    deleteCollaborator(
+        @Body() deleteCollaboratorDto: DeleteCollaborator
+    ) {
+        console.log(`DELETE /${deleteCollaboratorDto.displayName}/delete`);
+        return this.challengeService.deleteCollaborators(deleteCollaboratorDto)
     }
 
     @Delete('/:challengeTitle')
@@ -110,10 +117,29 @@ export class ChallengesController {
     //     return this.challengeService.deleteCollaborators(deleteCollaboratorDto)
     // }
 
-    @Post('/file')
+    // @Post("/file")
+    // @UseInterceptors(FileInterceptor('file', {
+    //     storage: diskStorage({
+    //         destination: './uploads/files',
+    //         filename: (req, file, cb) => {
+    //             const randomName = Array(32).fill(null).map(() =>
+    //                 (Math.round(Math.random() * 16)).toString(16)).join('');
+    //             return cb(null, `${randomName}${extname(file.originalname)}`);
+    //         },
+    //     }),
+    // }))
+    // uploadFile(
+    //     @UploadedFiles() file: Express.Multer.File
+    // ) {
+    //     console.log('file', file)
+    //     return ("file upload")
+    // }
+
+    // @Post('file')
     // @UseInterceptors(FileInterceptor('file'))
-    uploadFile(@UploadedFiles() file: Express.Multer.File) {
-        console.log('file', file);
-        return 'file upload';
-    }
+    // async uploadFile(@UploadedFile() file : Express.Multer.File) {
+    //     console.log(file);
+    // }
+
+
 }

@@ -416,22 +416,23 @@ export class ChallengesService {
     async deleteCollaborators(deleteCollaboratorsDetails: DeleteCollaborator) {
         const challenge = await this.challengeRepository.findOne({
             where: {
-                challengeId: deleteCollaboratorsDetails.challengeId,
+                challengeTitle: deleteCollaboratorsDetails.challengeTitle,
             },
             relations: {
                 collaborators: true,
             },
         });
+        const challengeId = challenge.challengeId
 
         const user = await this.userRepository.findOne({
             where: {
-                userId: deleteCollaboratorsDetails.userId,
+                displayName: deleteCollaboratorsDetails.displayName,
             },
             relations: {
                 constructors: true,
             },
         });
-
+        const userId = user.userId
         if (!user) {
             throw new HttpException('ไม่มี user น้า', HttpStatus.BAD_REQUEST);
         } else {
@@ -444,7 +445,7 @@ export class ChallengesService {
                 const id = challenge.challengeId;
                 challenge.collaborators = challenge.collaborators.filter(
                     (challenge) => {
-                        return id !== deleteCollaboratorsDetails.challengeId;
+                        return id !== challengeId;
                     },
                 );
                 await this.challengeRepository.save(challenge);
