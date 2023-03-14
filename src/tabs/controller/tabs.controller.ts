@@ -7,9 +7,9 @@ import {
     Post,
     Put
 } from '@nestjs/common';
-import { CreateTabDto } from 'src/dto/CreateTab.dto';
-import { DeleteTabDto } from 'src/dto/DeleteTab.dto';
-import { EditTabDto } from 'src/dto/EditTab.dto';
+import { CreateTabDto } from '../../dto/CreateTab.dto';
+import { DeleteTabDto } from '../../dto/DeleteTab.dto';
+import { EditTabDto } from '../../dto/EditTab.dto';
 import { TabsService } from '../service/tabs.service';
 
 @Controller('api/tabs')
