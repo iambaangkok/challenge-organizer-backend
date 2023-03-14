@@ -1,14 +1,14 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeletePostParams, EditPostParams, FindPostParams } from 'src/posts/utils/type';
-import { CreatePostParams } from 'src/posts/utils/type';
+import { DeletePostParams, EditPostParams, FindPostParams } from '../utils/type';
+import { CreatePostParams } from '../utils/type';
 import { User } from '../../typeorm/entities/User';
 import { Post } from '../../typeorm/entities/Post';
 import { Repository } from 'typeorm';
 import { Tab } from '../../typeorm/entities/Tab';
 import { Challenge } from '../../typeorm/entities/Challenge';
-import { ChallengesService } from 'src/challenges/service/challenges.service';
-import { UsersService } from 'src/users/services/users.service';
+import { ChallengesService } from '../../challenges/service/challenges.service';
+import { UsersService } from '../../users/services/users.service';
 
 @Injectable()
 export class PostsService {
