@@ -9,7 +9,7 @@ export const challengesTestData1: Challenge = {
     format: 'point-based',
     numParticipants: 0,
     // host: USer,
-    banckImg: '',
+    bannerImg: '',
     maxParticipants: 1,
     publishedStatus: true,
     createdAtDate: new Date('2023-03-10T20:39:11.000Z'),

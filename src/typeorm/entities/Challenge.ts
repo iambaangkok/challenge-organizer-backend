@@ -44,7 +44,7 @@ export class Challenge {
     // host: string;
 
     @Column({ nullable: true })
-    banckImg?: string;
+    bannerImg?: string;
 
     @Column({ default: 10 })
     maxParticipants?: number;

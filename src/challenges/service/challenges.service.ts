@@ -32,7 +32,8 @@ export class ChallengesService {
                 tasks: true,
                 collaborators: true,
                 host : true,
-                tabs: true
+                tabs: true, 
+
             }
         });
         for (let i = 0; i < challenges.length; i++) {
@@ -94,7 +95,7 @@ export class ChallengesService {
                 tasks: true,
                 collaborators: true,
                 host : true,
-                tabs: {posts: true}
+                tabs: {posts: {owner:true}}
             },
             where: {challengeTitle: challengeTitle}
         });
