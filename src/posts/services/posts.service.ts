@@ -25,13 +25,25 @@ export class PostsService {
 
     async findAllPost(){
         return await this.postRepository.find({
-            relations: {children:true, parent: true, hasTab: true, hasChallenge: true}
+            relations: {
+                children:true, 
+                parent: true, 
+                hasTab: true, 
+                hasChallenge: true,
+                owner: true
+            }
         });
     }
 
     async findByPostId(postId: number) {
         const post = await this.postRepository.findOne({
-            relations: {children:true, parent: true, hasTab: true, hasChallenge: true},
+            relations: {
+                children:true, 
+                parent: true, 
+                hasTab: true, 
+                hasChallenge: true,
+                owner: true
+            },
             where: {postId: postId}
         });
         return post;
