@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tab } from '../../typeorm/entities/Tab';
 import { Repository } from 'typeorm';
-import { CreateTabParams, DeleteTabParams, EditTabParams } from '../utils/type';
+import { CreateTabParams, EditTabParams } from '../utils/type';
 import { Post } from '../../typeorm/entities/Post';
 import { ChallengesService } from '../../challenges/service/challenges.service';
 
@@ -76,9 +76,10 @@ export class TabsService {
 
     async editTab(
         tabName: string,
+        challengeTitle: string,
         editTab: EditTabParams
         ) {
-        const challenge = await this.challengeService.findChallenges(editTab.challengeTitle);
+        const challenge = await this.challengeService.findChallenges(challengeTitle);
 
         if(challenge){
             return await this.tabRepository.update(
@@ -95,12 +96,12 @@ export class TabsService {
 
     async deleteTab(
         tabName: string,
-        deleteTab: DeleteTabParams
+        challengeTitle: string
         ) {
-        const challenge = await this.challengeService.findChallenges(deleteTab.challengeTitle);
+        const challenge = await this.challengeService.findChallenges(challengeTitle);
 
         if(challenge){
-            const tab = await this.findTabByName(tabName, deleteTab.challengeTitle);
+            const tab = await this.findTabByName(tabName, challengeTitle);
             const postList = tab.posts;
             for(let each in postList){
                 await this.postRepository.delete(each);

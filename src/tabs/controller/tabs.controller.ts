@@ -7,9 +7,7 @@ import {
     Post,
     Put
 } from '@nestjs/common';
-import { ChallengeTitleDto } from '../../dto/ChallengeTitle';
 import { CreateTabDto } from '../../dto/CreateTab.dto';
-import { DeleteTabDto } from '../../dto/DeleteTab.dto';
 import { EditTabDto } from '../../dto/EditTab.dto';
 import { TabsService } from '../service/tabs.service';
 
@@ -29,13 +27,13 @@ export class TabsController {
         return this.tabService.findAllTabByChallenge(challengeTitle);
     }
 
-    @Get('/:tabName')
+    @Get('/:challengeTitle/:tabName')
     getTabByName(
-        @Param('tabName') tabName: string,
-        @Body() challengeTitle: ChallengeTitleDto    
+        @Param('tabName') tabName: string, 
+        @Param('challengeTitle') challengeTitle: string
     ){
         console.log(`GET /${tabName}`);
-        return this.tabService.findTabByName(tabName, challengeTitle.challengeTitle);
+        return this.tabService.findTabByName(tabName, challengeTitle);
     }
 
     @Post('/')
@@ -44,21 +42,22 @@ export class TabsController {
         return this.tabService.createTab(createTab);
     }
 
-    @Put('/:tabName')
+    @Put('/:challengeTitle/:tabName')
     editTab(
-        @Param('tabName') tabName: string,
+        @Param('tabName') tabName: string, 
+        @Param('challengeTitle') challengeTitle: string,
         @Body() editTab: EditTabDto
     ){
-        console.log(`PUT /${tabName} in challenge ${editTab.challengeTitle}`);
-        return this.tabService.editTab(tabName, editTab);
+        console.log(`PUT /${tabName} in challenge ${challengeTitle}`);
+        return this.tabService.editTab(tabName, challengeTitle, editTab);
     }
 
-    @Delete('/:tabName')
+    @Delete('/:challengeTitle/:tabName')
     deleteTab(
         @Param('tabName') tabName: string,
-        @Body() deleteTab: DeleteTabDto
+        @Param('challengeTitle') challengeTitle: string
     ){
-        console.log(`DELETE /${tabName} in challenge ${deleteTab.challengeTitle}`);
-        return this.tabService.deleteTab(tabName, deleteTab);
+        console.log(`DELETE /${tabName} in challenge ${challengeTitle}`);
+        return this.tabService.deleteTab(tabName, challengeTitle);
     }
 }
