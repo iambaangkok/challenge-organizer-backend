@@ -9,6 +9,7 @@ import {
     DeleteCollaborator,
     EditChallengeParams,
     JoinLeaveChallengeParams,
+    TaskChallenge,
 } from '../utils/type';
 import { Repository } from 'typeorm';
 import { User } from '../../typeorm/entities/User';
@@ -97,6 +98,33 @@ export class ChallengesService {
         console.log('challengeTitle = ' + challengeTitle);
         console.log(challenge);
         return challenge;
+    }
+
+
+    async allTask(challengeDetails: TaskChallenge) {
+        console.log(challengeDetails.challengeTitle)
+        const challenge = await this.findChallenges(challengeDetails.challengeTitle)
+        console.log(challenge)
+        //Todo ทำการแบ่ง taskที่เกินเวลาไปแล้วในช่วงเวลากำลังมาในอนาคต
+        const finish = []
+        const onGoing = []
+        const future = []
+
+        for (let i = 0; i < challenge.tasks.length; ++i) {
+            if (new Date() >= challenge.tasks[i].end) {
+                finish.push(challenge.tasks[i])
+            } else if (challenge.tasks[i].start <= new Date() && new Date() <= challenge.tasks[i].end) {
+                onGoing.push(challenge.tasks[i])
+            } else if (new Date() < challenge.tasks[i].start) {
+                future.push(challenge.tasks[i])
+            }
+        }
+        const listTask = {
+            finish,
+            onGoing,
+            future
+        }
+        return listTask
     }
 
     async createChallenge(challengeDetails: CreateChallengeParams) {
@@ -230,7 +258,7 @@ export class ChallengesService {
                             (e) => e.challengeTitle !== challengeTitle,
                         );
                         console.log(filter);
-                        this.userRepository.update(
+                        await this.userRepository.update(
                             { userId: user.userId },
                             { challenges: filter },
                         );
@@ -444,7 +472,7 @@ export class ChallengesService {
                 const challengeCollaboratorOld = challenge.collaborators;
                 challengeCollaboratorOld.push(user);
                 challenge.collaborators = challengeCollaboratorOld;
-                this.challengeRepository.save(challenge);
+                await this.challengeRepository.save(challenge);
                 return {
                     Massage: 'Add collaborators Susese ',
                     CollaboratorName: `${user.displayName}`,
@@ -461,22 +489,24 @@ export class ChallengesService {
     async deleteCollaborators(deleteCollaboratorsDetails: DeleteCollaborator) {
         const challenge = await this.challengeRepository.findOne({
             where: {
-                challengeId: deleteCollaboratorsDetails.challengeId,
+                challengeTitle: deleteCollaboratorsDetails.challengeTitle,
             },
             relations: {
                 collaborators: true,
             },
         });
+        const challengeId = challenge.challengeId
 
         const user = await this.userRepository.findOne({
             where: {
-                userId: deleteCollaboratorsDetails.userId,
+                displayName: deleteCollaboratorsDetails.displayName,
             },
             relations: {
                 constructors: true,
             },
         });
 
+        const userId = user.userId
         if (!user) {
             throw new HttpException('ไม่มี user น้า', HttpStatus.BAD_REQUEST);
         } else {
@@ -486,12 +516,14 @@ export class ChallengesService {
                     HttpStatus.BAD_REQUEST,
                 );
             } else {
-                const id = challenge.challengeId;
+                // const id = challenge.challengeId;
+
                 challenge.collaborators = challenge.collaborators.filter(
-                    (challenge) => {
-                        return id !== deleteCollaboratorsDetails.challengeId;
+                    (col) => {
+                        return userId !== col.userId;
                     },
                 );
+                console.log(challenge.collaborators)
                 await this.challengeRepository.save(challenge);
                 return {
                     Massage: 'Remove Suc',
