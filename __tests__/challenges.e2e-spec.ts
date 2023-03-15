@@ -4,6 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 
 import { faker } from '@faker-js/faker';
+import axios from 'axios';
 
 describe('ChallengesController E2E Test', () => {
     let app: INestApplication;
@@ -36,15 +37,19 @@ describe('ChallengesController E2E Test', () => {
     describe('GET /by-user-display-name/:displayName', () => {
         describe('given user does not exist', () => {
             it('should fail, return a 404', () => {
-                const displayName = 'notdisplayname';
+                const displayName = 'notdisplaynamebecausethisistoolong';
                 return request(server)
                     .get(BASE_PATH + '/' + displayName)
                     .expect(404);
             });
         });
         describe('given user does exist', () => {
-            it('should return the challenges, and a 200', () => {
-                const displayName = 'id1678635835651';
+            it('should return the challenges, and a 200', async () => {
+                const data = await axios.get('/api/users').then((resp) => {
+                    return resp.data;
+                });
+
+                const displayName = data[0].displayName;
                 return request(server)
                     .get(BASE_PATH + '/' + displayName)
                     .expect(200);
@@ -61,8 +66,13 @@ describe('ChallengesController E2E Test', () => {
             });
         });
         describe('given user does exist', () => {
-            it('should return the user, and a 200', () => {
-                const studentId = 630610746;
+            it('should return the user, and a 200', async () => {
+                const data = await axios.get('/api/users').then((resp) => {
+                    return resp.data;
+                });
+
+                const studentId = data[0].studentId;
+
                 return request(server)
                     .get(BASE_PATH + '/studentId/' + studentId)
                     .expect(200);

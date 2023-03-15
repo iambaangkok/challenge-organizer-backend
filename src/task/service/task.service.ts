@@ -4,7 +4,7 @@ import { CreateTaskParams, EditTaskParams, TaskUserParams } from 'src/task/utils
 import { Challenge } from '../../typeorm/entities/Challenge';
 import { Task } from '../../typeorm/entities/Task';
 import { Repository } from 'typeorm';
-import { User } from 'src/typeorm/entities/User';
+import { User } from '../../typeorm/entities/User';
 import { FindTaskInUser } from 'src/dto/CreateTask.dto';
 
 @Injectable()
