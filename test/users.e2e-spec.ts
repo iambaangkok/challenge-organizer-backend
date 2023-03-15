@@ -6,6 +6,8 @@ import { AppModule } from '../src/app.module';
 import { faker } from '@faker-js/faker';
 import axios from 'axios';
 
+console.log('e2e test user');
+
 describe('UsersController E2E Test', () => {
     let app: INestApplication;
     let server;
@@ -24,8 +26,8 @@ describe('UsersController E2E Test', () => {
     });
 
     afterAll(async () => {
-        await app.close();
         server.close();
+        await app.close();
     });
 
     describe('GET /', () => {

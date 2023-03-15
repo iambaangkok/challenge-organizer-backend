@@ -6,6 +6,8 @@ import { AppModule } from '../src/app.module';
 import { faker } from '@faker-js/faker';
 import axios from 'axios';
 
+console.log('e2e test challenge');
+
 describe('ChallengesController E2E Test', () => {
     let app: INestApplication;
     let server;
@@ -24,8 +26,8 @@ describe('ChallengesController E2E Test', () => {
     });
 
     afterAll(async () => {
-        await app.close();
         server.close();
+        await app.close();
     });
 
     describe('GET /', () => {
@@ -40,7 +42,7 @@ describe('ChallengesController E2E Test', () => {
             it('should fail, return a 404', () => {
                 const displayName = 'notdisplaynamebecausethisistoolong';
                 return request(server)
-                    .get(BASE_PATH + '/' + displayName)
+                    .get(BASE_PATH + '/by-user-display-name/' + displayName)
                     .expect(404);
             });
         });
@@ -51,7 +53,7 @@ describe('ChallengesController E2E Test', () => {
 
                 const displayName = data[0].displayName;
                 return request(server)
-                    .get(BASE_PATH + '/' + displayName)
+                    .get(BASE_PATH + '/by-user-display-name/' + displayName)
                     .expect(200);
             });
         });
@@ -60,7 +62,7 @@ describe('ChallengesController E2E Test', () => {
         describe('given missing attribute from request body', () => {
             it('should fail, return a 400', () => {
                 return request(server)
-                    .post(BASE_PATH + '/')
+                    .put(BASE_PATH + '/addCollaborators')
                     .send({
                         cmuAccount: 'allrandom@random.random',
                     })
@@ -73,7 +75,7 @@ describe('ChallengesController E2E Test', () => {
                 const data = resp.data;
 
                 return request(server)
-                    .post(BASE_PATH + '/')
+                    .put(BASE_PATH + '/addCollaborators')
                     .send({
                         challengeTitle: 'whatever',
                         cmuAccount: data[0].cmuAccount,
@@ -87,7 +89,7 @@ describe('ChallengesController E2E Test', () => {
                 const data = resp.data;
 
                 return request(server)
-                    .post(BASE_PATH + '/')
+                    .put(BASE_PATH + '/addCollaborators')
                     .send({
                         challengeTitle: data[0].challengeTitle,
                         cmuAccount: 'random_rando@random.random',
@@ -96,18 +98,41 @@ describe('ChallengesController E2E Test', () => {
             });
         });
         describe('given correct request body', () => {
-            const insert = {
-                firstName: faker.name.firstName,
-                lastName: faker.name.lastName,
-                cmuAccount: faker.internet.email(),
-                studentId: new Date().getTime(),
-            };
+            it('should add a collaborator, return a 200', async () => {
+                const resp1 = await axios.get(AXIOS_URL + '/users');
+                const users = resp1.data;
 
-            it('should create a new user, return a 201', () => {
+                const resp2 = await axios.get(AXIOS_URL + '/challenges');
+                const challenges = resp2.data;
+
                 return request(server)
-                    .post(BASE_PATH + '/')
-                    .send(insert)
-                    .expect(201);
+                    .put(BASE_PATH + '/addCollaborators')
+                    .send({
+                        challengeTitle: challenges[0].challengeTitle,
+                        cmuAccount: users[8].cmuAccount,
+                    })
+                    .expect(200);
+            });
+        });
+    });
+    describe('GET /:challengeTitle', () => {
+        describe('given challenge does not exist', () => {
+            it('should fail, return a 404', () => {
+                const challengeTitle = 'notChallengeTitle';
+                return request(server)
+                    .get(BASE_PATH + '/' + challengeTitle)
+                    .expect(404);
+            });
+        });
+        describe('given challenge does exist', () => {
+            it('should return the challenge, and a 200', async () => {
+                const resp = await axios.get(AXIOS_URL + '/challenges');
+                const data = resp.data;
+
+                const challengeTitle = data[0].displayName;
+                return request(server)
+                    .get(BASE_PATH + '/' + challengeTitle)
+                    .expect(200);
             });
         });
     });
@@ -117,21 +142,22 @@ describe('ChallengesController E2E Test', () => {
                 return request(server)
                     .post(BASE_PATH + '/')
                     .send({
-                        firstName: 'Mark',
-                        studentId: 27,
+                        challengeTitle: 'Best Gaussian Blurrer',
+                        description: 'yes',
                     })
                     .expect(400);
             });
         });
         describe('given correct request body', () => {
-            const insert = {
-                firstName: faker.name.firstName,
-                lastName: faker.name.lastName,
-                cmuAccount: faker.internet.email(),
-                studentId: new Date().getTime(),
-            };
+            it('should create a new challenge, return a 201', async () => {
+                const resp1 = await axios.get(AXIOS_URL + '/users');
+                const users = resp1.data;
 
-            it('should create a new user, return a 201', () => {
+                const insert = {
+                    challengeTitle: 'Best Gaussian Blurrer',
+                    description: 'see who blurs the best',
+                    host: users[0].displayName,
+                };
                 return request(server)
                     .post(BASE_PATH + '/')
                     .send(insert)
