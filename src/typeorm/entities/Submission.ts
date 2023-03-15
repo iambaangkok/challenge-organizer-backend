@@ -5,7 +5,8 @@ import {
     ManyToOne,
     OneToMany,
     OneToOne,
-    PrimaryGeneratedColumn
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
 } from "typeorm";
 import { File } from "./File";
 import { Task } from "./Task";
@@ -23,13 +24,13 @@ export class Submission {
     @PrimaryGeneratedColumn()
     submissionId: number;
 
-    @Column()
-    score?: string;
+    @Column({default : null,nullable : true})
+    score?: number;
 
     @CreateDateColumn()
     createDate: Date;
 
-    @Column()
+    @UpdateDateColumn()
     editDate?: Date;
 
 
