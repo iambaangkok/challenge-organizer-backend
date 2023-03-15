@@ -9,9 +9,6 @@ import {
     UploadedFile,
     UploadedFiles,
     UseInterceptors,
-    UploadedFile 
-
-
 } from '@nestjs/common';
 import { ChallengesService } from '../service/challenges.service';
 import { CreateChallenge } from '../../dto/CreateChallenge.dto';
