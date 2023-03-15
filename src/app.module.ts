@@ -23,6 +23,7 @@ import { MulterModule } from '@nestjs/platform-express';
 
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { SubmissionModule } from './submission/submission.module';
 
 @Module({
     imports: [
@@ -88,6 +89,7 @@ import { join } from 'path';
         TabsModule,
         // ShopsModule,
         PostsModule,
+        SubmissionModule,
         MulterModule.register({ dest: './uploads ' }),
     ],
 
