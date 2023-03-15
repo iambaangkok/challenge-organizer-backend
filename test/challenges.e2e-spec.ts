@@ -56,25 +56,58 @@ describe('ChallengesController E2E Test', () => {
             });
         });
     });
-    describe('GET /studentId/:studentId', () => {
-        describe('given user does not exist', () => {
-            it('should fail, return a 404', () => {
-                const studentId = 1;
+    describe('PUT /addCollaborators', () => {
+        describe('given missing attribute from request body', () => {
+            it('should fail, return a 400', () => {
                 return request(server)
-                    .get(BASE_PATH + '/studentId/' + studentId)
-                    .expect(404);
+                    .post(BASE_PATH + '/')
+                    .send({
+                        cmuAccount: 'allrandom@random.random',
+                    })
+                    .expect(400);
             });
         });
-        describe('given user does exist', () => {
-            it('should return the user, and a 200', async () => {
+        describe('given challenge does not exist', () => {
+            it('should fail, return a 404', async () => {
                 const resp = await axios.get(AXIOS_URL + '/users');
                 const data = resp.data;
 
-                const studentId = data[0].studentId;
+                return request(server)
+                    .post(BASE_PATH + '/')
+                    .send({
+                        challengeTitle: 'whatever',
+                        cmuAccount: data[0].cmuAccount,
+                    })
+                    .expect(404);
+            });
+        });
+        describe('given user does not exist', () => {
+            it('should fail, return a 404', async () => {
+                const resp = await axios.get(AXIOS_URL + '/challenges');
+                const data = resp.data;
 
                 return request(server)
-                    .get(BASE_PATH + '/studentId/' + studentId)
-                    .expect(200);
+                    .post(BASE_PATH + '/')
+                    .send({
+                        challengeTitle: data[0].challengeTitle,
+                        cmuAccount: 'random_rando@random.random',
+                    })
+                    .expect(404);
+            });
+        });
+        describe('given correct request body', () => {
+            const insert = {
+                firstName: faker.name.firstName,
+                lastName: faker.name.lastName,
+                cmuAccount: faker.internet.email(),
+                studentId: new Date().getTime(),
+            };
+
+            it('should create a new user, return a 201', () => {
+                return request(server)
+                    .post(BASE_PATH + '/')
+                    .send(insert)
+                    .expect(201);
             });
         });
     });
