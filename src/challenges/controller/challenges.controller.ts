@@ -136,9 +136,9 @@ export class ChallengesController {
         @UploadedFile() file: Express.Multer.File
         ){
         console.log('file', file)
-        const absolutePath = resolve(file.path);
-        this.challengeService.setBanner(absolutePath, challengeTitle);
-        return absolutePath;
+        // const absolutePath = resolve(file.path);
+        this.challengeService.setBanner(file.path, challengeTitle);
+        return file.path;
     }
 
     @Post('/uploadfile')
