@@ -6,22 +6,23 @@ import {
     Param,
     Post,
     Put,
+    UploadedFile,
     UploadedFiles,
-    UseInterceptors
-
+    UseInterceptors,
 } from '@nestjs/common';
 import { ChallengesService } from '../service/challenges.service';
 import { CreateChallenge } from '../../dto/CreateChallenge.dto';
-// import { CreateChallengeParams } from 'src/challenges/utils/type';
 import { EditChallengeDto } from '../../dto/EditChallenge.dto';
 import { JoinLeaveChallengeDto } from '../../dto/JoinLeaveChallenge.dto';
-import { AddCollaboratorDto } from '../../dto/AddCollaborator';
+import { AddCollaboratorDto, findChallengeTask } from '../../dto/AddCollaborator';
 import { DeleteCollaborator } from '../../dto/DeleteCollaborator';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname, resolve } from 'path';
 
 @Controller('api/challenges')
 export class ChallengesController {
-    constructor(private challengeService: ChallengesService) { }
+    constructor(private challengeService: ChallengesService) {}
 
     @Get('/')
     getAllChallenges() {
@@ -37,14 +38,17 @@ export class ChallengesController {
         );
     }
 
-    @Put('/addCollaborators')
-    addCollaborator(
-        @Body() addCollaborator: AddCollaboratorDto
-    ) {
-        console.log(`PUT /${addCollaborator.challengeTitle}`);
-        return this.challengeService.addCollaborators(addCollaborator)
+    @Get('/allTask')
+    getAllTask(@Body() challengeTitle : findChallengeTask){
+        console.log(`GET /allTask by challengeTitle/${challengeTitle.challengeTitle}`);
+        return this.challengeService.allTask(challengeTitle)
     }
 
+    @Put('/addCollaborators')
+    addCollaborator(@Body() addCollaborator: AddCollaboratorDto) {
+        console.log(`PUT /${addCollaborator.challengeTitle}`);
+        return this.challengeService.addCollaborators(addCollaborator);
+    }
 
     @Get('/:challengeTitle')
     getChallenges(@Param('challengeTitle') challengeTitle: string) {
@@ -58,8 +62,6 @@ export class ChallengesController {
         return this.challengeService.createChallenge(challengeDetails);
     }
 
-
-
     @Put('/:challengeTitle')
     editChallenges(
         @Param('challengeTitle') challengeTitle: string,
@@ -71,12 +73,12 @@ export class ChallengesController {
             editChallengeDto,
         );
     }
-    
+
     @Delete('/deleteCollaborators')
     deleteCollaborator(
         @Body() deleteCollaboratorDto: DeleteCollaborator
-    ){
-        console.log(`DELETE /${deleteCollaboratorDto.userId}/delete`);
+    ) {
+        console.log(`DELETE /${deleteCollaboratorDto.displayName}/delete`);
         return this.challengeService.deleteCollaborators(deleteCollaboratorDto)
     }
 
@@ -118,14 +120,40 @@ export class ChallengesController {
     //     return this.challengeService.deleteCollaborators(deleteCollaboratorDto)
     // }
 
-    @Post("/file")
-    // @UseInterceptors(FileInterceptor('file'))
-    uploadFile(
-        @UploadedFiles() file: Express.Multer.File
+    @Post('/:challengeTitle/uploadbanner')
+    @UseInterceptors(FileInterceptor('file', {
+        storage: diskStorage({
+            destination: './uploads/bannerimages',
+            filename: (req, file, cb) => {
+                const suffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+                const ext = extname(file.originalname);
+                cb(null, `${suffix}${ext}`);
+            }
+        })
+    }))
+    uploadBanner(
+        @Param('challengeTitle') challengeTitle: string,
+        @UploadedFile() file: Express.Multer.File
         ){
         console.log('file', file)
-        return ("file upload")
+        // const absolutePath = resolve(file.path);
+        this.challengeService.setBanner(file.path, challengeTitle);
+        return file.path;
     }
 
-
+    @Post('/uploadfile')
+    @UseInterceptors(FileInterceptor('file', {
+        storage: diskStorage({
+            destination: './uploads/files',
+            filename: (req, file, cb) => {
+                const suffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+                const ext = extname(file.originalname);
+                cb(null, `${suffix}${ext}`);
+            }
+        })
+    }))
+    uploadFile(@UploadedFile() file: Express.Multer.File){
+        console.log('file', file)
+        return file.path;
+    }
 }

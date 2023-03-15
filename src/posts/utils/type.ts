@@ -1,9 +1,9 @@
 export type CreatePostParams = {
-    postId: number;
     content: string;
     createdAtDate: Date;
     upDateAt: Date;
     allowComment: boolean;
+    displayName: string;
     tabName: string;
     challengeTitle: string;
 };
@@ -21,5 +21,9 @@ export type EditPostParams = {
 export type DeletePostParams = {
     postId: number;
     tabName: string;
+    challengeTitle: string;
+}
+
+export type FindPostParams = {
     challengeTitle: string;
 }

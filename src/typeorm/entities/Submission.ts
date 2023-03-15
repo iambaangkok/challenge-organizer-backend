@@ -40,8 +40,6 @@ export class Submission {
     })
     task?: Task;
 
-
-
     @ManyToOne(() => User, (user) => user.submited,{
         onDelete : 'CASCADE'
     })

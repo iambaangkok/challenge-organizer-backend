@@ -1,5 +1,3 @@
-import { User } from "../../typeorm/entities/User";
-
 //TODO อย่าลืมเพิ่ม file หรือ banerImg
 export type CreateChallengeParams = {
     challengeTitle: string;
@@ -38,6 +36,11 @@ export type AddCollaborator = {
 
 
 export type DeleteCollaborator ={
-    challengeId: number
-    userId: number
+    challengeTitle: string;
+    displayName: string;
+}
+
+
+export type TaskChallenge = {
+    challengeTitle : string ;
 }

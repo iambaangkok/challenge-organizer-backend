@@ -9,9 +9,11 @@ import {
     DeleteCollaborator,
     EditChallengeParams,
     JoinLeaveChallengeParams,
+    TaskChallenge,
 } from '../utils/type';
 import { Repository } from 'typeorm';
 import { User } from '../../typeorm/entities/User';
+import { Tab } from '../../typeorm/entities/Tab';
 
 @Injectable()
 export class ChallengesService {
@@ -20,26 +22,27 @@ export class ChallengesService {
         private challengeRepository: Repository<Challenge>,
         @InjectRepository(User)
         private userRepository: Repository<User>,
-    ) { }
+        @InjectRepository(Tab)
+        private tabRepository: Repository<Tab>,
+    ) {}
 
     async findAllChallenges() {
         const challenges = await this.challengeRepository.find({
             relations: {
                 participants: true,
+                tasks: true,
                 collaborators: true,
+                host: true,
+                tabs: true,
             },
         });
+        const challengesObject: Record<string, any>[] = [];
         for (let i = 0; i < challenges.length; i++) {
-            const joinTrue = challenges[i].join == true;
-            if (joinTrue) {
-                challenges[i].join = false;
-                await this.challengeRepository.update(
-                    { challengeTitle: challenges[i].challengeTitle },
-                    { join: challenges[i].join },
-                );
-            }
+            challengesObject.push(challenges[i]);
+            challengesObject[i].join = false;
         }
-        return challenges;
+        console.log(challengesObject[0]);
+        return challengesObject;
     }
 
     async findAllChallengesByDisplayName(displayName: string) {
@@ -51,14 +54,18 @@ export class ChallengesService {
                 displayName: displayName,
             },
         });
-        const allChallenges = await this.findAllChallenges();
+        const allChallenges: Record<string, any>[] =
+            await this.findAllChallenges();
         if (user == null) {
-            return allChallenges;
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         }
         const userDisplayName = user.displayName;
         if (user.challenges.length == 0) {
             console.log(':)');
-            return allChallenges;
+            return allChallenges.map((chal) => {
+                chal.join = false;
+                return chal;
+            });
         } else {
             for (let i = 0; i < allChallenges.length; i++) {
                 for (let j = 0; j < allChallenges[i].participants.length; j++) {
@@ -72,10 +79,6 @@ export class ChallengesService {
                         allChallenges[i].join = false;
                     }
                 }
-                await this.challengeRepository.update(
-                    { challengeTitle: allChallenges[i].challengeTitle },
-                    { join: allChallenges[i].join },
-                );
             }
         }
         return allChallenges;
@@ -87,14 +90,41 @@ export class ChallengesService {
                 participants: true,
                 tasks: true,
                 collaborators: true,
-                host : true
+                host: true,
+                tabs: { posts: { owner: true } },
             },
-
             where: { challengeTitle: challengeTitle },
         });
         console.log('challengeTitle = ' + challengeTitle);
         console.log(challenge);
         return challenge;
+    }
+
+
+    async allTask(challengeDetails: TaskChallenge) {
+        console.log(challengeDetails.challengeTitle)
+        const challenge = await this.findChallenges(challengeDetails.challengeTitle)
+        console.log(challenge)
+        //Todo ทำการแบ่ง taskที่เกินเวลาไปแล้วในช่วงเวลากำลังมาในอนาคต
+        const finish = []
+        const onGoing = []
+        const future = []
+
+        for (let i = 0; i < challenge.tasks.length; ++i) {
+            if (new Date() >= challenge.tasks[i].end) {
+                finish.push(challenge.tasks[i])
+            } else if (challenge.tasks[i].start <= new Date() && new Date() <= challenge.tasks[i].end) {
+                onGoing.push(challenge.tasks[i])
+            } else if (new Date() < challenge.tasks[i].start) {
+                future.push(challenge.tasks[i])
+            }
+        }
+        const listTask = {
+            finish,
+            onGoing,
+            future
+        }
+        return listTask
     }
 
     async createChallenge(challengeDetails: CreateChallengeParams) {
@@ -112,23 +142,26 @@ export class ChallengesService {
             );
         }
 
-        console.log(challengeDetails.host)
+        console.log(challengeDetails.host);
 
         const user = await this.userRepository.findOne({
-            where: { displayName: challengeDetails.host }
-        })
-    
-        if(!user){
-            throw new HttpException("Not found user",HttpStatus.BAD_REQUEST)
+            where: { displayName: challengeDetails.host },
+        });
+
+        if (!user) {
+            throw new HttpException('Not found user', HttpStatus.BAD_REQUEST);
         }
         if (!challenge) {
-            console.log(user)
+            console.log(user);
             const newChallenge = this.challengeRepository.create({
                 challengeTitle: challengeDetails.challengeTitle,
                 description: challengeDetails.description,
                 type: challengeDetails.type,
                 format: challengeDetails.format,
                 numParticipants: challengeDetails.numParticipants,
+                createdAtDate: new Date(),
+                startDate: challengeDetails.startDate,
+                upDateAt: new Date(),
                 endDate: challengeDetails.endDate,
                 maxParticipants: challengeDetails.maxParticipants,
                 host: user,
@@ -136,6 +169,42 @@ export class ChallengesService {
                 participants: [],
                 collaborators: [],
             });
+            await this.challengeRepository.save(newChallenge);
+
+            // tab default creation
+            const tab1 = this.tabRepository.create({
+                tabName: 'Announcement',
+                hasChallenge: newChallenge,
+            });
+            await this.tabRepository.save(tab1);
+
+            const tab2 = this.tabRepository.create({
+                tabName: 'Rules',
+                hasChallenge: newChallenge,
+            });
+            await this.tabRepository.save(tab2);
+
+            const tab3 = this.tabRepository.create({
+                tabName: 'Reward',
+                hasChallenge: newChallenge,
+            });
+            await this.tabRepository.save(tab3);
+
+            const tab4 = this.tabRepository.create({
+                tabName: 'Community',
+                hasChallenge: newChallenge,
+            });
+            await this.tabRepository.save(tab4);
+
+            const tab5 = this.tabRepository.create({
+                tabName: 'Leaderboard',
+                hasChallenge: newChallenge,
+            });
+            await this.tabRepository.save(tab5);
+
+            const tabList = [tab1, tab2, tab3, tab4, tab5];
+            newChallenge.tabs = tabList;
+
             await this.challengeRepository.save(newChallenge);
 
             return { challengeTitle: newChallenge.challengeTitle };
@@ -189,7 +258,7 @@ export class ChallengesService {
                             (e) => e.challengeTitle !== challengeTitle,
                         );
                         console.log(filter);
-                        this.userRepository.update(
+                        await this.userRepository.update(
                             { userId: user.userId },
                             { challenges: filter },
                         );
@@ -403,7 +472,7 @@ export class ChallengesService {
                 const challengeCollaboratorOld = challenge.collaborators;
                 challengeCollaboratorOld.push(user);
                 challenge.collaborators = challengeCollaboratorOld;
-                this.challengeRepository.save(challenge);
+                await this.challengeRepository.save(challenge);
                 return {
                     Massage: 'Add collaborators Susese ',
                     CollaboratorName: `${user.displayName}`,
@@ -420,22 +489,24 @@ export class ChallengesService {
     async deleteCollaborators(deleteCollaboratorsDetails: DeleteCollaborator) {
         const challenge = await this.challengeRepository.findOne({
             where: {
-                challengeId: deleteCollaboratorsDetails.challengeId,
+                challengeTitle: deleteCollaboratorsDetails.challengeTitle,
             },
             relations: {
                 collaborators: true,
             },
         });
+        const challengeId = challenge.challengeId
 
         const user = await this.userRepository.findOne({
             where: {
-                userId: deleteCollaboratorsDetails.userId,
+                displayName: deleteCollaboratorsDetails.displayName,
             },
             relations: {
                 constructors: true,
             },
         });
 
+        const userId = user.userId
         if (!user) {
             throw new HttpException('ไม่มี user น้า', HttpStatus.BAD_REQUEST);
         } else {
@@ -445,12 +516,14 @@ export class ChallengesService {
                     HttpStatus.BAD_REQUEST,
                 );
             } else {
-                const id = challenge.challengeId;
+                // const id = challenge.challengeId;
+
                 challenge.collaborators = challenge.collaborators.filter(
-                    (challenge) => {
-                        return id !== deleteCollaboratorsDetails.challengeId;
+                    (col) => {
+                        return userId !== col.userId;
                     },
                 );
+                console.log(challenge.collaborators)
                 await this.challengeRepository.save(challenge);
                 return {
                     Massage: 'Remove Suc',
@@ -458,5 +531,20 @@ export class ChallengesService {
                 };
             }
         }
+    }
+
+    async setBanner(filepath: string, challengeTitle: string){
+        const challenge = await this.findChallenges(challengeTitle);
+        if(!challenge){
+            throw new HttpException(
+                'Not found challenge',
+                HttpStatus.NOT_FOUND
+            )
+        } else {
+            challenge.bannerImg = filepath;
+            this.challengeRepository.save(challenge);
+            return challenge.bannerImg;
+        }
+        
     }
 }
