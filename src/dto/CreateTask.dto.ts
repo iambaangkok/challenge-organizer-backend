@@ -21,6 +21,6 @@ export class EditTaskDto{
 
 export class FindTaskInUser{
     displayName: string;
-    challengeTitle: string;
+    // challengeTitle: string;
 }
 

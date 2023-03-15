@@ -38,9 +38,9 @@ export class ChallengesController {
         );
     }
 
-    @Get('/allTask')
-    getAllTask(@Body() challengeTitle : findChallengeTask){
-        console.log(`GET /allTask by challengeTitle/${challengeTitle.challengeTitle}`);
+    @Get('/allTask/:challengeTitle')
+    getAllTask(@Param('challengeTitle') challengeTitle : string){
+        console.log(`GET /allTask by challengeTitle/${challengeTitle}`);
         return this.challengeService.allTask(challengeTitle)
     }
 
@@ -123,7 +123,7 @@ export class ChallengesController {
     @Post('/:challengeTitle/uploadbanner')
     @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
-            destination: './uploads/bannerimages',
+            destination: './client/uploads/bannerimages',
             filename: (req, file, cb) => {
                 const suffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
                 const ext = extname(file.originalname);

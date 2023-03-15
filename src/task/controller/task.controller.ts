@@ -22,10 +22,11 @@ export class TaskController {
     // async viewTask(task)
 
 
-    @Get('viewByDisPlayName')
+    @Get('/viewByDisPlayName/:displayName')
     async viewTaskByDisplayName(
-        @Body() displayName: FindTaskInUser 
+        @Param('displayName') displayName: string 
     ){
+        // console.log('Fuck ' + displayName.displayName) 
         return this.taskService.findTaskByDisplayName(displayName);
     }
 

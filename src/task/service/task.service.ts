@@ -25,15 +25,17 @@ export class TaskService {
     }
 
 
-    async findTaskByDisplayName(userDetile: TaskUserParams) {
+    async findTaskByDisplayName(userDetile: string) {
         const user = await this.userRepository.findOne({
             where: {
-                displayName: userDetile.displayName
+                displayName: userDetile
             },
             relations: {
                 challenges: true,
             }
         })
+
+            
         if (user.challenges.length === 0) {
             throw new HttpException("Not join challenge", HttpStatus.BAD_REQUEST)
         }
