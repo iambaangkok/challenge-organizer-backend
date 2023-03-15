@@ -7,7 +7,7 @@ import {
     Put,
 
  } from '@nestjs/common';
-import { CreateSubmission, DeleteSubmission, FindTaskId, submitAgain } from 'src/dto/CreateSubmission';
+import { CreateSubmission, DeleteSubmission, FindTaskId, submitAgain } from '../../dto/CreateSubmission';
 import { SubmissionsService } from '../service/Submission.service';
 
 @Controller('api/submissions')

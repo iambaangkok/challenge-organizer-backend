@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Submission } from 'src/typeorm/entities/Submission';
-import { Task } from 'src/typeorm/entities/Task';
-import { User } from 'src/typeorm/entities/User';
+import { Submission } from '../../typeorm/entities/Submission';
+import { Task } from '../../typeorm/entities/Task';
+import { User } from '../../typeorm/entities/User';
 import { Repository } from 'typeorm';
 import { createSubmissionDto, deleteSubmissionParam, submitAgain, TaskIdParam, updateGradeDto } from '../utils/type';
 
