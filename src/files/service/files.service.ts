@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Challenge } from 'src/typeorm/entities/Challenge';
-import { File } from 'src/typeorm/entities/File';
-import { Item } from 'src/typeorm/entities/Item';
-import { Submission } from 'src/typeorm/entities/Submission';
-import { Task } from 'src/typeorm/entities/Task';
-import { User } from 'src/typeorm/entities/User';
+import { Challenge } from '../../typeorm/entities/Challenge';
+import { File } from '../../typeorm/entities/File';
+import { Item } from '../../typeorm/entities/Item';
+import { Submission } from '../../typeorm/entities/Submission';
+import { Task } from '../../typeorm/entities/Task';
+import { User } from '../../typeorm/entities/User';
 import { Repository } from 'typeorm';
 import { CreateFileParams } from '../utils/type';
 
