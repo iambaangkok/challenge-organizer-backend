@@ -19,7 +19,7 @@ import { AddCollaboratorDto } from '../../dto/AddCollaborator';
 import { DeleteCollaborator } from '../../dto/DeleteCollaborator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { extname, resolve } from 'path';
 
 @Controller('api/challenges')
 export class ChallengesController {
@@ -136,8 +136,9 @@ export class ChallengesController {
         @UploadedFile() file: Express.Multer.File
         ){
         console.log('file', file)
-        this.challengeService.setBanner(file.path, challengeTitle);
-        return file.path;
+        const absolutePath = resolve(file.path);
+        this.challengeService.setBanner(absolutePath, challengeTitle);
+        return absolutePath;
     }
 
     @Post('/uploadfile')
