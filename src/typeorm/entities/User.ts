@@ -13,6 +13,7 @@ import { OneToMany } from 'typeorm/decorator/relations/OneToMany';
 import { Challenge } from './Challenge';
 import { File } from './File';
 import { Item } from './Item';
+import { Post } from './Post';
 import { Rating } from './Rating';
 import { Submission } from './Submission';
 import { Team } from './Team';
@@ -115,5 +116,10 @@ export class User {
     @OneToMany(() => Challenge ,(challenge) => challenge.host,{
         onDelete : 'CASCADE'
     })
-    hasHost?: Challenge[];
+    isHost?: Challenge[];
+
+    @OneToMany(() => Post, (post) => post.owner, {
+        onDelete : 'CASCADE'
+    })
+    isOwner?: Post[]
 }

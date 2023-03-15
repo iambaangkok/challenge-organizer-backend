@@ -28,7 +28,7 @@ export class Challenge {
     @Column()
     challengeTitle: string;
 
-    @Column()
+    @Column({length : 400})
     description: string;
 
     @Column({ default: 'single' })
@@ -44,7 +44,7 @@ export class Challenge {
     // host: string;
 
     @Column({ nullable: true })
-    banckImg?: string;
+    bannerImg?: string;
 
     @Column({ default: 10 })
     maxParticipants?: number;
@@ -113,7 +113,7 @@ export class Challenge {
 
 
     @OneToMany(() => Tab, (tab) => tab.hasChallenge, {
-        cascade: true,
+        cascade: true, onDelete : 'CASCADE'
     })
     tabs?: Tab[];
 
@@ -136,7 +136,7 @@ export class Challenge {
     ratings?: Rating[];
 
 
-    @ManyToOne(() => User, (user) => user.hasHost,{
+    @ManyToOne(() => User, (user) => user.isHost,{
         cascade: true,
     })
     host?: User ;
