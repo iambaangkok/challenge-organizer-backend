@@ -6,25 +6,19 @@ import {
     OneToMany,
     OneToOne,
     PrimaryGeneratedColumn,
-    UpdateDateColumn
-} from "typeorm";
-import { File } from "./File";
-import { Task } from "./Task";
-import { Team } from "./Team";
-import { User } from "./User";
-
-
-
-
+    UpdateDateColumn,
+} from 'typeorm';
+import { File } from './File';
+import { Task } from './Task';
+import { Team } from './Team';
+import { User } from './User';
 
 @Entity({ name: 'submissions' })
 export class Submission {
-
-
     @PrimaryGeneratedColumn()
     submissionId: number;
 
-    @Column({default : null,nullable : true})
+    @Column({ default: null, nullable: true })
     score?: number;
 
     @CreateDateColumn()
@@ -33,32 +27,28 @@ export class Submission {
     @UpdateDateColumn()
     editDate?: Date;
 
+    @Column()
+    filePath?: string;
 
-
-    @ManyToOne(() => Task, (task) => task.hasSubmissions,{
-        onDelete : 'CASCADE'
+    @ManyToOne(() => Task, (task) => task.hasSubmissions, {
+        onDelete: 'CASCADE',
     })
     task?: Task;
 
-    @ManyToOne(() => User, (user) => user.submited,{
-        onDelete : 'CASCADE'
+    @ManyToOne(() => User, (user) => user.submited, {
+        onDelete: 'CASCADE',
     })
-    hasSubmit? : User;
+    hasSubmit?: User;
 
-    @ManyToOne(() => Team , (team) => team.hasSubmissions,{
-        onDelete : 'CASCADE'
+    @ManyToOne(() => Team, (team) => team.hasSubmissions, {
+        onDelete: 'CASCADE',
     })
     hasSubmitTeam?: Team;
 
-    @OneToOne(() => File , (file) => file.submission,{
-        onDelete : 'CASCADE'
+    @OneToOne(() => File, (file) => file.submission, {
+        onDelete: 'CASCADE',
     })
-    file? : File;
-
+    file?: File;
 
     //TODO เดียวจะมันต้องเชื่อมตาราง File ทีมีความสัมพัทธ์
-
-
-
-
 }
