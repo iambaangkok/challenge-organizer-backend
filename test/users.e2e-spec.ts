@@ -4,12 +4,14 @@ import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 
 import { faker } from '@faker-js/faker';
+import axios from 'axios';
 
 describe('UsersController E2E Test', () => {
     let app: INestApplication;
     let server;
     jest.setTimeout(5000);
     const BASE_PATH = '/api/users';
+    const AXIOS_URL = 'http://localhost:3030/api';
 
     beforeAll(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -43,8 +45,13 @@ describe('UsersController E2E Test', () => {
             });
         });
         describe('given user does exist', () => {
-            it('should return the user, and a 200', () => {
-                const displayName = 'id1678635835651';
+            it('should return the user, and a 200', async () => {
+                const resp = await axios.get(AXIOS_URL + '/users');
+
+                const data = resp.data;
+
+                const displayName = data[0].displayName;
+
                 return request(server)
                     .get(BASE_PATH + '/' + displayName)
                     .expect(200);
@@ -61,8 +68,12 @@ describe('UsersController E2E Test', () => {
             });
         });
         describe('given user does exist', () => {
-            it('should return the user, and a 200', () => {
-                const studentId = 630610746;
+            it('should return the user, and a 200', async () => {
+                const resp = await axios.get(AXIOS_URL + '/users');
+                const data = resp.data;
+
+                const studentId = data[0].studentId;
+
                 return request(server)
                     .get(BASE_PATH + '/studentId/' + studentId)
                     .expect(200);
@@ -104,7 +115,6 @@ describe('UsersController E2E Test', () => {
     //             cmuAccount: "mark_gra@cmu.ac.th",
     //             studentId: 630610746,
     //             displayName: string;
-    //             update_id: string;
     //         }
     //         it('should fail, return a 404', () => {
     //             const displayName = 'notdisplayname';

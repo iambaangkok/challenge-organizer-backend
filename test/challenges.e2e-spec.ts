@@ -4,12 +4,14 @@ import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 
 import { faker } from '@faker-js/faker';
+import axios from 'axios';
 
 describe('ChallengesController E2E Test', () => {
     let app: INestApplication;
     let server;
     jest.setTimeout(5000);
     const BASE_PATH = '/api/challenges';
+    const AXIOS_URL = 'http://localhost:3030/api';
 
     beforeAll(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -36,40 +38,47 @@ describe('ChallengesController E2E Test', () => {
     describe('GET /by-user-display-name/:displayName', () => {
         describe('given user does not exist', () => {
             it('should fail, return a 404', () => {
-                const displayName = 'notdisplayname';
+                const displayName = 'notdisplaynamebecausethisistoolong';
                 return request(server)
                     .get(BASE_PATH + '/' + displayName)
                     .expect(404);
             });
         });
         describe('given user does exist', () => {
-            it('should return the challenges, and a 200', () => {
-                const displayName = 'id1678635835651';
+            it('should return the challenges, and a 200', async () => {
+                const resp = await axios.get(AXIOS_URL + '/users');
+                const data = resp.data;
+
+                const displayName = data[0].displayName;
                 return request(server)
                     .get(BASE_PATH + '/' + displayName)
                     .expect(200);
             });
         });
     });
-    describe.skip('GET /:challengeTitle', () => {
-        describe('given challenge does not exist', () => {
+    describe('GET /studentId/:studentId', () => {
+        describe('given user does not exist', () => {
             it('should fail, return a 404', () => {
-                const challengeTitle = '';
+                const studentId = 1;
                 return request(server)
-                    .get(BASE_PATH + '/' + challengeTitle)
+                    .get(BASE_PATH + '/studentId/' + studentId)
                     .expect(404);
             });
         });
         describe('given user does exist', () => {
-            it('should return the user, and a 200', () => {
-                const studentId = 630610746;
+            it('should return the user, and a 200', async () => {
+                const resp = await axios.get(AXIOS_URL + '/users');
+                const data = resp.data;
+
+                const studentId = data[0].studentId;
+
                 return request(server)
                     .get(BASE_PATH + '/studentId/' + studentId)
                     .expect(200);
             });
         });
     });
-    describe.skip('POST /', () => {
+    describe('POST /', () => {
         describe('given missing attribute from request body', () => {
             it('should fail, return a 400', () => {
                 return request(server)
