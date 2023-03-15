@@ -32,7 +32,8 @@ export class ChallengesService {
                 tasks: true,
                 collaborators: true,
                 host : true,
-                tabs: true
+                tabs: true, 
+
             }
         });
         const challengesObject: Record<string, any>[] = [];
@@ -90,7 +91,7 @@ export class ChallengesService {
                 tasks: true,
                 collaborators: true,
                 host : true,
-                tabs: {posts: true}
+                tabs: {posts: {owner:true}}
             },
             where: {challengeTitle: challengeTitle}
         });

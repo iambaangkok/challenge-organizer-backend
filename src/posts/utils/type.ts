@@ -1,5 +1,4 @@
 export type CreatePostParams = {
-    postId: number;
     content: string;
     createdAtDate: Date;
     upDateAt: Date;

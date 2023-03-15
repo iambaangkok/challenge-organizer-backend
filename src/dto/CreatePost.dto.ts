@@ -1,5 +1,4 @@
 export class CreatePostDto {
-    postId: number;
     content: string;
     createdAtDate: Date;
     upDateAt: Date;
