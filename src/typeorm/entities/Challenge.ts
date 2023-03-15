@@ -59,10 +59,9 @@ export class Challenge {
     createdAtDate?: Date;
 
     @Column({ nullable: true })
-    upDateAt?: Date
+    upDateAt?: Date;
 
-    @Column({nullable: true})
-
+    @Column({ nullable: true })
     startDate?: Date;
 
     @Column({ nullable: true })
@@ -91,13 +90,12 @@ export class Challenge {
     @Column({ default: 1 })
     maxTeams?: number;
 
-
     @Column({ default: 0 })
     rating?: number;
 
-    @ManyToMany( () => User , (user) => user.challenges,{
-        cascade : true,
-        onDelete :"CASCADE"
+    @ManyToMany(() => User, (user) => user.challenges, {
+        cascade: true,
+        onDelete: 'CASCADE',
     })
     participants?: User[];
 
@@ -106,11 +104,10 @@ export class Challenge {
     // })
     // hosts?: User[];
 
-    @ManyToMany( () => User, (user) => user.constructors,{
-        onDelete :'CASCADE'
+    @ManyToMany(() => User, (user) => user.areCollaboratorsOn, {
+        onDelete: 'CASCADE',
     })
-    collaborators? : User[];
-
+    collaborators?: User[];
 
     @OneToMany(() => Tab, (tab) => tab.hasChallenge, {
         cascade: true,
@@ -135,11 +132,10 @@ export class Challenge {
     })
     ratings?: Rating[];
 
-
-    @ManyToOne(() => User, (user) => user.hasHost,{
+    @ManyToOne(() => User, (user) => user.hasHost, {
         cascade: true,
     })
-    host?: User ;
+    host?: User;
     // @ManyToMany(() => TaskTemplate ,(tasktemeplate) => tasktemeplate.challenges,{
     //     cascade : true,
     // })

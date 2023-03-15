@@ -428,7 +428,7 @@ export class ChallengesService {
                 userId: deleteCollaboratorsDetails.userId,
             },
             relations: {
-                constructors: true,
+                areCollaboratorsOn: true,
             },
         });
 

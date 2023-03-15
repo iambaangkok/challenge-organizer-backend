@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../typeorm/entities/User';
-import {
-    CreateUserParams,
-    UpdateUserParams,
-} from '../utils/type';
+import { CreateUserParams, UpdateUserParams } from '../utils/type';
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common/enums';
 import { ObjectID } from 'typeorm/driver/mongodb/typings';
@@ -15,9 +12,8 @@ import { Repository } from 'typeorm';
 export class UsersService {
     constructor(
         @InjectRepository(User)
-        private userRepository: Repository<User>, // @InjectRepository(Profile)
-    ) // private profileRepository: MongoRepository<Profile>,
-    {}
+        private userRepository: Repository<User>, // @InjectRepository(Profile) // private profileRepository: MongoRepository<Profile>,
+    ) {}
 
     public async findUserinDataBase(user: object) {
         if (!user) {
@@ -32,12 +28,10 @@ export class UsersService {
 
     async findUsers() {
         return await this.userRepository.find({
-
-            relations : {
-                challenges : true,
-                constructors : true,
-            }
-
+            relations: {
+                challenges: true,
+                areCollaboratorsOn: true,
+            },
         }); //selet all
     }
 
@@ -135,7 +129,4 @@ export class UsersService {
             });
         }
     }
-
-
-  
 }

@@ -22,11 +22,9 @@ export class User {
     @PrimaryGeneratedColumn()
     userId: number;
 
-    @Column(
-        {
-            unique: true
-        }
-    )
+    @Column({
+        unique: true,
+    })
     displayName?: string;
 
     @Column()
@@ -38,7 +36,7 @@ export class User {
     @Column({ unique: true })
     cmuAccount?: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     studentId?: string;
     // @Column()
     // rating: string;
@@ -50,11 +48,11 @@ export class User {
     // @Column()
     // inventory: string[];
 
-    @Column({default : "0"})
+    @Column({ default: '0' })
     coin?: string;
     // @Column()
     // profileImg: string;
-    @Column({nullable :true})
+    @Column({ nullable: true })
     equipmentFrame?: string;
 
     @Column({ default: false })
@@ -74,27 +72,27 @@ export class User {
     // challenges: string[];
     @ManyToMany(() => Challenge, (challenge) => challenge.participants)
     @JoinTable()
-    challenges?: Challenge[]
+    challenges?: Challenge[];
 
     // @ManyToOne(() => Challenge, (challenge) => challenge.hosts,{
     //     onDelete :'CASCADE'
     // })
     // challenge?: Challenge
 
-    @ManyToMany(() => Challenge, (challenge) => challenge.collaborators,{
-        cascade : true,
-        onDelete : 'CASCADE'
+    @ManyToMany(() => Challenge, (challenge) => challenge.collaborators, {
+        cascade: true,
+        onDelete: 'CASCADE',
     })
     @JoinTable()
-    constructors?: Challenge[]
+    areCollaboratorsOn?: Challenge[];
 
     @OneToMany(() => Submission, (submission) => submission.hasSubmit, {
         cascade: true,
     })
-    submited?: Submission[]
+    submited?: Submission[];
 
-    @ManyToOne(() => Team, (team) => team.users,{
-        onDelete : 'CASCADE'
+    @ManyToOne(() => Team, (team) => team.users, {
+        onDelete: 'CASCADE',
     })
     inTeam?: Team;
 
@@ -111,9 +109,8 @@ export class User {
     })
     ratings?: Rating[];
 
-
-    @OneToMany(() => Challenge ,(challenge) => challenge.host,{
-        onDelete : 'CASCADE'
+    @OneToMany(() => Challenge, (challenge) => challenge.host, {
+        onDelete: 'CASCADE',
     })
     hasHost?: Challenge[];
 }

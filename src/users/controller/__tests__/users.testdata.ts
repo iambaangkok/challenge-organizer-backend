@@ -14,7 +14,7 @@ export const userTestData1: User = {
     equipmentFrame: '',
     banStatus: false,
     isAdmin: false,
-    constructors: [],
+    areCollaboratorsOn: [],
     submited: [],
     items: [],
     ratings: [],
