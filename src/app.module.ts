@@ -52,10 +52,13 @@ import { SubmissionModule } from './submission/submission.module';
         //     // password: 'password' ,
         // }),
         ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', ''),
-            serveStaticOptions: {
-                index: false,
-            },
+            rootPath: join(__dirname, '..', 'client'),
+            serveRoot: '/',
+            exclude: ['/api*'],
+
+            serveStaticOptions : {
+                index : false ,
+            }
         }),
         TypeOrmModule.forRoot({
             type: 'mysql',

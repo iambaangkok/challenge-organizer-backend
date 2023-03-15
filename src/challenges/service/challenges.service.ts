@@ -101,9 +101,9 @@ export class ChallengesService {
     }
 
 
-    async allTask(challengeDetails: TaskChallenge) {
-        console.log(challengeDetails.challengeTitle)
-        const challenge = await this.findChallenges(challengeDetails.challengeTitle)
+    async allTask(challengeDetails: string) {
+        console.log(challengeDetails)
+        const challenge = await this.findChallenges(challengeDetails)
         console.log(challenge)
         //Todo ทำการแบ่ง taskที่เกินเวลาไปแล้วในช่วงเวลากำลังมาในอนาคต
         const finish = []
