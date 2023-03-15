@@ -22,8 +22,8 @@ export class ChallengesService {
         @InjectRepository(User)
         private userRepository: Repository<User>,
         @InjectRepository(Tab)
-        private tabRepository: Repository<Tab>
-    ) { }
+        private tabRepository: Repository<Tab>,
+    ) {}
 
     async findAllChallenges() {
         const challenges = await this.challengeRepository.find({
@@ -31,10 +31,9 @@ export class ChallengesService {
                 participants: true,
                 tasks: true,
                 collaborators: true,
-                host : true,
-                tabs: true, 
-
-            }
+                host: true,
+                tabs: true,
+            },
         });
         const challengesObject: Record<string, any>[] = [];
         for (let i = 0; i < challenges.length; i++) {
@@ -90,10 +89,10 @@ export class ChallengesService {
                 participants: true,
                 tasks: true,
                 collaborators: true,
-                host : true,
-                tabs: {posts: {owner:true}}
+                host: true,
+                tabs: { posts: { owner: true } },
             },
-            where: {challengeTitle: challengeTitle}
+            where: { challengeTitle: challengeTitle },
         });
         console.log('challengeTitle = ' + challengeTitle);
         console.log(challenge);
@@ -126,7 +125,6 @@ export class ChallengesService {
         }
         if (!challenge) {
             console.log(user);
-            console.log(user);
             const newChallenge = this.challengeRepository.create({
                 challengeTitle: challengeDetails.challengeTitle,
                 description: challengeDetails.description,
@@ -147,32 +145,32 @@ export class ChallengesService {
 
             // tab default creation
             const tab1 = this.tabRepository.create({
-                tabName: "Announcement",
-                hasChallenge: newChallenge
+                tabName: 'Announcement',
+                hasChallenge: newChallenge,
             });
             await this.tabRepository.save(tab1);
 
             const tab2 = this.tabRepository.create({
-                tabName: "Rules",
-                hasChallenge: newChallenge
+                tabName: 'Rules',
+                hasChallenge: newChallenge,
             });
             await this.tabRepository.save(tab2);
 
             const tab3 = this.tabRepository.create({
-                tabName: "Reward",
-                hasChallenge: newChallenge
+                tabName: 'Reward',
+                hasChallenge: newChallenge,
             });
             await this.tabRepository.save(tab3);
 
             const tab4 = this.tabRepository.create({
-                tabName: "Community",
-                hasChallenge: newChallenge
+                tabName: 'Community',
+                hasChallenge: newChallenge,
             });
             await this.tabRepository.save(tab4);
 
             const tab5 = this.tabRepository.create({
-                tabName: "Leaderboard",
-                hasChallenge: newChallenge
+                tabName: 'Leaderboard',
+                hasChallenge: newChallenge,
             });
             await this.tabRepository.save(tab5);
 
