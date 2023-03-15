@@ -101,6 +101,7 @@ export class PostsService {
         if(tab){
             const newPost = this.postRepository.create({
                 content: postDetails.content,
+                createdAtDate: new Date(),
                 upDateAt: new Date(),
                 parent: null,
                 hasTab: tab,

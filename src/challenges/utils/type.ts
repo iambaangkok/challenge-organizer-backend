@@ -36,6 +36,11 @@ export type AddCollaborator = {
 
 
 export type DeleteCollaborator ={
-    challengeId: number
-    userId: number
+    challengeTitle: string;
+    displayName: string;
+}
+
+
+export type TaskChallenge = {
+    challengeTitle : string ;
 }

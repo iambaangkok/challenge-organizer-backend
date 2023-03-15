@@ -8,14 +8,16 @@ import {
     Put,
     UploadedFile,
     UploadedFiles,
-    UseInterceptors
+    UseInterceptors,
+    UploadedFile 
+
 
 } from '@nestjs/common';
 import { ChallengesService } from '../service/challenges.service';
 import { CreateChallenge } from '../../dto/CreateChallenge.dto';
 import { EditChallengeDto } from '../../dto/EditChallenge.dto';
 import { JoinLeaveChallengeDto } from '../../dto/JoinLeaveChallenge.dto';
-import { AddCollaboratorDto } from '../../dto/AddCollaborator';
+import { AddCollaboratorDto, findChallengeTask } from '../../dto/AddCollaborator';
 import { DeleteCollaborator } from '../../dto/DeleteCollaborator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -23,7 +25,7 @@ import { extname, resolve } from 'path';
 
 @Controller('api/challenges')
 export class ChallengesController {
-    constructor(private challengeService: ChallengesService) { }
+    constructor(private challengeService: ChallengesService) {}
 
     @Get('/')
     getAllChallenges() {
@@ -39,14 +41,17 @@ export class ChallengesController {
         );
     }
 
-    @Put('/addCollaborators')
-    addCollaborator(
-        @Body() addCollaborator: AddCollaboratorDto
-    ) {
-        console.log(`PUT /${addCollaborator.challengeTitle}`);
-        return this.challengeService.addCollaborators(addCollaborator)
+    @Get('/allTask')
+    getAllTask(@Body() challengeTitle : findChallengeTask){
+        console.log(`GET /allTask by challengeTitle/${challengeTitle.challengeTitle}`);
+        return this.challengeService.allTask(challengeTitle)
     }
 
+    @Put('/addCollaborators')
+    addCollaborator(@Body() addCollaborator: AddCollaboratorDto) {
+        console.log(`PUT /${addCollaborator.challengeTitle}`);
+        return this.challengeService.addCollaborators(addCollaborator);
+    }
 
     @Get('/:challengeTitle')
     getChallenges(@Param('challengeTitle') challengeTitle: string) {
@@ -60,8 +65,6 @@ export class ChallengesController {
         return this.challengeService.createChallenge(challengeDetails);
     }
 
-
-
     @Put('/:challengeTitle')
     editChallenges(
         @Param('challengeTitle') challengeTitle: string,
@@ -73,12 +76,12 @@ export class ChallengesController {
             editChallengeDto,
         );
     }
-    
+
     @Delete('/deleteCollaborators')
     deleteCollaborator(
         @Body() deleteCollaboratorDto: DeleteCollaborator
-    ){
-        console.log(`DELETE /${deleteCollaboratorDto.userId}/delete`);
+    ) {
+        console.log(`DELETE /${deleteCollaboratorDto.displayName}/delete`);
         return this.challengeService.deleteCollaborators(deleteCollaboratorDto)
     }
 

@@ -7,7 +7,7 @@ import {
     Put,
     Body,
 } from '@nestjs/common';
-import { ChallengeTitleDto } from '../../dto/ChallengeTitle';
+import { ChallengeTitleDto } from '../../dto/ChallengeTitle.dto';
 import { CreatePostDto } from '../../dto/CreatePost.dto';
 import { DeletePostDto } from '../../dto/DeletePost.dto';
 import { EditPostDto } from '../../dto/EditPost.dto';
