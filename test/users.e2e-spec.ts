@@ -15,6 +15,8 @@ describe('UsersController E2E Test', () => {
     const BASE_PATH = '/api/users';
     const AXIOS_URL = 'http://localhost:3030/api';
 
+    let users;
+
     beforeAll(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
             imports: [AppModule],
@@ -23,6 +25,15 @@ describe('UsersController E2E Test', () => {
         app = moduleFixture.createNestApplication();
         await app.init();
         server = app.getHttpServer();
+
+        await axios
+            .get(AXIOS_URL + '/users')
+            .then((resp) => {
+                users = resp.data;
+            })
+            .catch((err) => {
+                //
+            });
     });
 
     afterAll(async () => {
@@ -48,11 +59,7 @@ describe('UsersController E2E Test', () => {
         });
         describe('given user does exist', () => {
             it('should return the user, and a 200', async () => {
-                const resp = await axios.get(AXIOS_URL + '/users');
-
-                const data = resp.data;
-
-                const displayName = data[0].displayName;
+                const displayName = users[0].displayName;
 
                 return request(server)
                     .get(BASE_PATH + '/' + displayName)
@@ -71,10 +78,7 @@ describe('UsersController E2E Test', () => {
         });
         describe('given user does exist', () => {
             it('should return the user, and a 200', async () => {
-                const resp = await axios.get(AXIOS_URL + '/users');
-                const data = resp.data;
-
-                const studentId = data[0].studentId;
+                const studentId = users[0].studentId;
 
                 return request(server)
                     .get(BASE_PATH + '/studentId/' + studentId)
