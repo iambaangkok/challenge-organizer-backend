@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Challenge } from './Challenge';
 import { Tab } from './Tab';
+import { User } from './User';
 
 @Entity({name:'posts'})
 @Tree("materialized-path")
@@ -17,7 +18,7 @@ export class Post{
     @PrimaryGeneratedColumn()
     postId: number;
 
-    @Column()
+    @Column({type: 'text'})
     content?: string;
 
     @CreateDateColumn()
@@ -32,11 +33,13 @@ export class Post{
     @TreeChildren()
     children?: Post[]
 
-    @TreeParent()
+    @TreeParent({ onDelete: 'CASCADE' })
     parent?: Post
 
-    @Column()
-    owener?: string;
+    @ManyToOne(() => User, (user) => user.isOwner,{
+        cascade: true
+    })
+    owner?: User;
 
     @ManyToOne(() => Tab, (tab) => tab.posts, {
         cascade: true
