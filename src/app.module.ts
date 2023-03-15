@@ -51,17 +51,17 @@ import { join } from 'path';
         //     // password: 'password' ,
         // }),
         ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..' , ''),
-            serveStaticOptions : {
-                index : false
-            }
+            rootPath: join(__dirname, '..', ''),
+            serveStaticOptions: {
+                index: false,
+            },
         }),
         TypeOrmModule.forRoot({
             type: 'mysql',
-            // host: '10.10.182.143',
-            host: 'localhost',
+            host: '10.10.182.143',
+            // host: 'localhost',
             port: 3306,
-            database: 'dev_tee', // this maybe dev, test, or prod
+            database: 'prod', // this maybe dev, test, or prod
             entities: [
                 User,
                 Challenge,
@@ -76,9 +76,9 @@ import { join } from 'path';
                 Post,
             ],
             synchronize: true,
-            // username: 'dev',
-            username: 'root',
-            // password: 'password',
+            username: 'dev',
+            // username: 'root',
+            password: 'password',
         }),
         ChallengesModule,
         UsersModule,
