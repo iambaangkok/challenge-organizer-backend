@@ -120,7 +120,7 @@ export class ChallengesController {
     //     return this.challengeService.deleteCollaborators(deleteCollaboratorDto)
     // }
 
-    @Post('/uploadbanner')
+    @Post('/:challengeTitle/uploadbanner')
     @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
             destination: './uploads/bannerimages',
@@ -131,8 +131,12 @@ export class ChallengesController {
             }
         })
     }))
-    uploadBanner(@UploadedFile() file: Express.Multer.File){
+    uploadBanner(
+        @Param('challengeTitle') challengeTitle: string,
+        @UploadedFile() file: Express.Multer.File
+        ){
         console.log('file', file)
+        this.challengeService.setBanner(file.path, challengeTitle);
         return file.path;
     }
 
