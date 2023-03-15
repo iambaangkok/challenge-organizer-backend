@@ -6,22 +6,19 @@ import {
     Param,
     Post,
     Put,
+    UploadedFile,
     UploadedFiles,
     UseInterceptors,
-    UploadedFile 
-
-
 } from '@nestjs/common';
 import { ChallengesService } from '../service/challenges.service';
 import { CreateChallenge } from '../../dto/CreateChallenge.dto';
-// import { CreateChallengeParams } from 'src/challenges/utils/type';
 import { EditChallengeDto } from '../../dto/EditChallenge.dto';
 import { JoinLeaveChallengeDto } from '../../dto/JoinLeaveChallenge.dto';
 import { AddCollaboratorDto, findChallengeTask } from '../../dto/AddCollaborator';
 import { DeleteCollaborator } from '../../dto/DeleteCollaborator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname, join } from 'path';
+import { extname, resolve } from 'path';
 
 @Controller('api/challenges')
 export class ChallengesController {
@@ -123,29 +120,40 @@ export class ChallengesController {
     //     return this.challengeService.deleteCollaborators(deleteCollaboratorDto)
     // }
 
-    // @Post("/file")
-    // @UseInterceptors(FileInterceptor('file', {
-    //     storage: diskStorage({
-    //         destination: './uploads/files',
-    //         filename: (req, file, cb) => {
-    //             const randomName = Array(32).fill(null).map(() =>
-    //                 (Math.round(Math.random() * 16)).toString(16)).join('');
-    //             return cb(null, `${randomName}${extname(file.originalname)}`);
-    //         },
-    //     }),
-    // }))
-    // uploadFile(
-    //     @UploadedFiles() file: Express.Multer.File
-    // ) {
-    //     console.log('file', file)
-    //     return ("file upload")
-    // }
+    @Post('/:challengeTitle/uploadbanner')
+    @UseInterceptors(FileInterceptor('file', {
+        storage: diskStorage({
+            destination: './uploads/bannerimages',
+            filename: (req, file, cb) => {
+                const suffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+                const ext = extname(file.originalname);
+                cb(null, `${suffix}${ext}`);
+            }
+        })
+    }))
+    uploadBanner(
+        @Param('challengeTitle') challengeTitle: string,
+        @UploadedFile() file: Express.Multer.File
+        ){
+        console.log('file', file)
+        // const absolutePath = resolve(file.path);
+        this.challengeService.setBanner(file.path, challengeTitle);
+        return file.path;
+    }
 
-    // @Post('file')
-    // @UseInterceptors(FileInterceptor('file'))
-    // async uploadFile(@UploadedFile() file : Express.Multer.File) {
-    //     console.log(file);
-    // }
-
-
+    @Post('/uploadfile')
+    @UseInterceptors(FileInterceptor('file', {
+        storage: diskStorage({
+            destination: './uploads/files',
+            filename: (req, file, cb) => {
+                const suffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+                const ext = extname(file.originalname);
+                cb(null, `${suffix}${ext}`);
+            }
+        })
+    }))
+    uploadFile(@UploadedFile() file: Express.Multer.File){
+        console.log('file', file)
+        return file.path;
+    }
 }

@@ -532,4 +532,19 @@ export class ChallengesService {
             }
         }
     }
+
+    async setBanner(filepath: string, challengeTitle: string){
+        const challenge = await this.findChallenges(challengeTitle);
+        if(!challenge){
+            throw new HttpException(
+                'Not found challenge',
+                HttpStatus.NOT_FOUND
+            )
+        } else {
+            challenge.bannerImg = filepath;
+            this.challengeRepository.save(challenge);
+            return challenge.bannerImg;
+        }
+        
+    }
 }

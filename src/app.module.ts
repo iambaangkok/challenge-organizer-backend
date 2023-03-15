@@ -14,41 +14,17 @@ import { Rating } from './typeorm/entities/Rating';
 import { Tab } from './typeorm/entities/Tab';
 import { Post } from './typeorm/entities/Post';
 // import { ShopsModule } from './shops/shops.module';
-// import { PostsModule } from './posts/posts.module';
-// import { AuthModule } from './auth/auth.module';
 import { TaskModule } from './task/task.module';
-// import { AuthModule } from './auth/auth.module';
 import { FilesModule } from './files/files.module';
 import { ItemsModule } from './items/items.module';
 import { TabsModule } from './tabs/tabs.module';
 import { PostsModule } from './posts/posts.module';
-// console.log(process.env.DB_URL + '/' + process.env.ENVIRONMENT);
-@Module({
-    // imports: [
-    //     ConfigModule.forRoot({
-    //         isGlobal: true,
-    //     }),
-    //     TypeOrmModule.forRoot({
-    //         useUnifiedTopology: true,
-    //         type: 'mongodb',
-    //         url: process.env.DB_HOST + '/' + process.env.ENVIRONMENT, //กลับมาถามหรัสด้วย
-    //         useNewUrlParser: true,
-    //         synchronize: false,
-    //         logging: true,
-    //         port: parseInt(process.env.PORT, 10) || 3000,
-    //         host: 'localhost',
-    //         database: 'test',
-    //         // "entities": ["src/entity/*.*"]
-    //         entities: [User, Challenge, Profile,Post],
-    //         migrationsTableName: 'dev',
-    //     }),
-    //     ChallengesModule,
-    //     UsersModule,
-    //     ShopsModule,
-    //     PostsModule,
-    // ], //PostsModule
-    // // mongoose.connect(mongoConnectionString, {useNewUrlParser: true, useUnifiedTopology: true});
+import { MulterModule } from '@nestjs/platform-express';
 
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+
+@Module({
     imports: [
         // TypeOrmModule.forRoot({
         //     type: 'mysql',
@@ -74,11 +50,18 @@ import { PostsModule } from './posts/posts.module';
         //     // autoLoadEntities: true,
         //     // password: 'password' ,
         // }),
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, '..' , ''),
+            serveStaticOptions : {
+                index : false
+            }
+        }),
         TypeOrmModule.forRoot({
             type: 'mysql',
-            host: '10.10.182.143',
+            // host: '10.10.182.143',
+            host: 'localhost',
             port: 3306,
-            database: 'dev2', // this maybe dev, test, or prod
+            database: 'dev_tee', // this maybe dev, test, or prod
             entities: [
                 User,
                 Challenge,
@@ -93,19 +76,19 @@ import { PostsModule } from './posts/posts.module';
                 Post,
             ],
             synchronize: true,
-            username: 'dev',
-            password: 'password',
+            // username: 'dev',
+            username: 'root',
+            // password: 'password',
         }),
         ChallengesModule,
         UsersModule,
-        // AuthModule,
         TaskModule,
-        // AuthModule,
         FilesModule,
         ItemsModule,
         TabsModule,
         // ShopsModule,
         PostsModule,
+        MulterModule.register({ dest: './uploads ' }),
     ],
 
     controllers: [],
