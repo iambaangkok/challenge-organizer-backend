@@ -100,31 +100,33 @@ export class ChallengesService {
         return challenge;
     }
 
-
     async allTask(challengeDetails: string) {
-        console.log(challengeDetails)
-        const challenge = await this.findChallenges(challengeDetails)
-        console.log(challenge)
+        console.log(challengeDetails);
+        const challenge = await this.findChallenges(challengeDetails);
+        console.log(challenge);
         //Todo ทำการแบ่ง taskที่เกินเวลาไปแล้วในช่วงเวลากำลังมาในอนาคต
-        const finish = []
-        const onGoing = []
-        const future = []
+        const finish = [];
+        const onGoing = [];
+        const future = [];
 
         for (let i = 0; i < challenge.tasks.length; ++i) {
             if (new Date() >= challenge.tasks[i].end) {
-                finish.push(challenge.tasks[i])
-            } else if (challenge.tasks[i].start <= new Date() && new Date() <= challenge.tasks[i].end) {
-                onGoing.push(challenge.tasks[i])
+                finish.push(challenge.tasks[i]);
+            } else if (
+                challenge.tasks[i].start <= new Date() &&
+                new Date() <= challenge.tasks[i].end
+            ) {
+                onGoing.push(challenge.tasks[i]);
             } else if (new Date() < challenge.tasks[i].start) {
-                future.push(challenge.tasks[i])
+                future.push(challenge.tasks[i]);
             }
         }
         const listTask = {
             finish,
             onGoing,
-            future
-        }
-        return listTask
+            future,
+        };
+        return listTask;
     }
 
     async createChallenge(challengeDetails: CreateChallengeParams) {
@@ -254,14 +256,17 @@ export class ChallengesService {
                     if (!user) {
                         continue;
                     } else {
-                        const filter = await user.challenges.filter(
-                            (e) => e.challengeTitle !== challengeTitle,
-                        );
-                        console.log(filter);
-                        await this.userRepository.update(
-                            { userId: user.userId },
-                            { challenges: filter },
-                        );
+                        if (user.challenges) {
+                            const filter = user.challenges.filter(
+                                (e) => e.challengeTitle !== challengeTitle,
+                            );
+
+                            console.log(filter);
+                            await this.userRepository.update(
+                                { userId: user.userId },
+                                { challenges: filter },
+                            );
+                        }
                     }
                 }
                 await this.challengeRepository.delete({
@@ -495,7 +500,7 @@ export class ChallengesService {
                 collaborators: true,
             },
         });
-        const challengeId = challenge.challengeId
+        const challengeId = challenge.challengeId;
 
         const user = await this.userRepository.findOne({
             where: {
@@ -506,7 +511,7 @@ export class ChallengesService {
             },
         });
 
-        const userId = user.userId
+        const userId = user.userId;
         if (!user) {
             throw new HttpException('ไม่มี user น้า', HttpStatus.BAD_REQUEST);
         } else {
@@ -523,7 +528,7 @@ export class ChallengesService {
                         return userId !== col.userId;
                     },
                 );
-                console.log(challenge.collaborators)
+                console.log(challenge.collaborators);
                 await this.challengeRepository.save(challenge);
                 return {
                     Massage: 'Remove Suc',
@@ -533,18 +538,17 @@ export class ChallengesService {
         }
     }
 
-    async setBanner(filepath: string, challengeTitle: string){
+    async setBanner(filepath: string, challengeTitle: string) {
         const challenge = await this.findChallenges(challengeTitle);
-        if(!challenge){
+        if (!challenge) {
             throw new HttpException(
                 'Not found challenge',
-                HttpStatus.NOT_FOUND
-            )
+                HttpStatus.NOT_FOUND,
+            );
         } else {
             challenge.bannerImg = filepath;
             this.challengeRepository.save(challenge);
             return challenge.bannerImg;
         }
-        
     }
 }
