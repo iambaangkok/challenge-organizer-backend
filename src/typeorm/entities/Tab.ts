@@ -20,7 +20,9 @@ export class Tab {
     @Column({ default: false })
     permission: boolean
 
-    @OneToMany(() => Post, (post) => post.hasTab)
+    @OneToMany(() => Post, (post) => post.hasTab , {
+        cascade : true
+    })
     posts?: Post[];
 
     @ManyToOne(() => Challenge, (challenge) => challenge.tabs,{

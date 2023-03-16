@@ -42,11 +42,13 @@ export class Post{
     owner?: User;
 
     @ManyToOne(() => Tab, (tab) => tab.posts, {
-        cascade: true
+        onDelete : 'CASCADE'
     })
     hasTab?: Tab;
 
-    @ManyToOne(() => Challenge, (challenge) => challenge.posts)
+    @ManyToOne(() => Challenge, (challenge) => challenge.posts , {
+        onDelete : 'CASCADE'
+    })
     hasChallenge?: Challenge;
 }
 
