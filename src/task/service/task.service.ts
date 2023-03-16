@@ -53,6 +53,7 @@ export class TaskService {
             console.log(user.challenges[i].challengeId);
             listIdChallege.push(user.challenges[i].challengeId);
         }
+
         const task = await this.taskRepository.find({
             relations: {
                 hasChallenges: true,

@@ -49,7 +49,7 @@ export class SubmissionsService {
 
         if (!user) {
             throw new HttpException('Nor Found user', HttpStatus.BAD_REQUEST);
-        }
+        }   
         if (!task) {
             throw new HttpException(
                 'Not Found this task',
@@ -58,6 +58,7 @@ export class SubmissionsService {
         } else {
             const submission = await this.submissionRepository.create({
                 createDate: new Date(),
+                task : task ,
                 hasSubmit: user,
             });
             return await this.submissionRepository.save(submission);

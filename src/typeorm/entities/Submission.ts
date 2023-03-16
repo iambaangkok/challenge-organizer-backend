@@ -27,7 +27,7 @@ export class Submission {
     @UpdateDateColumn()
     editDate?: Date;
 
-    @Column()
+    @Column({ default: null, nullable: true })
     filePath?: string;
 
     @ManyToOne(() => Task, (task) => task.hasSubmissions, {
