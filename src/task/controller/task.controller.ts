@@ -33,7 +33,6 @@ export class TaskController {
 
     @Get('/viewByDisPlayName/:displayName')
     async viewTaskByDisplayName(@Param('displayName') displayName: string) {
-        // console.log('Fuck ' + displayName.displayName)
         return this.taskService.findTaskByDisplayName(displayName);
     }
 

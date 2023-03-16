@@ -59,6 +59,8 @@ export class TaskService {
                 hasChallenges: true,
             },
         });
+
+
         if (!user) {
             throw new HttpException('Not found user', HttpStatus.BAD_REQUEST);
         } else {
@@ -68,8 +70,8 @@ export class TaskService {
                     if (
                         task[j].hasChallenges.challengeId == listIdChallege[i]
                     ) {
-                        console.log(task[i]);
-                        listTask.push(task[i]);
+                        // console.log(task[i]);
+                        listTask.push(task[j]);
                     }
                 }
             }
