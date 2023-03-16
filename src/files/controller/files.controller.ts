@@ -46,7 +46,7 @@ export class FilesController {
     @Post('/uploadfile')
     @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
-            destination: './uploads/files',
+            destination: './client/uploads/files',
             filename: (req, file, cb) => {
                 const suffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
                 const ext = extname(file.originalname);
@@ -58,8 +58,8 @@ export class FilesController {
         @UploadedFile() file: Express.Multer.File,
         @Body() createFileDetile: CreateFile
     ) {
-        console.log('file', file)
-        console.log(`POST ${createFileDetile.type}`)
+        // console.log('file', file)
+        console.log(createFileDetile)
         createFileDetile.path  = file.path
         this.fileService.createFile(createFileDetile)
         return file.path;
